@@ -29,11 +29,7 @@ public enum ActivityCategory {
      *
      * @param categoryFromJsonObj la catégorie du fichier Json
      * Le deuxième paramètre est mis pour les catégories n'ayant pas le nombre d'heures limitées donc le max des int.
-<<<<<<< HEAD
-    * */
-=======
      * */
->>>>>>> 1e2eb308657b172003cb745d001677b021f7e97d
     ActivityCategory(String categoryFromJsonObj) {
         this(categoryFromJsonObj, Integer.MAX_VALUE);
     }
@@ -65,8 +61,8 @@ public enum ActivityCategory {
      * @param errorHandler enregistre l'erreur si la catégorie n'est pas valide
      * @return la catégorie concernée si trouvée ou retourne CATEGORIE_NON_VALIDE
      * */
-    public static ActivityCategory searchFromJsonCategory(String label, ErrorHandler errorHandler) {
-        for (ActivityCategory category : ActivityCategory.values()) {
+    public static main.java.com.Inf2050.Groupe6.Enums.ActivityCategory searchFromJsonCategory(String label, ErrorHandler errorHandler) {
+        for (main.java.com.Inf2050.Groupe6.Enums.ActivityCategory category : main.java.com.Inf2050.Groupe6.Enums.ActivityCategory.values()) {
             if (category.categoryFromJsonObj.equalsIgnoreCase(label)) {
                 return category;
             }
