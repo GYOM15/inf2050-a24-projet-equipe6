@@ -15,14 +15,14 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 
 ```
 cd existing_repo
-git remote add origin https://gitlab.info.uqam.ca/millimounou.guy_olivier_yanouba/inf2050-a24-projet-equipe6.git
+git remote add origin https://gitlab.info.uqam.ca/zebroune.abdelghani/inf2050-a24-projet-equipe6.git
 git branch -M main
 git push -uf origin main
 ```
 
 ## Integrate with your tools
 
-- [ ] [Set up project integrations](https://gitlab.info.uqam.ca/millimounou.guy_olivier_yanouba/inf2050-a24-projet-equipe6/-/settings/integrations)
+- [ ] [Set up project integrations](https://gitlab.info.uqam.ca/zebroune.abdelghani/inf2050-a24-projet-equipe6/-/settings/integrations)
 
 ## Collaborate with your team
 
