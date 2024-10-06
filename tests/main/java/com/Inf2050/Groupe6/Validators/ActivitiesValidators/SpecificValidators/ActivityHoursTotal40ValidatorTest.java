@@ -62,7 +62,7 @@ class ActivityHoursTotal40ValidatorTest {
 
         // Vérification qu'une erreur a été enregistrée
         assertEquals(1, errorHandler.getErrors().size());
-        assertEquals("Il manque 15 heures pour compléter 40 heures dans le cycle.", errorHandler.getErrors().get(0));
+        assertEquals("Erreur sur le nombre d'heures total des Activités : Il manque 15 heures pour compléter 40 heures dans le cycle.", errorHandler.getErrors().get(0));
     }
 
     @Test
