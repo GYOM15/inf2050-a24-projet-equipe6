@@ -47,7 +47,30 @@ Avant de compiler et d'exécuter le projet, assurez-vous d'avoir les éléments 
    ```bash
    cd inf2050-a24-projet-equipe6
 
-3. Installez les dépendances et les librairie et le tour est joué.
+## Configuration des arguments d'entrée
+
+### Étapes pour configurer les arguments du programme :
+
+1. **Ouvrez le projet dans IntelliJ IDEA.**
+
+2. **Accédez aux configurations d'exécution :**
+  - Cliquez sur la flèche verte en haut
+  - Dans le menu déroulant, sélectionnez "Edit Configurations".
+3. **Configurer la classe principale :**
+  - Sélectionnez ou créez une nouvelle configuration sous "Application" (en cliquant sur le bouton "+" si nécessaire).
+  - Assurez-vous que le champ `Main class` pointe vers votre classe contenant la méthode `main`.
+4. **Ajouter les arguments du programme :**
+   - **Important** : Le fichier `outputFile.json` ne sera pas présent dans le dossier `resources` au départ. Il sera **automatiquement généré** lors de l'exécution du programme grâce à l'utilisation du `FileWriter`. Vous devez simplement spécifier le **chemin du fichier de sortie** lors de la configuration des arguments du programme, comme suit :
+     - Dans la section "Program arguments", entrez les chemins des fichiers en partant du **répertoire racine du projet**.
+     - Par exemple :
+       ```bash
+       Vendor/Ressources/inputFile.json Vendor/Ressources/outputFile.json
+       ```
+     - Copiez et collez ces chemins dans le champ "Program arguments", en les séparant par un espace.
+
+5. **Appliquer les modifications :**
+  - Cliquez sur "OK" ou "Apply" pour enregistrer les changements.
+
 
 ## Exécution
 
