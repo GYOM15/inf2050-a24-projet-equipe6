@@ -14,17 +14,17 @@ import java.nio.charset.StandardCharsets;
 /**
  * Cette classe est dédiée au traitement du fichier Json
  * */
-public class JsonFileTreatment extends FileTreatment {
+public class JsonFileUtility extends FileUtility {
     private JSONObject jsonObject;
 
     /**
-     * Constructeur de la classe JsonFileTreatment, hérité de la classe mère FileTreatment.
+     * Constructeur de la classe JsonFileUtility, hérité de la classe mère FileTreatment.
      * Il initialise les fichiers d'entrée et de sortie, il crée également un object JSON Vide
      *
      * @param inputFile Le fichier d'entrée JSON
      * @param outputFile    Le fichier de sortie JSON où seront affichés les resultats
      */
-    public JsonFileTreatment(String inputFile, String outputFile) {
+    public JsonFileUtility(String inputFile, String outputFile) {
         super(inputFile, outputFile);
         this.jsonObject = new JSONObject();
     }
@@ -45,9 +45,7 @@ public class JsonFileTreatment extends FileTreatment {
 
     public void loadAndValid() throws Groupe6INF2050Exception {
         try {
-            // Lecture du fichier et conversion en JSONObject
-            String stringJson = IOUtils.toString(new FileInputStream(inputFile), StandardCharsets.UTF_8);
-            this.jsonObject = (JSONObject) JSONSerializer.toJSON(stringJson);
+            this.jsonObject = (JSONObject) JSONSerializer.toJSON(IOUtils.toString(new FileInputStream(inputFile), StandardCharsets.UTF_8));
         } catch (FileNotFoundException e) {
             throw new Groupe6INF2050Exception("Le fichier n'existe pas");
         } catch (JSONException e) {
@@ -66,27 +64,40 @@ public class JsonFileTreatment extends FileTreatment {
      */
 
     public void save(ErrorHandler errorHandler) throws Groupe6INF2050Exception {
+        JSONObject jsonOutput = createJsonOutput(errorHandler);
+        writeToFile(jsonOutput);
+    }
+
+    /**
+     * Crée un objet JSON contenant le statut de complétude et les erreurs.
+     *
+     * @param errorHandler L'objet ErrorHandler contenant les erreurs à valider.
+     * @return Un JSONObject représentant le statut et les erreurs.
+     */
+    private JSONObject createJsonOutput(ErrorHandler errorHandler) {
         JSONObject jsonOutput = new JSONObject();
-
-        // Vérifie si le tableau d'erreurs est vide et agit en conséquence
-        if (errorHandler.hasErrors()) {
-            jsonOutput.put("complet", false);
-        } else {
-            jsonOutput.put("complet", true);
-        }
-
+        jsonOutput.put("complet", !errorHandler.hasErrors());
         JSONArray jsonErrors = new JSONArray();
-        //Recupère tout le contenu du tableau d'érreur
         jsonErrors.addAll(errorHandler.getErrors());
-
         jsonOutput.put("errors", jsonErrors);
+        return jsonOutput;
+    }
 
+    /**
+     * Écrit l'objet JSON dans un fichier.
+     *
+     * @param jsonOutput L'objet JSON à écrire dans le fichier.
+     * @throws Groupe6INF2050Exception En cas d'erreur lors de l'écriture du fichier.
+     */
+    private void writeToFile(JSONObject jsonOutput) throws Groupe6INF2050Exception {
         try (FileWriter f = new FileWriter(outputFile)) {
-            f.write(jsonOutput.toString(4)+"\t\n");
+            f.write(jsonOutput.toString(4) + "\t\n");
             f.flush();
         } catch (IOException e) {
             throw new Groupe6INF2050Exception("Erreur lors de la sauvegarde du fichier : " + e.getMessage());
         }
     }
+
+
 
 }
