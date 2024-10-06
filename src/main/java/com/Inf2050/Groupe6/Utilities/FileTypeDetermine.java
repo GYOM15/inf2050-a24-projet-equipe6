@@ -20,12 +20,10 @@ public class FileTypeDetermine {
     public String determineFileType(String filename) throws IOException {
         File file = new File(filename);
         String fileType = Files.probeContentType(file.toPath());
-
         // Lève une exception si le type ne peut pas être déterminé.
         if (fileType == null) {
             throw new IOException("Impossible de déterminer le type du fichier.");
         }
-
         return fileType;
     }
 }
