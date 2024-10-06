@@ -33,26 +33,43 @@ public class CycleValidator {
 
     /**
      * Verifie si la date pour chaque activité, si elle se trouve dans l'intervalle 2023-04-01 et 2025-04-01
-     * @param jsonObject    Le JSON contenant les informations des activités
-     * @param errorHandler  L'objet ErrorHandler pour enregistrer les erreurs liées aux activités
+     * @param jsonObject Le JSON contenant les informations des activités
+     * @param errorHandler L'objet ErrorHandler pour enregistrer les erreurs liées aux activités
      */
-    public static void validateActivitiesDates(JSONObject jsonObject, ErrorHandler errorHandler) {
+    public static void checkIfActivityDateInCycle(JSONObject jsonObject, ErrorHandler errorHandler) {
         JSONArray activities = (JSONArray) JSONSerializer.toJSON(jsonObject.getString("activites"));
-
         for (int i = 0; i < activities.size(); i++) {
-
             JSONObject activity = activities.getJSONObject(i);
             String dateValue = activity.getString("date");
             String description = activity.getString("description");
-
-            try {
-                LocalDate date = LocalDate.parse(dateValue);
-                if (date.isBefore(CYCLE_START) || date.isAfter(CYCLE_END)) {
-                    errorHandler.addActivityError(description, "La date " + date + " doit être entre le cycle '2023-04-01' et '2025-04-01' .");
-                }
-            } catch (DateTimeParseException e) {
-                errorHandler.addActivityError(description, "Date d'activité invalide : " + dateValue);
-            }
+            validateDate(dateValue, description, errorHandler);
         }
+    }
+
+    /**
+     * Valide une date donnée en vérifiant si elle est dans le cycle.
+     *
+     * @param dateValue La date à valider en tant que chaîne.
+     * @param description La description de l'activité associée à la date.
+     * @param errorHandler L'objet ErrorHandler pour enregistrer les erreurs.
+     */
+    private static void validateDate(String dateValue, String description, ErrorHandler errorHandler) {
+        try {
+            if (isDateOutOfCycle(LocalDate.parse(dateValue))) {
+                errorHandler.addActivityError(description, "La date " + LocalDate.parse(dateValue) + " doit être entre le cycle '2023-04-01' et '2025-04-01'.");
+            }
+        } catch (DateTimeParseException e) {
+            errorHandler.addActivityError(description, "Date d'activité invalide : " + dateValue);
+        }
+    }
+
+    /**
+     * Vérifie si la date est en dehors des limites du cycle.
+     *
+     * @param date La date à vérifier.
+     * @return true si la date est hors du cycle, false sinon.
+     */
+    private static boolean isDateOutOfCycle(LocalDate date) {
+        return date.isBefore(CYCLE_START) || date.isAfter(CYCLE_END);
     }
 }
