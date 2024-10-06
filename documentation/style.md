@@ -35,7 +35,7 @@ Nous avons utilisé **Java** pour le développement du programme.
     }
     ```
 - Nous utilisons aussi des commentaire simple et parfois sur plusieurs lignes pour expliquer certains détails de notre code.
-- Exemple : //, /**/
+- Exemple :  ``` //, /* */  ```
 
 
 ## Indentation
