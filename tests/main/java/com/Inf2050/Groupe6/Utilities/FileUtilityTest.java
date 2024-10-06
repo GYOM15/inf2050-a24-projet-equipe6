@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FileUtilityTest {
 
-    private final String inputFile = "input_test.json";
-    private final String outputFile = "output_test.json";
+    private final String inputFile = "tests/main/Vendor/inputTest.json";
+    private final String outputFile = "tests/main/Vendor/outputTest.json";
 
     @Test
     void testConstructor() {
