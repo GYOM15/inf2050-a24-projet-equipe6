@@ -21,7 +21,7 @@ public class ErrorHandler {
     }
 
     /**
-     * Enregistre les érreurs de façon générale
+     * Enregistre les érreurs de façon générale et celles spécifiques au traitement des catégories
      * @param errorMessage  Le message d'erreurs que nous allons écrire
      * */
     public void addError(String errorMessage) {
@@ -29,17 +29,9 @@ public class ErrorHandler {
     }
 
     /**
-     * Enregistre les érreurs spécifiques au traitement des catégories
-     * @param errorMessage  Le message d'erreurs en fonction du traitement requis pour les catégories
-     * */
-    public void addCategoryError( String errorMessage) {
-        errors.add(errorMessage);
-    }
-
-    /**
      * Enregistre les érreurs spécifique à une activité et recupère la description pour plus de précision
-     * @param activityDescription   La description de l'activité concerné dans le fichier Json
-     * @param errorMessage  Le complement du message d'erreurs pour une activité
+     * @param activityDescription La description de l'activité concerné dans le fichier Json
+     * @param errorMessage Le complement du message d'erreurs pour une activité
      * */
     public void addActivityError(String activityDescription, String errorMessage) {
         String error = "Erreur pour l'activité '" + activityDescription + "': " + errorMessage;
@@ -58,8 +50,8 @@ public class ErrorHandler {
 
     /**
      * Enregistre les erreurs générale
-     * @param permitNumber  Le numeros de permis contenu dans le fichier Json
-     * @param errorMessage  Le complement du message d'erreur liées à la validation du numéro de permis
+     * @param permitNumber Le numeros de permis contenu dans le fichier Json
+     * @param errorMessage Le complement du message d'erreur liées à la validation du numéro de permis
      * */
     public void addPermitError(String permitNumber, String errorMessage) {
         String error = "Erreur pour le numéro de permis '" + permitNumber + "' : " + errorMessage;

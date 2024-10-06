@@ -1,50 +1,72 @@
 package main.java.com.Inf2050.Groupe6.Handlers;
 
 import main.java.com.Inf2050.Groupe6.Exceptions.Groupe6INF2050Exception;
-import main.java.com.Inf2050.Groupe6.Utilities.JsonFileTreatment;
-import main.java.com.Inf2050.Groupe6.Validators.ActivityValidator;
+import main.java.com.Inf2050.Groupe6.Utilities.JsonFileUtility;
+import main.java.com.Inf2050.Groupe6.Validators.ActivitiesValidators.SpecificValidators.*;
+import main.java.com.Inf2050.Groupe6.Validators.CycleValidator;
+import main.java.com.Inf2050.Groupe6.Validators.PermitNumberValidator;
+
+import static java.lang.System.exit;
 
 /**
  * Cette classe est dédiée à la gestion du traitement du fichier JSON,
  * en appliquant les différentes étapes de validation et en sauvegardant les erreurs rencontrées.
  */
 public class JsonHandler {
+    /**
+     * Cette méthode principale gère l'exécution des étapes de validation et de sauvegarde du fichier JSON.
+     *
+     * @param obj Le fichier JSON encapsulé dans une instance de JsonFileUtility.
+     * @throws Groupe6INF2050Exception Si une erreur est rencontrée pendant le traitement.
+     */
+    public static void handleJson(JsonFileUtility obj) throws Groupe6INF2050Exception {
+        ErrorHandler errorHandler = new ErrorHandler();
+        obj.loadAndValid();
+        validateJsonContent(obj, errorHandler);
+        obj.save(errorHandler);
+    }
 
     /**
-     * Cette méthode s'occupe de traiter un fichier JSON avec les différentes étapes de validation.
+     * Applique les différentes validations du contenu JSON, y compris la validation des heures transférées,
+     * la catégorie, et les heures minimales pour les activités.
      *
-     * @param obj Le fichier JSON contenu dans une instance de JsonFileTreatment.
-     * @throws Groupe6INF2050Exception ramène une exception personnalisée en cas d'erreur avec le fichier.
+     * @param obj L'objet JsonFileUtility contenant le fichier JSON à valider.
+     * @param errorHandler L'instance de ErrorHandler pour stocker les erreurs rencontrées.
      */
-    public static void handleJson(JsonFileTreatment obj) throws Groupe6INF2050Exception {
-        // Création de l'objet ErrorHandler pour stocker les erreurs de validation
-        ErrorHandler errorHandler = new ErrorHandler();
+    private static void validateJsonContent(JsonFileUtility obj, ErrorHandler errorHandler) throws Groupe6INF2050Exception {
+        if (!PermitNumberValidator.isPermitNumberValid(obj.getJsonObject(), errorHandler)){
+            obj.save(errorHandler);
+            exit(-1);
+        }
+        getGeneralRulesValidators(obj, errorHandler);
+        getCategoriesHoursValidators(obj, errorHandler);
+    }
 
-        // Validation du fichier JSON
-        obj.loadAndValid();
+    /**
+     * Valide les règles générales comme les heures transférées, la catégorie et les heures minimales.
+     *
+     * @param obj L'objet JsonFileUtility avec le contenu JSON à valider.
+     * @param errorHandler Le gestionnaire d'erreurs.
+     */
+    private static void getGeneralRulesValidators(JsonFileUtility obj, ErrorHandler errorHandler) {
+        TransferredHoursValidator.validateTransferredHours(obj.getJsonObject(), errorHandler);
+        ActivityCategoryValidator.validateCategory(obj.getJsonObject(), errorHandler);
+        ActivityHoursTotal40Validator.isActivitiesTotalHoursMin40(obj.getJsonObject(), errorHandler);
+        CycleValidator.checkIfActivityDateInCycle(obj.getJsonObject(), errorHandler);
+        CycleValidator.validateCycle(obj.getJsonObject(), errorHandler);
+    }
 
-        // Création d'un objet d'ActivityValidator pour les différentes validations
-        ActivityValidator validator = new ActivityValidator();
-
-        // Validation des heures transférées du cycle précédent
-        validator.validateTransferredHours(obj.getJsonObject(), errorHandler);
-
-        // Validation des catégories présentes dans le fichier JSON
-        validator.validateCategory(obj.getJsonObject(), errorHandler);
-
-        // Validation du nombre minimal d'heures pour le cycle
-        validator.isCycleMinHours40(obj.getJsonObject(), errorHandler);
-
-        // Valide que les catégories spécifiées ont au moins 17 heures
-        validator.isCategoryMin17Hours(obj.getJsonObject(), errorHandler);
-
-        // Validation d'heures pour les catégories spécifiques
-        validator.validatePresentationHours(obj.getJsonObject());
-        validator.validateRedactionProHours(obj.getJsonObject());
-        validator.validateGroupDiscussionHours(obj.getJsonObject());
-        validator.validateProjetDeRechercheHours(obj.getJsonObject());
-
-        // Ecrit les erreurs et la validité des données dans le fichier de sortie
-        obj.save(errorHandler);
+    /**
+     * Valide les règles spécifiques aux différentes catégories d'activités.
+     *
+     * @param obj L'objet JsonFileUtility avec le contenu JSON à valider.
+     * @param errorHandler Le gestionnaire d'erreurs
+     */
+    private static void getCategoriesHoursValidators(JsonFileUtility obj, ErrorHandler errorHandler) {
+        CategoryMin17HoursValidator.isCategoryMin17Hours(obj.getJsonObject(), errorHandler);
+        CategoryMaxHoursValidator.validatePresentationHours(obj.getJsonObject(), errorHandler );
+        CategoryMaxHoursValidator.validateRedactionProHours(obj.getJsonObject(), errorHandler );
+        CategoryMaxHoursValidator.validateGroupDiscussionHours(obj.getJsonObject(), errorHandler );
+        CategoryMaxHoursValidator.validateProjetDeRechercheHours(obj.getJsonObject(), errorHandler );
     }
 }
