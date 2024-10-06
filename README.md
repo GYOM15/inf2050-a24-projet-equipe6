@@ -8,14 +8,25 @@ Le logiciel n'inclue pas d'interface utilisateur, car il conçu pour être inté
 
 - **Langage** : Java (version 22.0 ou supérieure)
 
-- **Librairie** : 
-  - `commons-beanutils-1.8.0.jar`
-  - `commons-collections-3.2.1.jar`
-  - `commons-io-2.4.jar`
-  - `commons-lang-2.5.jar`
-  - `commons-logging-1.1.1.jar`
-  - `ezmorph-1.0.6.jar`
-  - `json-lib-2.4-jdk15.jar`
+- **Librairie** :
+  - Traitement du JSON
+    - `commons-beanutils-1.8.0.jar`
+    - `commons-collections-3.2.1.jar`
+    - `commons-io-2.4.jar`
+    - `commons-lang-2.5.jar`
+    - `commons-logging-1.1.1.jar`
+    - `ezmorph-1.0.6.jar`
+    - `json-lib-2.4-jdk15.jar`
+  
+  - JUNIT5
+    - `junit-jupiter-5.4.2.jar`
+    - `junit-jupiter-api-5.4.2.jar`
+    - `junit-jupiter-engine-5.4.2.jar`
+    - `junit-platform-commons-1.4.2.jar`
+    - `junit-platform-engine-1.4.2.jar`
+    - `apiguardian-api-1.0.0.jar`
+    - `junit-jupiter-params-5.4.2.jar`
+    - `opentest4j-1.1.1.jar`
 
 - **IDE**: IntelliJ IDEA
 
