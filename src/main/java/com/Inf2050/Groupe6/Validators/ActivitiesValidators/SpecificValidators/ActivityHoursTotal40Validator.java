@@ -21,7 +21,7 @@ public class ActivityHoursTotal40Validator {
             totalHours += addActivityHours(activities.getJSONObject(i), errorHandler);
         }
         if (totalHours < 40) {
-            errorHandler.addError("Erreur sur le nombnre d'heures total des Activités : Il manque " + (40 - totalHours) + " heures pour compléter 40 heures dans le cycle.");
+            errorHandler.addError("Erreur sur le nombre d'heures total des Activités : Il manque " + (40 - totalHours) + " heures pour compléter 40 heures dans le cycle.");
         }
     }
 
