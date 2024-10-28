@@ -1,0 +1,7 @@
+{
+    "complet": false,
+    "errors":     [
+        "La catégorie voyage n'est pas valide",
+        "Erreur sur le nombre d'heures total des Activités : Il manque 2 heures pour compléter 40 heures dans le cycle."
+    ]
+}	
