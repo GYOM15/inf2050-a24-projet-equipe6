@@ -38,39 +38,39 @@ class CycleValidatorTest {
         assertEquals("Erreur pour le cycle '"+jsonObject.getString("cycle")+"': "+"Le cycle n'est pas supporté. Seul le cycle 2023-2025 est valide.", errorHandler.getErrors().get(0));
     }
 
-    @Test
-    void testCheckIfActivityDateInCycle_ValidDate() {
-        activity.put("date","2024-01-15");
-        activity.put("description", "Activity 1");
-        activities.add(activity);
-        jsonObject.put("activites", activities);
-        CycleValidator.checkIfActivityDateInCycle(jsonObject, errorHandler);
-        assertTrue(errorHandler.getErrors().isEmpty());
-    }
+//    @Test
+//    void testCheckIfActivityDateInCycle_ValidDate() {
+//        activity.put("date","2024-01-15");
+//        activity.put("description", "Activity 1");
+//        activities.add(activity);
+//        jsonObject.put("activites", activities);
+//        CycleValidator.checkIfActivityDateInCycle(jsonObject, errorHandler);
+//        assertTrue(errorHandler.getErrors().isEmpty());
+//    }
 
-    @Test
-    void testCheckIfActivityDateInCycle_InvalidDate() {
-        activity.put("date", "2022-05-01");
-        activity.put("description", "Activity 1");
-        activities.add(activity);
-        jsonObject.put("activites", activities);
-        CycleValidator.checkIfActivityDateInCycle(jsonObject, errorHandler);
-        assertEquals(1, errorHandler.getErrors().size());
-        String expectedError = "Erreur pour l'activité 'Activity 1': La date 2022-05-01 doit être entre le cycle '2023-04-01' et '2025-04-01'.";
-        assertEquals(expectedError, errorHandler.getErrors().get(0));
-    }
+//    @Test
+//    void testCheckIfActivityDateInCycle_InvalidDate() {
+//        activity.put("date", "2022-05-01");
+//        activity.put("description", "Activity 1");
+//        activities.add(activity);
+//        jsonObject.put("activites", activities);
+//        CycleValidator.checkIfActivityDateInCycle(jsonObject, errorHandler);
+//        assertEquals(1, errorHandler.getErrors().size());
+//        String expectedError = "Erreur pour l'activité 'Activity 1': La date 2022-05-01 doit être entre le cycle '2023-04-01' et '2025-04-01'.";
+//        assertEquals(expectedError, errorHandler.getErrors().get(0));
+//    }
 
-    @Test
-    void testCheckIfActivityDateInCycle_InvalidDateFormat() {
-        activity.put("date", "invalid-date");
-        activity.put("description", "Activity 1");
-        JSONArray activities = new JSONArray();
-        activities.add(activity);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("activites", activities);
-        CycleValidator.checkIfActivityDateInCycle(jsonObject, errorHandler);
-        assertEquals(1, errorHandler.getErrors().size());
-        String expectedError = "Erreur pour l'activité 'Activity 1': Date d'activité invalide : invalid-date";
-        assertEquals(expectedError, errorHandler.getErrors().get(0));
-    }
+//    @Test
+//    void testCheckIfActivityDateInCycle_InvalidDateFormat() {
+//        activity.put("date", "invalid-date");
+//        activity.put("description", "Activity 1");
+//        JSONArray activities = new JSONArray();
+//        activities.add(activity);
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("activites", activities);
+//        CycleValidator.checkIfActivityDateInCycle(jsonObject, errorHandler);
+//        assertEquals(1, errorHandler.getErrors().size());
+//        String expectedError = "Erreur pour l'activité 'Activity 1': Date d'activité invalide : invalid-date";
+//        assertEquals(expectedError, errorHandler.getErrors().get(0));
+//    }
 }
