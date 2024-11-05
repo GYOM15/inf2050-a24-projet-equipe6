@@ -5,16 +5,10 @@
   "heures_transferees_du_cycle_precedent": 1,
   "activites": [
     {
-      "description": "moderne",
-      "categorie": "cours",
-      "heures": 16,
-      "date": "2024-10-22"
-    },
-    {
       "description": "Rédaction pour le magazine Architecture moderne",
       "categorie": "rédaction professionnelle",
       "heures": 30,
-      "date": "2024-10-22"
+      "date": "2024-02-29"
     },
     {
       "description": "Participation à un groupe de discussion sur le partage des projets architecturaux de plus de 20 ans",
