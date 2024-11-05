@@ -4,7 +4,7 @@ import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
 import net.sf.json.JSONObject;
 
 public class OrderValidator {
-    public static void validateOrder(JSONObject jsonObject, ErrorHandler errorHandler){
+    public static void Heures(JSONObject jsonObject, ErrorHandler errorHandler){
 
     }
 }
