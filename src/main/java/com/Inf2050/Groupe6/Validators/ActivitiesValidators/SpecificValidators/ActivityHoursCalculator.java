@@ -2,6 +2,7 @@ package main.java.com.Inf2050.Groupe6.Validators.ActivitiesValidators.SpecificVa
 
 import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
 import main.java.com.Inf2050.Groupe6.Validators.ActivitiesValidators.SpecificValidators.DateValidator;
+import main.java.com.Inf2050.Groupe6.Validators.CycleValidator;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -23,7 +24,7 @@ public class ActivityHoursCalculator {
     }
 
     private static void addHours(Map<String, Integer> hoursByDate, Activity activity, ErrorHandler errorHandler) {
-        if (!DateValidator.validate(activity.date, errorHandler)) {
+        if (!CycleValidator.isDateWithinCycle(activity.date, errorHandler)) {
             errorHandler.addError("La date " + activity.date + " est invalide. Les heures ne seront pas ajoutées.");
             return; // Si la date est invalide, on sort de la méthode sans ajouter d'heures
         }
