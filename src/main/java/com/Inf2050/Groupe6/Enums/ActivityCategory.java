@@ -53,6 +53,9 @@ public enum ActivityCategory {
         return maxHours;
     }
 
+    public String getCategoryFromJsonObj() {
+        return categoryFromJsonObj;
+    }
     /**
      * Recherche dans l'énumération si la catégorie contenu dans l'objet Json, correspond à l'une
      * de celle déclarées dans l'énumération tout en ignorant la casse
