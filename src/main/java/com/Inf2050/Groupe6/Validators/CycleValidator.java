@@ -2,7 +2,6 @@ package main.java.com.Inf2050.Groupe6.Validators;
 
 import main.java.com.Inf2050.Groupe6.Enums.Cycle;
 import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
-import net.sf.json.JSONObject;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
