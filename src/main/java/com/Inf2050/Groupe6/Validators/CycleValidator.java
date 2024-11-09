@@ -43,7 +43,6 @@ public class CycleValidator {
         if (architectes_cycles.contains(cycle)) {
             CycleValidator.cycle = cycle;
         }
-        return true;
     }
 
     /**
