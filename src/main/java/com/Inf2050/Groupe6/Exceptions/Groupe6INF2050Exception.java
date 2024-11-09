@@ -1,9 +1,5 @@
 package main.java.com.Inf2050.Groupe6.Exceptions;
 
-/**
- * Exception personnalisée pour les erreurs spécifiques à l'application.
- * Hérite de la classe Exception et permet de définir des messages d'erreur personnalisés.
- */
 public class Groupe6INF2050Exception extends Exception {
 
     /**
