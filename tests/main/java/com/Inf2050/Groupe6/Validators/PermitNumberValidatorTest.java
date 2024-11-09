@@ -1,6 +1,7 @@
 package main.java.com.Inf2050.Groupe6.Validators;
 
 import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
+import main.java.com.Inf2050.Groupe6.Validators.GeneralsRulesValidators.PermitNumberValidator;
 import net.sf.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

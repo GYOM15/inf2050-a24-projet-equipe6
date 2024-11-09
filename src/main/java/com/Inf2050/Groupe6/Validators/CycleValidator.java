@@ -1,75 +1,75 @@
 package main.java.com.Inf2050.Groupe6.Validators;
 
+import main.java.com.Inf2050.Groupe6.Enums.Cycle;
 import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import net.sf.json.JSONSerializer;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-/**
- * Cette classe nous permet de faire la validation de tout ce qui concerne les activités, y compris le cycle
- */
+import static main.java.com.Inf2050.Groupe6.Validators.ActivitiesValidators.SpecificValidators.DateValidator.validate;
+
 public class CycleValidator {
 
-    private static final String CYCLE_VALID = "2023-2025";
-    private static final LocalDate CYCLE_START = LocalDate.parse("2023-04-01");
-    private static final LocalDate CYCLE_END = LocalDate.parse("2025-04-01");
+    private static Cycle cycle;
 
-
-    /**
-     * Vérifie si le cycle est valide, c'est à dire, entre 2023 et 2025
-     * @param jsonObject    Le JSON contenant les informations du cycle
-     * @param errorHandler  L'objet ErrorHandler pour stocker les erreurs de validation du cycle
-     */
-    public static void validateCycle(JSONObject jsonObject, ErrorHandler errorHandler) {
-        String cycle = jsonObject.getString("cycle");
-        if (!CYCLE_VALID.equals(cycle)) {
-            errorHandler.addCycleError(cycle, "Le cycle n'est pas supporté. Seul le cycle 2023-2025 est valide.");
-        }
-    }
-
+    private static final List<Cycle> architectes_cycles = new ArrayList<>();
 
     /**
-     * Verifie si la date pour chaque activité, si elle se trouve dans l'intervalle 2023-04-01 et 2025-04-01
-     * @param jsonObject Le JSON contenant les informations des activités
-     * @param errorHandler L'objet ErrorHandler pour enregistrer les erreurs liées aux activités
-     */
-    public static void checkIfActivityDateInCycle(JSONObject jsonObject, ErrorHandler errorHandler) {
-        JSONArray activities = (JSONArray) JSONSerializer.toJSON(jsonObject.getString("activites"));
-        for (int i = 0; i < activities.size(); i++) {
-            JSONObject activity = activities.getJSONObject(i);
-            String dateValue = activity.getString("date");
-            String description = activity.getString("description");
-            validateDate(dateValue, description, errorHandler);
-        }
-    }
-
-    /**
-     * Valide une date donnée en vérifiant si elle est dans le cycle.
+     * Constructeur pour initialiser un cycle unique pour la validation.
      *
-     * @param dateValue La date à valider en tant que chaîne.
-     * @param description La description de l'activité associée à la date.
-     * @param errorHandler L'objet ErrorHandler pour enregistrer les erreurs.
+     * @param cycle Cycle spécifique pour l'initialisation
      */
-    private static void validateDate(String dateValue, String description, ErrorHandler errorHandler) {
-        try {
-            if (isDateOutOfCycle(LocalDate.parse(dateValue))) {
-                errorHandler.addActivityError(description, "La date " + LocalDate.parse(dateValue) + " doit être entre le cycle '2023-04-01' et '2025-04-01'.");
-            }
-        } catch (DateTimeParseException e) {
-            errorHandler.addActivityError(description, "Date d'activité invalide : " + dateValue);
+    public CycleValidator(Cycle cycle) {
+        CycleValidator.cycle = cycle;
+    }
+
+    /**
+     * Constructeur pour initialiser plusieurs cycles pour la validation.
+     *
+     * @param cycles Tableau de cycles pour initialiser la liste des cycles valides
+     */
+    public CycleValidator(Cycle... cycles) {
+        architectes_cycles.addAll(Arrays.asList(cycles));
+    }
+
+    /**
+     * Définit le cycle de validation actuel si celui-ci fait partie de la liste des cycles valides.
+     *
+     * @param cycle Cycle à définir comme cycle de validation
+     */
+    public static void setCycle(Cycle cycle) {
+        if (architectes_cycles.contains(cycle)) {
+            CycleValidator.cycle = cycle;
         }
     }
 
     /**
-     * Vérifie si la date est en dehors des limites du cycle.
+     * Vérifie si une date donnée se situe dans les limites du cycle en cours.
      *
-     * @param date La date à vérifier.
-     * @return true si la date est hors du cycle, false sinon.
+     * @param dateValue Date sous forme de chaîne (String)
+     * @param errorHandler Gestionnaire d'erreurs pour enregistrer les erreurs éventuelles
+     * @return true si la date est dans le cycle, sinon false
      */
-    private static boolean isDateOutOfCycle(LocalDate date) {
-        return date.isBefore(CYCLE_START) || date.isAfter(CYCLE_END);
+    public static boolean isDateWithinCycle(String dateValue, ErrorHandler errorHandler) {
+        if (!validate(dateValue, null)) {
+            return true;
+        }
+        LocalDate date = LocalDate.parse(dateValue);
+        if (date.isBefore(cycle.getStartDate()) || date.isAfter(cycle.getEndDate())) {
+            ErrorHandler.addErrorIfNotNull(errorHandler, "La date " + dateValue + " doit être dans le cycle " + cycle.getLabel() + ".");
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Retourne la liste des cycles d'architectes.
+     *
+     * @return Liste des cycles valides pour les architectes
+     */
+    public static List<Cycle> getCycle() {
+        return architectes_cycles;
     }
 }
