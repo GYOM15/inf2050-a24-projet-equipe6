@@ -1,7 +1,9 @@
 {
     "complet": false,
     "errors":     [
-        "La catégorie voyage n'est pas valide",
-        "Erreur sur le nombre d'heures total des Activités : Il manque 2 heures pour compléter 40 heures dans le cycle."
+        "Il manque 17 heures dans la catégorie cours. Le minimum autorisé est de 17h.",
+        "La somme des heures pour la date 2024-02-29 dépasse 10. Seulement 10 heures seront comptabilisées.",
+        "La somme des heures pour la date 2024-04-01 dépasse 10. Seulement 10 heures seront comptabilisées.",
+        "Il manque 19 heures pour compléter le cycle 2023-2025"
     ]
 }	

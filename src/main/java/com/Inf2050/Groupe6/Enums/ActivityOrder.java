@@ -2,8 +2,6 @@ package main.java.com.Inf2050.Groupe6.Enums;
 
 import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
 import main.java.com.Inf2050.Groupe6.Validators.CycleValidator;
-import main.java.com.Inf2050.Groupe6.Enums.Cycle;
-import main.java.com.Inf2050.Groupe6.Validators.ActivitiesValidators.SpecificValidators.DateValidator;
 
 public enum ActivityOrder {
     ARCHITECTES("architectes", new CycleValidator(Cycle.getCycleByLabel("2023-2025"), Cycle.getCycleByLabel("2020-2022"), Cycle.getCycleByLabel("2018-2020"))),
@@ -19,16 +17,22 @@ public enum ActivityOrder {
         this.cycleValidator = cycleValidator;
     }
 
-
+    /**
+     * Vérifie si un cycle est valide pour un ordre donné.
+     *
+     * @param cycle Le cycle à valider
+     * @param order L'ordre auquel le cycle doit correspondre
+     * @return true si le cycle est valide pour l'ordre, sinon false
+     */
     public static boolean isCycleValidByOrder(Cycle cycle, ActivityOrder order) {
         if (order == ARCHITECTES && CycleValidator.getCycle().contains(cycle) ) {
             CycleValidator.setCycle(cycle);
-            return true;
+            return false;
         }
         if (order == GEOLOGUES && cycle == Cycle.CYCLE_2021_2024) {
-            return true;
+            return false;
         }
-        return order == PSYCHOLOGUES && cycle == Cycle.CYCLE_2020_2025;
+        return order != PSYCHOLOGUES || cycle != Cycle.CYCLE_2020_2025;
     }
 
     /**
@@ -56,8 +60,6 @@ public enum ActivityOrder {
      * @param errorHandler  Le gestionnaire d'erreurs pour enregistrer une erreur.
      */
     private static void addErrorIfHandlerPresent(String label, ErrorHandler errorHandler) {
-        if (errorHandler != null) {
-            errorHandler.addError("L'ordre " + label + " n'est pas valide");
-        }
+        ErrorHandler.addErrorIfNotNull(errorHandler,"L'ordre " + label + " n'est pas valide");
     }
 }

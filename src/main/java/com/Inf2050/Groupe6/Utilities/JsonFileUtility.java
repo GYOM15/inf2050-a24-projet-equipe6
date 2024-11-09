@@ -16,6 +16,12 @@ import java.nio.charset.StandardCharsets;
  * */
 public class JsonFileUtility extends FileUtility {
     private JSONObject jsonObject;
+    private JSONArray jsonArray;
+
+    public JSONArray getJsonArray() {
+        this.jsonArray = jsonObject.getJSONArray("activites");
+        return jsonArray;
+    }
 
     /**
      * Constructeur de la classe JsonFileUtility, hérité de la classe mère FileTreatment.

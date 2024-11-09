@@ -75,4 +75,16 @@ public class ErrorHandler {
         return !errors.isEmpty();
     }
 
+    /**
+     * Ajoute un message d'erreur au ErrorHandler s'il n'est pas nul.
+     *
+     * @param errorHandler L'instance ErrorHandler où ajouter le message d'erreur, si non nul
+     * @param errorMessage Le message d'erreur à ajouter
+     */
+    public static void addErrorIfNotNull(ErrorHandler errorHandler, String errorMessage) {
+        if (errorHandler != null) {
+            errorHandler.addError(errorMessage);
+        }
+    }
+
 }
