@@ -44,7 +44,7 @@ public class JsonFieldsUtility {
     private static boolean checkRequiredKeys(JSONObject jsonObject, ErrorHandler errorHandler) {
         for (String key : requiredKeys) {
             if (!jsonObject.containsKey(key)) {
-                addErrorIfNotNull(errorHandler, "La clé : " + key + " est manquante dans le fichier JSON");
+                ErrorHandler.addErrorIfNotNull(errorHandler, "La clé : " + key + " est manquante dans le fichier JSON");
                 return false;
             }
         }
@@ -61,12 +61,11 @@ public class JsonFieldsUtility {
     private static boolean checkArchitecteSpecificKey(JSONObject jsonObject, ErrorHandler errorHandler) {
         boolean isArchitecteOrder = "architectes".equalsIgnoreCase(jsonObject.getString("ordre"));
         boolean hasTransferHoursKey = jsonObject.containsKey("heures_transferees_du_cycle_precedent");
-
         if (isArchitecteOrder && !hasTransferHoursKey) {
-            addErrorIfNotNull(errorHandler, "La clé 'heures_transferees_du_cycle_precedent' est manquante pour l'ordre architectes.");
+            ErrorHandler.addErrorIfNotNull(errorHandler, "La clé 'heures_transferees_du_cycle_precedent' est manquante pour l'ordre architectes.");
             return false;
         } else if (!isArchitecteOrder && hasTransferHoursKey) {
-            addErrorIfNotNull(errorHandler, "La clé 'heures_transferees_du_cycle_precedent' ne doit exister que pour l'ordre architectes.");
+            ErrorHandler.addErrorIfNotNull(errorHandler, "La clé 'heures_transferees_du_cycle_precedent' ne doit exister que pour l'ordre architectes.");
             return false;
         }
         return true;
@@ -80,17 +79,12 @@ public class JsonFieldsUtility {
      * @return true si le cycle est valide pour l'ordre, sinon false
      */
     private static boolean validateCycleByOrder(JSONObject jsonObject, ErrorHandler errorHandler) {
-        // Récupère l'ordre et le cycle depuis le JSON
         String orderLabel = jsonObject.getString("ordre");
         String cycleLabel = jsonObject.getString("cycle");
-
-        // Utilise ActivityOrder pour rechercher l'ordre et valider le cycle
         ActivityOrder order = ActivityOrder.searchFromJsonOrder(orderLabel, errorHandler);
         Cycle cycle = Cycle.getCycleByLabel(cycleLabel);
-
-        // Vérifie si l'ordre est valide et si le cycle correspond à l'ordre
-        if (cycle == null || !ActivityOrder.isCycleValidByOrder(cycle, order)) {
-            addErrorIfNotNull(errorHandler, "Le cycle " + cycleLabel + " n'est pas valide pour l'ordre " + orderLabel);
+        if (cycle == null || ActivityOrder.isCycleValidByOrder(cycle, order)) {
+            ErrorHandler.addErrorIfNotNull(errorHandler,"Le cycle " + cycleLabel + " n'est pas valide pour l'ordre " + orderLabel);
             return false;
         }
         return true;
@@ -103,11 +97,11 @@ public class JsonFieldsUtility {
      * @param errorHandler Gestionnaire d'erreurs pour enregistrer les erreurs éventuelles
      * @return true si toutes les activités contiennent les clés nécessaires, sinon false
      */
-    public static boolean checkActivitiesFields(JSONObject jsonObject, ErrorHandler errorHandler) {
+    private static boolean checkActivitiesFields(JSONObject jsonObject, ErrorHandler errorHandler) {
         for (int i = 0; i < jsonObject.getJSONArray("activites").size(); i++) {
             for (String key : requiredActivitiesKeys) {
                 if (!jsonObject.getJSONArray("activites").getJSONObject(i).containsKey(key)) {
-                    addErrorIfNotNull(errorHandler, "La clé : " + key + " est manquante pour l'activité " + i);
+                    ErrorHandler.addErrorIfNotNull(errorHandler,"La clé : " + key + " est manquante pour l'activité " + i);
                     return false;
                 }
             }
@@ -122,19 +116,7 @@ public class JsonFieldsUtility {
      * @param errorHandler Gestionnaire d'erreurs pour enregistrer les erreurs éventuelles
      * @return true si toutes les clés sont valides, sinon false
      */
-    public static boolean isAllFieldsValid(JSONObject jsonObject, ErrorHandler errorHandler) {
+    public static boolean areAllFieldsValid(JSONObject jsonObject, ErrorHandler errorHandler) {
         return checkActivitiesFields(jsonObject, errorHandler) && checkJsonFields(jsonObject, errorHandler);
-    }
-
-    /**
-     * Ajoute une erreur au ErrorHandler si celui-ci n'est pas nul.
-     *
-     * @param errorHandler L'instance ErrorHandler où ajouter le message d'erreur, si non nul
-     * @param errorMessage Le message d'erreur à ajouter
-     */
-    private static void addErrorIfNotNull(ErrorHandler errorHandler, String errorMessage) {
-        if (errorHandler != null) {
-            errorHandler.addError(errorMessage);
-        }
     }
 }
