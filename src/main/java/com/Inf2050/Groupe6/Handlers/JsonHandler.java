@@ -3,6 +3,7 @@ package main.java.com.Inf2050.Groupe6.Handlers;
 import main.java.com.Inf2050.Groupe6.Enums.ActivityOrder;
 import main.java.com.Inf2050.Groupe6.Enums.Cycle;
 import main.java.com.Inf2050.Groupe6.Exceptions.Groupe6INF2050Exception;
+import main.java.com.Inf2050.Groupe6.Utilities.JsonFieldsUtility;
 import main.java.com.Inf2050.Groupe6.Utilities.JsonFileUtility;
 import main.java.com.Inf2050.Groupe6.Validators.HoursCalculators.ActivityHoursCalculator;
 import main.java.com.Inf2050.Groupe6.Validators.HoursCalculators.CalculateMinHoursByOrderCategoryConditions;
