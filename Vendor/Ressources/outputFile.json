@@ -1,0 +1,8 @@
+{
+    "complet": false,
+    "errors":     [
+        "La description [ Conférence ] doit contenir au moins 20 caractères. Le traitement du fichier ne peut pas être complété.",
+        "Le champ Conférencecontient des heures négatives, le traitement du fichier ne peut pas être complété",
+        "La clé 'heures_transferees_du_cycle_precedent' est manquante pour l'ordre architectes."
+    ]
+}	
