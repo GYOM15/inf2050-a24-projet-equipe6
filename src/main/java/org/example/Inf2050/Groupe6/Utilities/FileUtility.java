@@ -8,8 +8,8 @@ import org.example.Inf2050.Groupe6.Exceptions.Groupe6INF2050Exception;
  */
 public  abstract class FileUtility {
 
-    protected final String inputFile;
-    protected String outputFile;
+    public final String inputFile;
+    public String outputFile;
 
     /**
      * Constructeur de la classe FileUtility
