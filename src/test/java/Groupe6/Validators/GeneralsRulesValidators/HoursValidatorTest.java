@@ -1,11 +1,15 @@
 package Groupe6.Validators.GeneralsRulesValidators;
 
-import main.java.com.Inf2050.Groupe6.Exceptions.Groupe6INF2050Exception;
-import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
-import main.java.com.Inf2050.Groupe6.Utilities.JsonFileUtility;
-import org.junit.jupiter.api.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.example.Inf2050.Groupe6.Exceptions.Groupe6INF2050Exception;
+import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
+import org.example.Inf2050.Groupe6.Utilities.JsonFileUtility;
+import org.example.Inf2050.Groupe6.Validators.GeneralsRulesValidators.HoursValidator;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class HoursValidatorTest {
     private static final String INPUT_FILE_VALIDHOURS = "tests/main/Vendor/HoursValidatorTest/inputTestAreHoursPositive_ValidHours.json";

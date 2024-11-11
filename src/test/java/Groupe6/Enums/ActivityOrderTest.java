@@ -1,7 +1,10 @@
 package Groupe6.Enums;
 
-import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
-import org.junit.jupiter.api.*;
+import org.example.Inf2050.Groupe6.Enums.ActivityOrder;
+import org.example.Inf2050.Groupe6.Enums.Cycle;
+import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,10 +1,11 @@
-package main.java.com.Inf2050.Groupe6.Validators.HoursCalculators;
+package com.Inf2050.Groupe6.Validators.HoursCalculators;
 
-import main.java.com.Inf2050.Groupe6.Enums.ActivityCategory;
-import main.java.com.Inf2050.Groupe6.Enums.ActivityOrder;
-import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
-import main.java.com.Inf2050.Groupe6.Validators.ValidatorsByOrderAndCycle.ActivityFilters.ActivityJsonBuilderByCategoriesConditions;
+
+import com.Inf2050.Groupe6.Validators.ValidatorsByOrderAndCycle.ActivityFilters.ActivityJsonBuilderByCategoriesConditions;
 import net.sf.json.JSONArray;
+import org.example.Inf2050.Groupe6.Enums.ActivityCategory;
+import org.example.Inf2050.Groupe6.Enums.ActivityOrder;
+import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
 
 import java.util.Arrays;
 import java.util.HashMap;

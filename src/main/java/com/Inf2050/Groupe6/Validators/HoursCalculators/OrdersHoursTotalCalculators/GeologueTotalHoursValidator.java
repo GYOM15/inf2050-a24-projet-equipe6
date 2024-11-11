@@ -1,7 +1,8 @@
-package main.java.com.Inf2050.Groupe6.Validators.HoursCalculators.OrdersHoursTotalCalculators;
+package com.Inf2050.Groupe6.Validators.HoursCalculators.OrdersHoursTotalCalculators;
 
-import main.java.com.Inf2050.Groupe6.Enums.Cycle;
-import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
+
+import org.example.Inf2050.Groupe6.Enums.Cycle;
+import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
 
 public class GeologueTotalHoursValidator {
 

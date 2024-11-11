@@ -1,7 +1,7 @@
-package main.java.com.Inf2050.Groupe6.Validators.GeneralsRulesValidators;
+package com.Inf2050.Groupe6.Validators.GeneralsRulesValidators;
 
-import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
-import main.java.com.Inf2050.Groupe6.Utilities.JsonFileUtility;
+import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
+import org.example.Inf2050.Groupe6.Utilities.JsonFileUtility;
 
 /**
  * Valide les heures des activités pour s'assurer qu'elles sont positives.

@@ -1,8 +1,11 @@
 package Groupe6.Validators.HoursCalculators.OrdersHoursTotalCalculators;
 
-import main.java.com.Inf2050.Groupe6.Enums.Cycle;
-import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
-import org.junit.jupiter.api.*;
+
+import org.example.Inf2050.Groupe6.Enums.Cycle;
+import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
+import org.example.Inf2050.Groupe6.Validators.HoursCalculators.OrdersHoursTotalCalculators.GeologueTotalHoursValidator;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 

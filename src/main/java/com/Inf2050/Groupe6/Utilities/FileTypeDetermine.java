@@ -1,4 +1,4 @@
-package main.java.com.Inf2050.Groupe6.Utilities;
+package com.Inf2050.Groupe6.Utilities;
 
 import java.io.File;
 import java.io.IOException;

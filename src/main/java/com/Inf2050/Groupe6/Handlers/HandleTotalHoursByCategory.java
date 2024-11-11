@@ -1,14 +1,18 @@
-package main.java.com.Inf2050.Groupe6.Handlers;
+package com.Inf2050.Groupe6.Handlers;
 
-import main.java.com.Inf2050.Groupe6.Enums.ActivityOrder;
-import main.java.com.Inf2050.Groupe6.Enums.Cycle;
-import main.java.com.Inf2050.Groupe6.Utilities.JsonFileUtility;
-import main.java.com.Inf2050.Groupe6.Validators.ActivitiesValidators.SpecificValidators.TransferredHoursValidator;
-import main.java.com.Inf2050.Groupe6.Validators.HoursCalculators.CalculateMaxByHoursOrderCategoryConditions;
-import main.java.com.Inf2050.Groupe6.Validators.HoursCalculators.CalculateMinHoursByOrderCategoryConditions;
-import main.java.com.Inf2050.Groupe6.Validators.HoursCalculators.OrdersHoursTotalCalculators.ArchitectesTotalHoursValidator;
-import main.java.com.Inf2050.Groupe6.Validators.HoursCalculators.OrdersHoursTotalCalculators.GeologueTotalHoursValidator;
-import main.java.com.Inf2050.Groupe6.Validators.HoursCalculators.OrdersHoursTotalCalculators.PsychologueTotalHoursValidator;
+
+import org.example.Inf2050.Groupe6.Enums.ActivityOrder;
+import org.example.Inf2050.Groupe6.Enums.Cycle;
+import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
+import org.example.Inf2050.Groupe6.Utilities.JsonFileUtility;
+import org.example.Inf2050.Groupe6.Validators.ActivitiesValidators.SpecificValidators.TransferredHoursValidator;
+import org.example.Inf2050.Groupe6.Validators.HoursCalculators.CalculateMaxByHoursOrderCategoryConditions;
+import org.example.Inf2050.Groupe6.Validators.HoursCalculators.CalculateMinHoursByOrderCategoryConditions;
+import org.example.Inf2050.Groupe6.Validators.HoursCalculators.OrdersHoursTotalCalculators.ArchitectesTotalHoursValidator;
+import org.example.Inf2050.Groupe6.Validators.HoursCalculators.OrdersHoursTotalCalculators.GeologueTotalHoursValidator;
+import org.example.Inf2050.Groupe6.Validators.HoursCalculators.OrdersHoursTotalCalculators.PsychologueTotalHoursValidator;
+
+import static org.example.Inf2050.Groupe6.Enums.ActivityOrder.*;
 
 public class HandleTotalHoursByCategory {
 

@@ -1,6 +1,8 @@
-package main.java.com.Inf2050.Groupe6.Validators.ActivitiesValidators.SpecificValidators;
+package com.Inf2050.Groupe6.Validators.ActivitiesValidators.SpecificValidators;
 
-import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
+
+import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 

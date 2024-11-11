@@ -1,0 +1,14 @@
+{
+  "numero_de_permis": "A0001",
+  "cycle": "2023-2025",
+  "ordre": "architectes",
+  "heures_transferees_du_cycle_precedent": 1,
+  "activites": [
+    {
+      "description": "Trop court",
+      "categorie": "rédaction professionnelle",
+      "heures": 30,
+      "date": "2024-02-29"
+    }
+  ]
+}

@@ -72,4 +72,8 @@ public class CycleValidator {
     public static List<Cycle> getCycle() {
         return architectes_cycles;
     }
+
+    public Cycle getOneCycle(){
+        return this.cycle;
+    }
 }

@@ -1,7 +1,8 @@
-package main.java.com.Inf2050.Groupe6.Validators.GeneralsRulesValidators;
+package com.Inf2050.Groupe6.Validators.GeneralsRulesValidators;
 
-import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
+
 import net.sf.json.JSONObject;
+import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
 
 /**
  * Cette classe permet de valider le numéro de permis.
