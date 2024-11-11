@@ -1,7 +1,9 @@
-package main.java.com.Inf2050.Groupe6.Enums;
+package com.Inf2050.Groupe6.Enums;
 
-import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
-import main.java.com.Inf2050.Groupe6.Validators.CycleValidator;
+
+import org.example.Inf2050.Groupe6.Enums.Cycle;
+import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
+import org.example.Inf2050.Groupe6.Validators.CycleValidator;
 
 public enum ActivityOrder {
     ARCHITECTES("architectes", new CycleValidator(Cycle.getCycleByLabel("2023-2025"), Cycle.getCycleByLabel("2020-2022"), Cycle.getCycleByLabel("2018-2020"))),

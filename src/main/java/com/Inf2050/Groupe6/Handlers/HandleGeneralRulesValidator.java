@@ -1,11 +1,13 @@
-package main.java.com.Inf2050.Groupe6.Handlers;
+package com.Inf2050.Groupe6.Handlers;
 
-import main.java.com.Inf2050.Groupe6.Utilities.JsonFieldsUtility;
-import main.java.com.Inf2050.Groupe6.Utilities.JsonFileUtility;
-import main.java.com.Inf2050.Groupe6.Validators.GeneralsRulesValidators.DescriptionValidator;
-import main.java.com.Inf2050.Groupe6.Validators.GeneralsRulesValidators.HoursValidator;
-import main.java.com.Inf2050.Groupe6.Validators.GeneralsRulesValidators.PermitNumberValidator;
-import main.java.com.Inf2050.Groupe6.Exceptions.Groupe6INF2050Exception;
+
+import org.example.Inf2050.Groupe6.Exceptions.Groupe6INF2050Exception;
+import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
+import org.example.Inf2050.Groupe6.Utilities.JsonFieldsUtility;
+import org.example.Inf2050.Groupe6.Utilities.JsonFileUtility;
+import org.example.Inf2050.Groupe6.Validators.GeneralsRulesValidators.DescriptionValidator;
+import org.example.Inf2050.Groupe6.Validators.GeneralsRulesValidators.HoursValidator;
+import org.example.Inf2050.Groupe6.Validators.GeneralsRulesValidators.PermitNumberValidator;
 
 public class HandleGeneralRulesValidator {
 

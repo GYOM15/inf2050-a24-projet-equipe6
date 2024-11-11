@@ -1,9 +1,13 @@
 package Groupe6.Validators.ActivitiesValidators.SpecificValidators;
 
-import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
-import org.junit.jupiter.api.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
+import org.example.Inf2050.Groupe6.Validators.ActivitiesValidators.SpecificValidators.DateValidator;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class DateValidatorTest {
     private ErrorHandler errorHandler;

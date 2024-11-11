@@ -1,9 +1,10 @@
-package main.java.com.Inf2050.Groupe6.Utilities;
+package com.Inf2050.Groupe6.Utilities;
 
-import main.java.com.Inf2050.Groupe6.Enums.ActivityOrder;
-import main.java.com.Inf2050.Groupe6.Enums.Cycle;
-import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
+
 import net.sf.json.JSONObject;
+import org.example.Inf2050.Groupe6.Enums.ActivityOrder;
+import org.example.Inf2050.Groupe6.Enums.Cycle;
+import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
 
 import java.util.Arrays;
 import java.util.List;

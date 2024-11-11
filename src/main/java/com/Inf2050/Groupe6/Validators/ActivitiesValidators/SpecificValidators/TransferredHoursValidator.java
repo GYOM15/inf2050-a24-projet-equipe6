@@ -1,7 +1,8 @@
-package main.java.com.Inf2050.Groupe6.Validators.ActivitiesValidators.SpecificValidators;
+package com.Inf2050.Groupe6.Validators.ActivitiesValidators.SpecificValidators;
 
-import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
+
 import net.sf.json.JSONObject;
+import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
 
 /**
  * Cette classe est chargée de valider les heures transférées d'un cycle à l'autre.

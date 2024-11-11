@@ -1,10 +1,11 @@
-package main.java.com.Inf2050.Groupe6.Validators.HoursCalculators;
+package com.Inf2050.Groupe6.Validators.HoursCalculators;
 
-import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
-import main.java.com.Inf2050.Groupe6.Validators.CycleValidator;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
+import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
+import org.example.Inf2050.Groupe6.Validators.CycleValidator;
 
 import java.util.HashMap;
 import java.util.Map;

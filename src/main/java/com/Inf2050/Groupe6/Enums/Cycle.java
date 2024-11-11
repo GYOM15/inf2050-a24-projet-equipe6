@@ -1,4 +1,4 @@
-package main.java.com.Inf2050.Groupe6.Enums;
+package com.Inf2050.Groupe6.Enums;
 
 import java.time.LocalDate;
 

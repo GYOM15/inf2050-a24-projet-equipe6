@@ -1,10 +1,12 @@
-package main.java.com;
+package com;
 
-import main.java.com.Inf2050.Groupe6.Handlers.JsonHandler;
-import main.java.com.Inf2050.Groupe6.Exceptions.Groupe6INF2050Exception;
-import main.java.com.Inf2050.Groupe6.Utilities.JsonFileUtility;
-import main.java.com.Inf2050.Groupe6.Utilities.FileTypeDetermine;
+import org.example.Inf2050.Groupe6.Exceptions.Groupe6INF2050Exception;
+import org.example.Inf2050.Groupe6.Handlers.JsonHandler;
+import org.example.Inf2050.Groupe6.Utilities.FileTypeDetermine;
+import org.example.Inf2050.Groupe6.Utilities.JsonFileUtility;
+
 import java.io.IOException;
+
 import static java.lang.System.exit;
 
 public class Main {

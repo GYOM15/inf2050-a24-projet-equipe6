@@ -1,4 +1,4 @@
-package main.java.com.Inf2050.Groupe6.Exceptions;
+package com.Inf2050.Groupe6.Exceptions;
 
 public class Groupe6INF2050Exception extends Exception {
 

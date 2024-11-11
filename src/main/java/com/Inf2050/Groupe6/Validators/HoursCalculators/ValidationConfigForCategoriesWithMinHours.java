@@ -1,4 +1,4 @@
-package main.java.com.Inf2050.Groupe6.Validators.HoursCalculators;
+package com.Inf2050.Groupe6.Validators.HoursCalculators;
 
 import java.util.List;
 import java.util.Map;

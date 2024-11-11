@@ -1,7 +1,9 @@
 package Groupe6.Validators.GeneralsRulesValidators;
 
-import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
+
 import net.sf.json.JSONObject;
+import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
+import org.example.Inf2050.Groupe6.Validators.GeneralsRulesValidators.PermitNumberValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

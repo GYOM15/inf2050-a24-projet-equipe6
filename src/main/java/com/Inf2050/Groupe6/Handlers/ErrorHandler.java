@@ -1,4 +1,4 @@
-package main.java.com.Inf2050.Groupe6.Handlers;
+package com.Inf2050.Groupe6.Handlers;
 
 import java.util.ArrayList;
 import java.util.List;

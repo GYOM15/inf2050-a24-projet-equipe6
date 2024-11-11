@@ -1,6 +1,7 @@
-package main.java.com.Inf2050.Groupe6.Utilities;
+package com.Inf2050.Groupe6.Utilities;
 
-import main.java.com.Inf2050.Groupe6.Exceptions.Groupe6INF2050Exception;
+
+import org.example.Inf2050.Groupe6.Exceptions.Groupe6INF2050Exception;
 
 /**
  * Est une classe abstraite de laquelle hériteront toutes les classes qui s'occupent du traitement de fichiers

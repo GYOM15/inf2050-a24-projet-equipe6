@@ -1,6 +1,7 @@
-package main.java.com.Inf2050.Groupe6.Enums;
+package com.Inf2050.Groupe6.Enums;
 
-import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
+
+import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
 
 /**
  * Cette Enumération nous permet d'ajouter et de mieux manipuler nos catégories à des fins de vérification.

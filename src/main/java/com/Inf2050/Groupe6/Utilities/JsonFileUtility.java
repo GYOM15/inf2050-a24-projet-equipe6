@@ -1,14 +1,19 @@
-package main.java.com.Inf2050.Groupe6.Utilities;
+package com.Inf2050.Groupe6.Utilities;
 
-import main.java.com.Inf2050.Groupe6.Exceptions.Groupe6INF2050Exception;
-import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 import org.apache.commons.io.IOUtils;
+import org.example.Inf2050.Groupe6.Exceptions.Groupe6INF2050Exception;
+import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
+import org.example.Inf2050.Groupe6.Utilities.FileUtility;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 /**

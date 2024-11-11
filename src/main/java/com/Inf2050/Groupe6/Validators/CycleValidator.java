@@ -1,14 +1,15 @@
-package main.java.com.Inf2050.Groupe6.Validators;
+package com.Inf2050.Groupe6.Validators;
 
-import main.java.com.Inf2050.Groupe6.Enums.Cycle;
-import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
+
+import org.example.Inf2050.Groupe6.Enums.Cycle;
+import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static main.java.com.Inf2050.Groupe6.Validators.ActivitiesValidators.SpecificValidators.DateValidator.validate;
+import static org.example.Inf2050.Groupe6.Validators.ActivitiesValidators.SpecificValidators.DateValidator.validate;
 
 public class CycleValidator {
 
