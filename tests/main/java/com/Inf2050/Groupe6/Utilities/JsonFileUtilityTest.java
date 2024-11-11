@@ -2,6 +2,7 @@ package main.java.com.Inf2050.Groupe6.Utilities;
 
 import main.java.com.Inf2050.Groupe6.Exceptions.Groupe6INF2050Exception;
 import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -76,6 +77,4 @@ class JsonFileUtilityTest {
         String content = new String(Files.readString(Paths.get(OUTPUT_FILE)));
         assertTrue(content.contains("\"complet\": true"));
     }
-
-
 }
