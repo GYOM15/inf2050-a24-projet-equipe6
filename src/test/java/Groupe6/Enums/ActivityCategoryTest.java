@@ -1,10 +1,13 @@
 package Groupe6.Enums;
 
-import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
-import org.example.Inf2050.Groupe6.Enums.ActivityCategory;
-import org.junit.jupiter.api.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.example.Inf2050.Groupe6.Enums.ActivityCategory;
+import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ActivityCategoryTest {
 
