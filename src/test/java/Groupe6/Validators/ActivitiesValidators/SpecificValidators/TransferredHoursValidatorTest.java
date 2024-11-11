@@ -1,15 +1,17 @@
 package Groupe6.Validators.ActivitiesValidators.SpecificValidators;
 
-import main.java.com.Inf2050.Groupe6.Handlers.ErrorHandler;
+
 import net.sf.json.JSONObject;
+import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
+import org.example.Inf2050.Groupe6.Validators.ActivitiesValidators.SpecificValidators.TransferredHoursValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TransferredHoursValidatorTest {
     private ErrorHandler errorHandler;
-    private  JSONObject jsonObject;
+    private JSONObject jsonObject;
 
     @BeforeEach
     public void setUp() {
