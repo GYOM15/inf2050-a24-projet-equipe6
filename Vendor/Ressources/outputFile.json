@@ -1,9 +1,8 @@
 {
     "complet": false,
     "errors":     [
-        "Il manque 17 heures dans la catégorie cours. Le minimum autorisé est de 17h.",
-        "La somme des heures pour la date 2024-02-29 dépasse 10. Seulement 10 heures seront comptabilisées.",
-        "La somme des heures pour la date 2024-04-01 dépasse 10. Seulement 10 heures seront comptabilisées.",
-        "Il manque 19 heures pour compléter le cycle 2023-2025"
+        "La description [ Conférence ] doit contenir au moins 20 caractères. Le traitement du fichier ne peut pas être complété.",
+        "Le champ Conférencecontient des heures négatives, le traitement du fichier ne peut pas être complété",
+        "La clé 'heures_transferees_du_cycle_precedent' est manquante pour l'ordre architectes."
     ]
 }	
