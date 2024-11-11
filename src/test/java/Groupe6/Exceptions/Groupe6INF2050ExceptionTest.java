@@ -1,5 +1,6 @@
 package Groupe6.Exceptions;
 
+import org.example.Inf2050.Groupe6.Exceptions.Groupe6INF2050Exception;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
