@@ -1,8 +1,0 @@
-{
-  "numero_de_permis": "A1234",
-  "cycle": "2023-2025",
-  "ordre": "architectes",
-  "activites": [
-    {"description": "Conférence", "categorie": "conférence", "heures": -5, "date": "2024-01-15"}
-  ]
-}
