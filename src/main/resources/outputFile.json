@@ -1,0 +1,7 @@
+{
+    "complet": false,
+    "errors":     [
+        "Il manque 16 heures dans la catégorie cours. Le minimum autorisé est de 17h.",
+        "La catégorie voyage n'est pas valide"
+    ]
+}	
