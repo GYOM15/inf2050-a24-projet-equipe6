@@ -1,0 +1,78 @@
+"valid_architecte_cycle_2023_2025.json": {
+        "numero_de_permis": "A1234",
+        "cycle": "2023-2025",
+        "ordre": "architectes",
+        "heures_transferees_du_cycle_precedent": 2,
+        "activites": [
+            {"description": "Cours d'architecture avancée", "categorie": "cours", "heures": 20, "date": "2023-05-10"},
+            {"description": "Séminaire sur la conception durable", "categorie": "séminaire", "heures": 10, "date": "2024-03-20"},
+            {"description": "Rédaction d'articles professionnels", "categorie": "rédaction professionnelle", "heures": 8, "date": "2024-10-22"}
+        ]
+    },
+    "invalid_cycle.json": {
+        "numero_de_permis": "A1234",
+        "cycle": "2019-2021",
+        "ordre": "architectes",
+        "heures_transferees_du_cycle_precedent": 0,
+        "activites": [
+            {"description": "Conférence sur l'urbanisme", "categorie": "conférence", "heures": 10, "date": "2020-05-15"}
+        ]
+    },
+    "excess_hours_in_day.json": {
+        "numero_de_permis": "A1234",
+        "cycle": "2023-2025",
+        "ordre": "architectes",
+        "heures_transferees_du_cycle_precedent": 2,
+        "activites": [
+            {"description": "Séminaire intense", "categorie": "séminaire", "heures": 12, "date": "2024-02-01"}
+        ]
+    },
+    "invalid_permit_number.json": {
+        "numero_de_permis": "X1234",
+        "cycle": "2023-2025",
+        "ordre": "architectes",
+        "heures_transferees_du_cycle_precedent": 2,
+        "activites": [
+            {"description": "Cours sur les structures", "categorie": "cours", "heures": 20, "date": "2023-05-10"}
+        ]
+    },
+    "geologue_minimum_hours.json": {
+        "numero_de_permis": "R2345",
+        "cycle": "2021-2024",
+        "ordre": "géologues",
+        "activites": [
+            {"description": "Formation en minéralogie", "categorie": "cours", "heures": 22, "date": "2022-06-10"},
+            {"description": "Projet de recherche en géochimie", "categorie": "projet de recherche", "heures": 5, "date": "2023-04-20"},
+            {"description": "Groupe de discussion sur la tectonique", "categorie": "groupe de discussion", "heures": 1, "date": "2022-12-01"}
+        ]
+    },
+    "psychologue_over_max_hours.json": {
+        "numero_de_permis": "S3456",
+        "cycle": "2020-2025",
+        "ordre": "psychologues",
+        "activites": [
+            {"description": "Conférence sur la psychologie cognitive", "categorie": "conférence", "heures": 16, "date": "2023-05-15"}
+        ]
+    },
+    "missing_fields.json": {
+        "numero_de_permis": "A1234",
+        "cycle": "2023-2025",
+        # Missing "ordre" field and "activites" list
+    },
+    "activity_with_invalid_hours.json": {
+        "numero_de_permis": "A1234",
+        "cycle": "2023-2025",
+        "ordre": "architectes",
+        "activites": [
+            {"description": "Conférence", "categorie": "conférence", "heures": -5, "date": "2024-01-15"}
+        ]
+    },
+    "description_too_short.json": {
+        "numero_de_permis": "A1234",
+        "cycle": "2023-2025",
+        "ordre": "architectes",
+        "activites": [
+            {"description": "Courte desc", "categorie": "cours", "heures": 10, "date": "2023-09-15"}
+        ]
+    }
+}

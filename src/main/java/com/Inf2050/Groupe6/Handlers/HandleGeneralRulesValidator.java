@@ -11,10 +11,8 @@ public class HandleGeneralRulesValidator {
 
     public static boolean handleGeneralsRules(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler) throws Groupe6INF2050Exception {
         StringBuilder errorMessage = new StringBuilder("Échec de la validation pour les raisons suivantes :\n");
-        boolean isValid = validatePermitNumber(jsonFileUtility, errorHandler, errorMessage) &
-                validateDescription(jsonFileUtility, errorHandler, errorMessage) &
-                validateHours(jsonFileUtility, errorHandler, errorMessage) &
-                validateJsonFields(jsonFileUtility, errorHandler, errorMessage);
+        boolean isValid = validatePermitNumber(jsonFileUtility, errorHandler, errorMessage) & validateDescription(jsonFileUtility, errorHandler, errorMessage) &
+                validateHours(jsonFileUtility, errorHandler, errorMessage) & validateJsonFields(jsonFileUtility, errorHandler, errorMessage);
         if (!isValid) {
             jsonFileUtility.save(errorHandler);
             throw new Groupe6INF2050Exception(errorMessage.toString());

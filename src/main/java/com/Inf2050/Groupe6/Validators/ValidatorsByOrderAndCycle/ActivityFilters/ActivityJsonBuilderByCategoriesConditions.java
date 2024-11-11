@@ -25,7 +25,6 @@ public class ActivityJsonBuilderByCategoriesConditions {
     private static final JSONObject conferenceJsonObject = new JSONObject();
 
     public static JSONObject getResearchProjectJsonObject() { return researchProjectJsonObject; }
-    public static JSONObject getArchitectJsonObject() { return architectJsonObject; }
     public static JSONObject getDiscussionGroupJsonObject() { return discussionGroupJsonObject; }
     public static JSONObject getCoursJsonObject() { return coursJsonObject; }
     public static JSONObject getPresentationJsonObject() { return presentationJsonObject; }
@@ -59,29 +58,16 @@ public class ActivityJsonBuilderByCategoriesConditions {
      */
     private static void categorizeActivity(JSONObject activity, String activityCategory) {
         switch (activityCategory) {
-            case "cours":
-                coursActivities.add(activity);
+            case "cours", "conférence" -> {
                 architectCategoriesActivitiesForMinHoursCheck.add(activity);
-                break;
-            case "projet de recherche":
-                researchProjectActivities.add(activity);
-                break;
-            case "groupe de discussion":
-                discussionGroupActivities.add(activity);
-                break;
-            case "conférence":
-                conferenceActivities.add(activity);
-                architectCategoriesActivitiesForMinHoursCheck.add(activity);
-                break;
-            case "présentation":
-                presentationActivities.add(activity);
-                break;
-            case "rédaction professionnelle":
-                redactionProfessionnelleActivities.add(activity);
-                break;
-            default:
-                architectCategoriesActivitiesForMinHoursCheck.add(activity);
-                break;
+                if ("cours".equals(activityCategory)) coursActivities.add(activity);
+                else conferenceActivities.add(activity);
+            }
+            case "projet de recherche" -> researchProjectActivities.add(activity);
+            case "groupe de discussion" -> discussionGroupActivities.add(activity);
+            case "présentation" -> presentationActivities.add(activity);
+            case "rédaction professionnelle" -> redactionProfessionnelleActivities.add(activity);
+            default -> architectCategoriesActivitiesForMinHoursCheck.add(activity);
         }
     }
 

@@ -54,8 +54,7 @@ public class CalculateMaxByHoursOrderCategoryConditions {
         int totalHoursGroupeDiscussion = ActivityHoursCalculator.getTotalHours(ActivityJsonBuilderByCategoriesConditions.getDiscussionGroupJsonObject(), null);
         int totalHoursProjetRecherche = ActivityHoursCalculator.getTotalHours(ActivityJsonBuilderByCategoriesConditions.getResearchProjectJsonObject(), null);
         int totalHoursRedactionProfessionnelle = ActivityHoursCalculator.getTotalHours(ActivityJsonBuilderByCategoriesConditions.getRedactionProfessionnelleJsonObject(), null);
-        return applyMaxLimit(totalHoursPresentation, ActivityCategory.PRESENTATION.getCategoryFromJsonObj())
-                + applyMaxLimit(totalHoursGroupeDiscussion, ActivityCategory.GROUPE_DE_DISCUSSION.getCategoryFromJsonObj())
+        return applyMaxLimit(totalHoursPresentation, ActivityCategory.PRESENTATION.getCategoryFromJsonObj()) + applyMaxLimit(totalHoursGroupeDiscussion, ActivityCategory.GROUPE_DE_DISCUSSION.getCategoryFromJsonObj())
                 + applyMaxLimit(totalHoursProjetRecherche, ActivityCategory.PROJET_DE_RECHERCHE.getCategoryFromJsonObj())
                 + applyMaxLimit(totalHoursRedactionProfessionnelle, ActivityCategory.REDACTION_PROFESSIONNELLE.getCategoryFromJsonObj());
     }
