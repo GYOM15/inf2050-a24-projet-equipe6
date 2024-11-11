@@ -10,12 +10,10 @@ import java.util.List;
 
 public class JsonFieldsUtility {
 
-    // Liste des clés obligatoires pour le JSON global
     private static final List<String> requiredKeys = Arrays.asList(
             "numero_de_permis", "cycle", "ordre", "activites"
     );
 
-    // Liste des clés obligatoires pour chaque activité dans "activites"
     private static final List<String> requiredActivitiesKeys = Arrays.asList(
             "description", "categorie", "heures", "date"
     );
@@ -80,11 +78,10 @@ public class JsonFieldsUtility {
      */
     private static boolean validateCycleByOrder(JSONObject jsonObject, ErrorHandler errorHandler) {
         String orderLabel = jsonObject.getString("ordre");
-        String cycleLabel = jsonObject.getString("cycle");
         ActivityOrder order = ActivityOrder.searchFromJsonOrder(orderLabel, errorHandler);
-        Cycle cycle = Cycle.getCycleByLabel(cycleLabel);
+        Cycle cycle = Cycle.getCycleByLabel(jsonObject.getString("cycle"));
         if (cycle == null || ActivityOrder.isCycleValidByOrder(cycle, order)) {
-            ErrorHandler.addErrorIfNotNull(errorHandler,"Le cycle " + cycleLabel + " n'est pas valide pour l'ordre " + orderLabel);
+            ErrorHandler.addErrorIfNotNull(errorHandler,"Le cycle " + jsonObject.getString("cycle") + " n'est pas valide pour l'ordre " + orderLabel);
             return false;
         }
         return true;
@@ -105,8 +102,7 @@ public class JsonFieldsUtility {
                     return false;
                 }
             }
-        }
-        return true;
+        } return true;
     }
 
     /**

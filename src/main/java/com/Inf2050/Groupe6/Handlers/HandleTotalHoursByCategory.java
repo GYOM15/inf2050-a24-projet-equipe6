@@ -22,17 +22,15 @@ public class HandleTotalHoursByCategory {
     public static void handleHoursTotal(JsonFileUtility obj, int totalHours, ErrorHandler errorHandler) {
         if (getCycleFromJson(obj) == null || getOrderFromJson(obj) == null) return;
         switch (getOrderFromJson(obj)) {
-            case ARCHITECTES:
+            case ARCHITECTES -> {
                 totalHours -= CalculateMaxByHoursOrderCategoryConditions.validateArchitecteMaxHours(obj.getJsonArray(), errorHandler);
                 handleArchitectes(obj, getCycleFromJson(obj), totalHours, errorHandler);
-                break;
-            case PSYCHOLOGUES:
+            }
+            case PSYCHOLOGUES -> {
                 totalHours -= CalculateMaxByHoursOrderCategoryConditions.validatePsychologueMaxHours(obj.getJsonArray(), errorHandler);
                 PsychologueTotalHoursValidator.validateByCycle(getCycleFromJson(obj), totalHours, errorHandler);
-                break;
-            case GEOLOGUES:
-                GeologueTotalHoursValidator.validateByCycle(getCycleFromJson(obj), totalHours, errorHandler);
-                break;
+            }
+            case GEOLOGUES -> GeologueTotalHoursValidator.validateByCycle(getCycleFromJson(obj), totalHours, errorHandler);
         }
     }
 
