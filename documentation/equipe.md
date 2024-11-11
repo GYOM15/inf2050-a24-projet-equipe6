@@ -5,8 +5,8 @@ Dogny, Gnagnely Serge
 
 # Membre de l'équipe
 
-+ Abdelghani Zebroune (zebroune.abdelghani, Scrum Master)
-+ Guy Olivier Yanouba Millimouno (millimounou.guy_olivier_yanouba)
++ Abdelghani Zebroune (zebroune.abdelghani, Scrum Master, ZEBA89020109)
++ Guy Olivier Yanouba Millimouno (millimounou.guy_olivier_yanouba, MILG69360006)
 + Merouane Gherraselgoum (ec190802)
 
 ## Rôle des membres de l'équipe lors du projet
