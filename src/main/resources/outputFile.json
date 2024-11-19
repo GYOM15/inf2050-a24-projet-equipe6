@@ -1,7 +1,7 @@
 {
     "complet": false,
     "errors":     [
-        "Il manque 16 heures dans la catégorie cours. Le minimum autorisé est de 17h.",
-        "La catégorie voyage n'est pas valide"
+        "Il manque 11 heures dans la catégorie cours. Le minimum autorisé est de 17h.",
+        "Il manque 2 heures pour compléter le cycle 2023-2025"
     ]
 }	
