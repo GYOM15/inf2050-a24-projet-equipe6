@@ -1,29 +1,20 @@
 package org.example.Inf2050.Groupe6.Validators.HoursCalculators;
 
-import net.sf.json.JSONArray;
 import org.example.Inf2050.Groupe6.Enums.ActivityCategory;
 import org.example.Inf2050.Groupe6.Enums.ActivityOrder;
+import org.example.Inf2050.Groupe6.Utilities.JsonFileUtility;
 import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
 import org.example.Inf2050.Groupe6.Validators.ValidatorsByOrderAndCycle.ActivityFilters.ActivityJsonBuilderByCategoriesConditions;
 
-import java.util.Arrays;
-import java.util.HashMap;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CalculateMinHoursByOrderCategoryConditions {
 
-    private static final List<String> LIST_GEOLOGUE = Arrays.asList(
-            ActivityCategory.COURS.getCategoryFromJsonObj(),
-            ActivityCategory.PROJET_DE_RECHERCHE.getCategoryFromJsonObj(),
-            ActivityCategory.GROUPE_DE_DISCUSSION.getCategoryFromJsonObj()
-    );
-
-    private static final List<String> LIST_PSYCHOLOGUE = List.of(
-            ActivityCategory.COURS.getCategoryFromJsonObj()
-    );
-
-    private static final List<String> LIST_ARCHITECTES = Arrays.asList(
+    private static final List<String> architectCategories = List.of(
             ActivityCategory.COURS.getCategoryFromJsonObj(),
             ActivityCategory.ATELIER.getCategoryFromJsonObj(),
             ActivityCategory.SEMINAIRE.getCategoryFromJsonObj(),
@@ -32,50 +23,90 @@ public class CalculateMinHoursByOrderCategoryConditions {
             ActivityCategory.LECTURE_DIRIGEE.getCategoryFromJsonObj()
     );
 
-    public static int calculateMinHoursByCategoryConditions(ActivityOrder order, JSONArray activities, ErrorHandler errorHandler) {
-        ValidationConfigForCategoriesWithMinHours config = createValidationConfig(order);
-        if (config == null) {
-            return 0;
+    public static int validateMinimumHours(JsonFileUtility obj, ActivityOrder order, ErrorHandler errorHandler) {
+        switch (order) {
+            case GEOLOGUES, PODIATRES -> validateGeologueAndPodiatreHours(obj, errorHandler);
+            case ARCHITECTES -> validateArchitecteHours(obj, errorHandler);
+            case PSYCHOLOGUES -> validatePsychologueHours(obj, errorHandler);
         }
+        return 0;
+    }
 
+    private static void validateGeologueAndPodiatreHours(JsonFileUtility obj, ErrorHandler errorHandler) {
+        validateCategories(obj, errorHandler, List.of(
+                new CategoryRequirement(ActivityCategory.COURS.getCategoryFromJsonObj(), 22),
+                new CategoryRequirement(ActivityCategory.PROJET_DE_RECHERCHE.getCategoryFromJsonObj(), 3),
+                new CategoryRequirement(ActivityCategory.GROUPE_DE_DISCUSSION.getCategoryFromJsonObj(), 1)
+
+        ));
+    }
+
+    private static void validateArchitecteHours(JsonFileUtility obj, ErrorHandler errorHandler) {
+        int totalHours = validateCategories(obj, errorHandler, architectCategories.stream()
+                .map(category -> new CategoryRequirement(category, 17))
+                .collect(Collectors.toList()));
+        handleArchitecteErrors(totalHours, errorHandler);
+    }
+
+    private static void validatePsychologueHours(JsonFileUtility obj, ErrorHandler errorHandler) {
+        validateCategories(obj, errorHandler, List.of(
+                new CategoryRequirement(ActivityCategory.COURS.getCategoryFromJsonObj(), 25)
+        ));
+    }
+
+    private static void handleArchitecteErrors(int totalHours, ErrorHandler errorHandler) {
+        if (totalHours < 17) {
+            String categories = String.join(", ", architectCategories);
+            ErrorHandler.addErrorIfNotNull(errorHandler, "Il manque " + (17 - totalHours) +
+                    " heures dans les catégories : " + categories + ". Le minimum autorisé est de 17h.");
+        }
+    }
+
+    private static int validateCategories(JsonFileUtility obj, ErrorHandler errorHandler, List<CategoryRequirement> requirements) {
         ActivityJsonBuilderByCategoriesConditions builder = new ActivityJsonBuilderByCategoriesConditions();
-        builder.filterByCategorieCondition(activities, config.categoryList());
+        List<String> categories = extractCategories(requirements);
 
-        return validateHoursForOrder(builder, errorHandler, config);
+        builder.filterByCategorieCondition(obj.getJsonArray(), categories);
+        return calculateTotalHours(obj, errorHandler, requirements, builder);
     }
 
-    private static ValidationConfigForCategoriesWithMinHours createValidationConfig(ActivityOrder order) {
-        return switch (order) {
-            case GEOLOGUES -> new ValidationConfigForCategoriesWithMinHours(Map.of("cours", 22, "projets de recherche", 3, "groupe de discussion", 1), LIST_GEOLOGUE);
-            case PSYCHOLOGUES -> new ValidationConfigForCategoriesWithMinHours(Map.of("cours", 25), LIST_PSYCHOLOGUE);
-            case ARCHITECTES -> new ValidationConfigForCategoriesWithMinHours(Map.of("cours", 17), LIST_ARCHITECTES);
-            default -> null;
-        };
+    private static List<String> extractCategories(List<CategoryRequirement> requirements) {
+        return requirements.stream()
+                .map(CategoryRequirement::category)
+                .collect(Collectors.toList());
     }
 
-    private static int validateHoursForOrder(ActivityJsonBuilderByCategoriesConditions builder, ErrorHandler errorHandler, ValidationConfigForCategoriesWithMinHours config) {
-        Map<String, Integer> actualHoursByCategory = createActualHoursByCategory(builder);
-        ValidationContextForMinHours context = new ValidationContextForMinHours(config.minHoursByCategory(), actualHoursByCategory);
-        checkAndReportMissingHours(errorHandler, context);
-        return actualHoursByCategory.values().stream().mapToInt(Integer::intValue).sum();
+    private static int calculateTotalHours(JsonFileUtility obj, ErrorHandler errorHandler, List<CategoryRequirement> requirements, ActivityJsonBuilderByCategoriesConditions builder) {
+        int totalHours = 0;
+        for (CategoryRequirement requirement : requirements) {
+            JSONArray activities = builder.getActivitiesByCategory(requirement.category());
+            JSONObject categoryJsonObject = convertToJsonObject(activities);
+            totalHours += processCategory(obj, errorHandler, requirement, categoryJsonObject);
+        }
+        return totalHours;
     }
 
-    private static Map<String, Integer> createActualHoursByCategory(ActivityJsonBuilderByCategoriesConditions builder) {
-        Map<String, Integer> actualHoursByCategory = new HashMap<>();
-        actualHoursByCategory.put("cours", ActivityHoursCalculator.getTotalHours(builder.getCoursJsonObject(), null));
-        actualHoursByCategory.put("projets de recherche", ActivityHoursCalculator.getTotalHours(builder.getResearchProjectJsonObject(), null));
-        actualHoursByCategory.put("groupe de discussion", ActivityHoursCalculator.getTotalHours(builder.getDiscussionGroupJsonObject(), null));
-        return actualHoursByCategory;
+    private static int processCategory(JsonFileUtility obj, ErrorHandler errorHandler, CategoryRequirement requirement, JSONObject categoryJsonObject) {
+        int actualHours = ActivityHoursCalculator.getTotalHours(categoryJsonObject, errorHandler);
+        logMissingHours(obj, errorHandler, requirement, actualHours);
+        return actualHours;
     }
 
-    private static void checkAndReportMissingHours(ErrorHandler errorHandler, ValidationContextForMinHours context) {
-        for (Map.Entry<String, Integer> entry : context.minHoursByCategory().entrySet()) {
-            String categoryName = entry.getKey();
-            int minHours = entry.getValue();
-            int actualHours = context.actualHoursByCategory().getOrDefault(categoryName, 0);
-            if (actualHours < minHours) {
-                ErrorHandler.addErrorIfNotNull(errorHandler, "Il manque " + (minHours - actualHours) + " heures dans la catégorie " + categoryName + ". Le minimum autorisé est de " + minHours + "h.");
+    private static void logMissingHours(JsonFileUtility obj, ErrorHandler errorHandler, CategoryRequirement requirement, int actualHours) {
+        if (ActivityOrder.searchFromJsonOrder(obj.getJsonObject().getString("ordre")) != ActivityOrder.ARCHITECTES){
+            if (actualHours < requirement.minimumHours()) {
+                ErrorHandler.addErrorIfNotNull(errorHandler, "Il manque " + (requirement.minimumHours() - actualHours) +
+                        " heures dans la catégorie '" + requirement.category() + "'. Le minimum autorisé est de " + requirement.minimumHours() + "h.");
             }
         }
+    }
+
+    private static JSONObject convertToJsonObject(JSONArray activities) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("activites", activities);
+        return jsonObject;
+    }
+
+    private record CategoryRequirement(String category, int minimumHours) {
     }
 }

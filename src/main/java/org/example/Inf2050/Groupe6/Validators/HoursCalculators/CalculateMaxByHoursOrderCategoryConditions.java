@@ -1,6 +1,7 @@
 package org.example.Inf2050.Groupe6.Validators.HoursCalculators;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.example.Inf2050.Groupe6.Enums.ActivityCategory;
 import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
 import org.example.Inf2050.Groupe6.Validators.ValidatorsByOrderAndCycle.ActivityFilters.ActivityJsonBuilderByCategoriesConditions;
@@ -10,7 +11,6 @@ import java.util.Map;
 
 public class CalculateMaxByHoursOrderCategoryConditions {
 
-    // Liste des catégories et leurs limites maximales spécifiques
     private static final Map<String, Integer> MAX_HOURS_LIMITS = Map.of(
             ActivityCategory.PRESENTATION.getCategoryFromJsonObj(), 23,
             ActivityCategory.GROUPE_DE_DISCUSSION.getCategoryFromJsonObj(), 17,
@@ -30,46 +30,34 @@ public class CalculateMaxByHoursOrderCategoryConditions {
             ActivityCategory.REDACTION_PROFESSIONNELLE.getCategoryFromJsonObj()
     );
 
-    /**
-     * Valide les heures maximales pour les psychologues en fonction de la catégorie de conférence.
-     *
-     * @param activities Liste des activités en JSON
-     * @param errorHandler Gestionnaire d'erreurs pour enregistrer les erreurs de validation
-     * @return La différence entre les heures totales et la limite maximale pour les conférences des psychologues.
-     */
     public static int validatePsychologueMaxHours(JSONArray activities, ErrorHandler errorHandler) {
-        ActivityJsonBuilderByCategoriesConditions builder = new ActivityJsonBuilderByCategoriesConditions();
-        builder.filterByCategorieCondition(activities, LIST_PSYCHOLOGUE);
-
-        int totalHoursConference = ActivityHoursCalculator.getTotalHours(builder.getConferenceJsonObject(), errorHandler);
-        return applyMaxLimit(totalHoursConference, ActivityCategory.CONFERENCE.getCategoryFromJsonObj());
+        return validateMaxHours(activities, LIST_PSYCHOLOGUE, errorHandler);
     }
 
-    /**
-     * Valide les heures maximales pour les architectes en fonction des catégories spécifiques.
-     *
-     * @param activities Liste des activités en JSON
-     * @param errorHandler Gestionnaire d'erreurs pour enregistrer les erreurs de validation
-     * @return La somme des différences pour chaque catégorie dépassant sa limite maximale.
-     */
     public static int validateArchitecteMaxHours(JSONArray activities, ErrorHandler errorHandler) {
-        ActivityJsonBuilderByCategoriesConditions builder = new ActivityJsonBuilderByCategoriesConditions();
-        builder.filterByCategorieCondition(activities, LIST_ARCHITECTES);
-        int totalHoursPresentation = ActivityHoursCalculator.getTotalHours(builder.getPresentationJsonObject(), errorHandler);
-        int totalHoursGroupeDiscussion = ActivityHoursCalculator.getTotalHours(builder.getDiscussionGroupJsonObject(), errorHandler);
-        int totalHoursProjetRecherche = ActivityHoursCalculator.getTotalHours(builder.getResearchProjectJsonObject(), errorHandler);
-        int totalHoursRedactionProfessionnelle = ActivityHoursCalculator.getTotalHours(builder.getRedactionProfessionnelleJsonObject(), errorHandler);
-        return applyMaxLimit(totalHoursPresentation, ActivityCategory.PRESENTATION.getCategoryFromJsonObj()) + applyMaxLimit(totalHoursGroupeDiscussion, ActivityCategory.GROUPE_DE_DISCUSSION.getCategoryFromJsonObj())
-                + applyMaxLimit(totalHoursProjetRecherche, ActivityCategory.PROJET_DE_RECHERCHE.getCategoryFromJsonObj()) + applyMaxLimit(totalHoursRedactionProfessionnelle, ActivityCategory.REDACTION_PROFESSIONNELLE.getCategoryFromJsonObj());
+        return validateMaxHours(activities, LIST_ARCHITECTES, errorHandler);
     }
 
-    /**
-     * Calcule la différence entre les heures actuelles et la limite maximale pour une catégorie donnée.
-     *
-     * @param hours    Nombre d'heures actuel pour la catégorie
-     * @param category La catégorie d'activité
-     * @return La différence entre les heures et la limite maximale si elle est dépassée, sinon 0.
-     */
+    private static int validateMaxHours(JSONArray activities, List<String> categories, ErrorHandler errorHandler) {
+        ActivityJsonBuilderByCategoriesConditions builder = new ActivityJsonBuilderByCategoriesConditions();
+        builder.filterByCategorieCondition(activities, categories);
+
+        return categories.stream()
+                .mapToInt(category -> {
+                    JSONObject categoryJsonObject = buildCategoryJsonObject(builder, category);
+                    int totalHours = ActivityHoursCalculator.getTotalHours(categoryJsonObject, errorHandler);
+                    return applyMaxLimit(totalHours, category);
+                })
+                .sum();
+    }
+
+    private static JSONObject buildCategoryJsonObject(ActivityJsonBuilderByCategoriesConditions builder, String category) {
+        JSONArray categoryActivities = builder.getActivitiesByCategory(category);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("activites", categoryActivities);
+        return jsonObject;
+    }
+
     private static int applyMaxLimit(int hours, String category) {
         Integer maxHours = MAX_HOURS_LIMITS.get(category);
         return (maxHours != null && hours > maxHours) ? hours - maxHours : 0;

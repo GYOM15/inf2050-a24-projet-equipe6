@@ -1,6 +1,5 @@
 package org.example.Inf2050.Groupe6.Handlers;
 
-import net.sf.json.JSONArray;
 import org.example.Inf2050.Groupe6.Enums.ActivityOrder;
 import org.example.Inf2050.Groupe6.Enums.Cycle;
 import org.example.Inf2050.Groupe6.Exceptions.Groupe6INF2050Exception;
@@ -23,9 +22,9 @@ public class JsonHandler {
     public static void handleJson(JsonFileUtility obj) throws Groupe6INF2050Exception {
         ErrorHandler errorHandler = new ErrorHandler();
         obj.loadAndValid();
+        validateJsonContent(obj, errorHandler);
         validateGeneralRules(obj, errorHandler);
-        ActivityJsonBuilderByCategoriesConditions activityBuilder = filterActivities(obj);
-        validateJsonContent(obj, errorHandler, activityBuilder);
+//        ActivityJsonBuilderByCategoriesConditions activityBuilder = filterActivities(obj);
         calculateAndSaveTotalHours(obj, errorHandler);
     }
 
@@ -54,25 +53,26 @@ public class JsonHandler {
     private static void calculateAndSaveTotalHours(JsonFileUtility obj, ErrorHandler errorHandler) throws Groupe6INF2050Exception {
         int totalHours = ActivityHoursCalculator.getTotalHours(obj.getJsonObject(), errorHandler);
         HandleTotalHoursByCategory.handleHoursTotal(obj, totalHours, errorHandler);
+        ActivityOrder order = ActivityOrder.searchFromJsonOrder(obj.getJsonObject().getString("ordre"));
+        CalculateMinHoursByOrderCategoryConditions.validateMinimumHours(obj,order,errorHandler);
         obj.save(errorHandler);
     }
 
     /**
-     * Valide le contenu JSON en vérifiant l'ordre, le cycle et le calcul des heures minimales.
+     * Valide le contenu JSON en vérifiant l'ordre, le cycle
      */
-    private static void validateJsonContent(JsonFileUtility obj, ErrorHandler errorHandler, ActivityJsonBuilderByCategoriesConditions activityBuilder) throws Groupe6INF2050Exception {
+    private static void validateJsonContent(JsonFileUtility obj, ErrorHandler errorHandler) throws Groupe6INF2050Exception {
         ActivityOrder order = extractAndValidateOrder(obj, errorHandler);
-        Cycle cycle = extractAndValidateCycle(obj, errorHandler, order);
-        CalculateMinHoursByOrderCategoryConditions.calculateMinHoursByCategoryConditions(order, activityBuilder.getFilteredActivities(), errorHandler);
+        extractAndValidateCycle(obj, errorHandler, order);
     }
 
     /**
      * Extrait et valide l'ordre des activités du fichier JSON.
      */
     private static ActivityOrder extractAndValidateOrder(JsonFileUtility obj, ErrorHandler errorHandler) throws Groupe6INF2050Exception {
-        ActivityOrder order = ActivityOrder.searchFromJsonOrder(obj.getJsonObject().getString("ordre"), errorHandler);
+        ActivityOrder order = ActivityOrder.searchFromJsonOrder(obj.getJsonObject().getString("ordre"));
         if (order == ActivityOrder.ORDER_NON_VALIDE) {
-            handleValidationError(errorHandler, obj, "Ordre non valide");
+            handleValidationError(errorHandler, obj, "L'ordre "+obj.getJsonObject().getString("ordre") + " n'est pas valide");
         }
         return order;
     }
@@ -80,12 +80,11 @@ public class JsonHandler {
     /**
      * Extrait et valide le cycle associé à l'ordre.
      */
-    private static Cycle extractAndValidateCycle(JsonFileUtility obj, ErrorHandler errorHandler, ActivityOrder order) throws Groupe6INF2050Exception {
+    private static void extractAndValidateCycle(JsonFileUtility obj, ErrorHandler errorHandler, ActivityOrder order) throws Groupe6INF2050Exception {
         Cycle cycle = Cycle.getCycleByLabel(obj.getJsonObject().getString("cycle"));
         if (ActivityOrder.isCycleValidByOrder(cycle, order)) {
             handleValidationError(errorHandler, obj, "Cycle invalide pour l'ordre sélectionné");
         }
-        return cycle;
     }
 
     /**
