@@ -8,72 +8,71 @@ import org.example.Inf2050.Groupe6.Validators.HoursCalculators.CalculateMaxByHou
 import org.example.Inf2050.Groupe6.Validators.HoursCalculators.CalculateMinHoursByOrderCategoryConditions;
 import org.example.Inf2050.Groupe6.Validators.HoursCalculators.OrdersHoursTotalCalculators.ArchitectesTotalHoursValidator;
 import org.example.Inf2050.Groupe6.Validators.HoursCalculators.OrdersHoursTotalCalculators.GeologueTotalHoursValidator;
+import org.example.Inf2050.Groupe6.Validators.HoursCalculators.OrdersHoursTotalCalculators.PodiatresTotalHoursValidator;
 import org.example.Inf2050.Groupe6.Validators.HoursCalculators.OrdersHoursTotalCalculators.PsychologueTotalHoursValidator;
 
 public class HandleTotalHoursByCategory {
-    /**
-     * Méthode principale pour gérer la validation des heures totales en fonction de l'ordre
-     * et du cycle
-     * @param obj L'objet JsonFileUtility contenant les données JSON
-     * @param totalHours Le nombre total d'heures à valider
-     * @param errorHandler L'instance ErrorHandler pour gérer les erreurs éventuelles
-     */
+
     public static void handleHoursTotal(JsonFileUtility obj, int totalHours, ErrorHandler errorHandler) {
-        if (getCycleFromJson(obj) == null || getOrderFromJson(obj) == null) return;
-        switch (getOrderFromJson(obj)) {
-            case ARCHITECTES -> {
-                totalHours -= CalculateMaxByHoursOrderCategoryConditions.validateArchitecteMaxHours(obj.getJsonArray(), errorHandler);
-                handleArchitectes(obj, getCycleFromJson(obj), totalHours, errorHandler);
-            }
-            case PSYCHOLOGUES -> {
-                totalHours -= CalculateMaxByHoursOrderCategoryConditions.validatePsychologueMaxHours(obj.getJsonArray(), errorHandler);
-                PsychologueTotalHoursValidator.validateByCycle(getCycleFromJson(obj), totalHours, errorHandler);
-            }
-            case GEOLOGUES -> GeologueTotalHoursValidator.validateByCycle(getCycleFromJson(obj), totalHours, errorHandler);
+        Cycle cycle = getCycleFromJson(obj);
+        if (ActivityOrder.getOrdre() == null || cycle == null) return;
+        switch (ActivityOrder.getOrdre()) {
+            case ARCHITECTES -> processArchitecte(obj, cycle, totalHours, errorHandler);
+            case PSYCHOLOGUES -> processPsychologue(obj, cycle, totalHours, errorHandler);
+            case GEOLOGUES -> processGeologue(cycle, totalHours, errorHandler);
+            case PODIATRES -> processPodiatre(cycle, totalHours, errorHandler);
         }
     }
 
-    /**
-     * @param obj L'objet JsonFileUtility contenant les données JSON
-     * @return L'ordre d'activité extrait du JSON
-     */
-    private static ActivityOrder getOrderFromJson(JsonFileUtility obj) {
-        return ActivityOrder.searchFromJsonOrder(obj.getJsonObject().getString("ordre"), null);
+    private static void processArchitecte(JsonFileUtility obj, Cycle cycle, int totalHours, ErrorHandler errorHandler) {
+        totalHours = adjustArchitecteHours(obj, totalHours, errorHandler);
+        validateArchitecteHours(cycle, totalHours, errorHandler);
     }
 
-    /**
-     * @param obj L'objet JsonFileUtility contenant les données JSON
-     * @return Le cycle d'activité extrait du JSON
-     */
-    private static Cycle getCycleFromJson(JsonFileUtility obj) {
-        return Cycle.getCycleByLabel(obj.getJsonObject().getString("cycle"));
-    }
-
-    /**
-     * Gère la validation spécifique pour les architectes, en ajoutant les heures transférées
-     * si le total minimum requis n'est pas atteint.
-     *
-     * @param obj L'objet JsonFileUtility contenant les données JSON
-     * @param cycle Le cycle à valider
-     * @param totalHours Le nombre total d'heures à valider
-     * @param errorHandler L'instance ErrorHandler pour gérer les erreurs éventuelles
-     */
-    private static void handleArchitectes(JsonFileUtility obj, Cycle cycle, int totalHours, ErrorHandler errorHandler) {
-        if (shouldAddTransferredHours(obj)) {
+    private static int adjustArchitecteHours(JsonFileUtility obj, int totalHours, ErrorHandler errorHandler) {
+        totalHours -= CalculateMaxByHoursOrderCategoryConditions.validateArchitecteMaxHours(obj.getJsonArray(), errorHandler);
+        int architectMinHours = CalculateMinHoursByOrderCategoryConditions.validateMinimumHours(
+                obj, ActivityOrder.ARCHITECTES, null);
+        if (architectMinHours < 17) {
             totalHours += TransferredHoursValidator.validateTransferredHours(obj.getJsonObject(), errorHandler);
         }
+        return totalHours;
+    }
+
+    private static void validateArchitecteHours(Cycle cycle, int totalHours, ErrorHandler errorHandler) {
         ArchitectesTotalHoursValidator.validateByCycle(cycle, totalHours, errorHandler);
     }
 
-    /**
-     * @param obj L'objet JsonFileUtility contenant les données JSON
-     * @return true si les heures doivent être ajoutées, false sinon
-     */
-    private static boolean shouldAddTransferredHours(JsonFileUtility obj) {
-        return CalculateMinHoursByOrderCategoryConditions.calculateMinHoursByCategoryConditions(
-                ActivityOrder.ARCHITECTES,
-                obj.getJsonArray(),
-                null
-        ) < 17;
+    private static void processPsychologue(JsonFileUtility obj, Cycle cycle, int totalHours, ErrorHandler errorHandler) {
+        totalHours = adjustPsychologueHours(obj, totalHours, errorHandler);
+        validatePsychologueHours(cycle, totalHours, errorHandler);
+    }
+
+    private static int adjustPsychologueHours(JsonFileUtility obj, int totalHours, ErrorHandler errorHandler) {
+        return totalHours - CalculateMaxByHoursOrderCategoryConditions.validatePsychologueMaxHours(obj.getJsonArray(), errorHandler);
+    }
+
+    private static void validatePsychologueHours(Cycle cycle, int totalHours, ErrorHandler errorHandler) {
+        PsychologueTotalHoursValidator.validateByCycle(cycle, totalHours, errorHandler);
+    }
+
+    private static void processGeologue(Cycle cycle, int totalHours, ErrorHandler errorHandler) {
+        validateGeologue(cycle, totalHours, errorHandler);
+    }
+
+    private static void validateGeologue(Cycle cycle, int totalHours, ErrorHandler errorHandler) {
+        GeologueTotalHoursValidator.validateByCycle(cycle, totalHours, errorHandler);
+    }
+
+    private static void validatePodiatre(Cycle cycle, int totalHours, ErrorHandler errorHandler) {
+        PodiatresTotalHoursValidator.validateByCycle(cycle, totalHours, errorHandler);
+    }
+
+    private static void processPodiatre(Cycle cycle, int totalHours, ErrorHandler errorHandler) {
+        validatePodiatre(cycle, totalHours, errorHandler);
+    }
+
+    private static Cycle getCycleFromJson(JsonFileUtility obj) {
+        return Cycle.getCycleByLabel(obj.getJsonObject().getString("cycle"));
     }
 }

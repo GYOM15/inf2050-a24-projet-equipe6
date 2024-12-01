@@ -5,11 +5,9 @@ import org.example.Inf2050.Groupe6.Exceptions.Groupe6INF2050Exception;
 import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
 import org.example.Inf2050.Groupe6.Utilities.JsonFileUtility;
 import org.example.Inf2050.Groupe6.Validators.GeneralsRulesValidators.DescriptionValidator;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
+
 
 class DescriptionValidatorTest {
     private static final String INPUT_FILE_DESCRIPTIONTOOSHORT = "tests/main/Vendor/DescriptionValidatorTest/inputTestIsDescriptionOver20Characters_DescriptionTooShort.json";

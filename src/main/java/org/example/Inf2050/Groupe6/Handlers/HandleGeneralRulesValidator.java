@@ -4,6 +4,7 @@ package org.example.Inf2050.Groupe6.Handlers;
 import org.example.Inf2050.Groupe6.Exceptions.Groupe6INF2050Exception;
 import org.example.Inf2050.Groupe6.Utilities.JsonFieldsUtility;
 import org.example.Inf2050.Groupe6.Utilities.JsonFileUtility;
+import org.example.Inf2050.Groupe6.Utilities.Person;
 import org.example.Inf2050.Groupe6.Validators.GeneralsRulesValidators.DescriptionValidator;
 import org.example.Inf2050.Groupe6.Validators.GeneralsRulesValidators.HoursValidator;
 import org.example.Inf2050.Groupe6.Validators.GeneralsRulesValidators.PermitNumberValidator;
@@ -12,13 +13,22 @@ public class HandleGeneralRulesValidator {
 
     public static boolean handleGeneralsRules(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler) throws Groupe6INF2050Exception {
         StringBuilder errorMessage = new StringBuilder("Échec de la validation pour les raisons suivantes :\n");
-        boolean isValid = validatePermitNumber(jsonFileUtility, errorHandler, errorMessage) & validateDescription(jsonFileUtility, errorHandler, errorMessage) &
-                validateHours(jsonFileUtility, errorHandler, errorMessage) & validateJsonFields(jsonFileUtility, errorHandler, errorMessage);
+        Person person = createPersonFromJson(jsonFileUtility);
+        boolean isValid = validatePermitNumber(jsonFileUtility, errorHandler, errorMessage) &
+                validateDescription(jsonFileUtility, errorHandler, errorMessage) &
+                validateHours(jsonFileUtility, errorHandler, errorMessage) &
+                validateJsonFields(jsonFileUtility, errorHandler, errorMessage) &
+                person.validate(errorHandler, errorMessage); // Validation complète de la personne
+
         if (!isValid) {
             jsonFileUtility.save(errorHandler);
             throw new Groupe6INF2050Exception(errorMessage.toString());
         }
         return true;
+    }
+
+    private static Person createPersonFromJson(JsonFileUtility jsonFileUtility) {
+        return Person.fromJson(jsonFileUtility.getJsonObject());
     }
 
     private static boolean validatePermitNumber(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler, StringBuilder errorMessage) {

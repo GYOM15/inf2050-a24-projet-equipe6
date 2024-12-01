@@ -78,7 +78,7 @@ public class JsonFieldsUtility {
      */
     private static boolean validateCycleByOrder(JSONObject jsonObject, ErrorHandler errorHandler) {
         String orderLabel = jsonObject.getString("ordre");
-        ActivityOrder order = ActivityOrder.searchFromJsonOrder(orderLabel, errorHandler);
+        ActivityOrder order = ActivityOrder.searchFromJsonOrder(orderLabel);
         Cycle cycle = Cycle.getCycleByLabel(jsonObject.getString("cycle"));
         if (cycle == null || ActivityOrder.isCycleValidByOrder(cycle, order)) {
             ErrorHandler.addErrorIfNotNull(errorHandler,"Le cycle " + jsonObject.getString("cycle") + " n'est pas valide pour l'ordre " + orderLabel);

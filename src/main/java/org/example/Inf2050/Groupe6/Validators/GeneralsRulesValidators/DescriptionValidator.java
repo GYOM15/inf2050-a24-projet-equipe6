@@ -18,10 +18,8 @@ public class DescriptionValidator {
     public static boolean isDescriptionOver20Characters(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler) {
         for (int i = 0; i < jsonFileUtility.getJsonArray().size(); i++) {
             String description = jsonFileUtility.getJsonArray().getJSONObject(i).getString("description");
-
             if (description.length() < 20) {
-                ErrorHandler.addErrorIfNotNull(errorHandler,
-                        "La description [ " + description + " ] doit contenir au moins 20 caractères. Le traitement du fichier ne peut pas être complété.");
+                ErrorHandler.addErrorIfNotNull(errorHandler, "La description [ " + description + " ] doit contenir au moins 20 caractères. Le traitement du fichier ne peut pas être complété.");
                 return false;
             }
         }
