@@ -1,10 +1,10 @@
 package Groupe6.Validators.GeneralsRulesValidators;
 
 
-import org.example.Inf2050.Groupe6.Exceptions.Groupe6INF2050Exception;
-import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
-import org.example.Inf2050.Groupe6.Utilities.JsonFileUtility;
-import org.example.Inf2050.Groupe6.Validators.GeneralsRulesValidators.DescriptionValidator;
+import GROUPE6_INF2050.Exceptions.Groupe6INF2050Exception;
+import GROUPE6_INF2050.Handlers.ErrorHandler;
+import GROUPE6_INF2050.Utilities.JsonFileUtility;
+import GROUPE6_INF2050.Validators.GeneralsRulesValidators.DescriptionValidator;
 
 
 

@@ -1,9 +1,9 @@
 package Groupe6.Handlers;
 
-import org.example.Inf2050.Groupe6.Exceptions.Groupe6INF2050Exception;
-import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
-import org.example.Inf2050.Groupe6.Handlers.HandleGeneralRulesValidator;
-import org.example.Inf2050.Groupe6.Utilities.JsonFileUtility;
+import GROUPE6_INF2050.Exceptions.Groupe6INF2050Exception;
+import GROUPE6_INF2050.Handlers.ErrorHandler;
+import GROUPE6_INF2050.Handlers.HandleGeneralRulesValidator;
+import GROUPE6_INF2050.Utilities.JsonFileUtility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

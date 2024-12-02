@@ -1,6 +1,6 @@
 package Groupe6.Handlers;
 
-import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
+import GROUPE6_INF2050.Handlers.ErrorHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

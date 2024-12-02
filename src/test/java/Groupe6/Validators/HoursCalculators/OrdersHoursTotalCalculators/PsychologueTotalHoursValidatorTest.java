@@ -1,9 +1,9 @@
 package Groupe6.Validators.HoursCalculators.OrdersHoursTotalCalculators;
 
 
-import org.example.Inf2050.Groupe6.Enums.Cycle;
-import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
-import org.example.Inf2050.Groupe6.Validators.HoursCalculators.OrdersHoursTotalCalculators.PsychologueTotalHoursValidator;
+import GROUPE6_INF2050.Enums.Cycle;
+import GROUPE6_INF2050.Handlers.ErrorHandler;
+import GROUPE6_INF2050.Validators.HoursCalculators.OrdersHoursTotalCalculators.PsychologueTotalHoursValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
