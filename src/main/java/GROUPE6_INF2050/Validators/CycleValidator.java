@@ -8,11 +8,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static GROUPE6_INF2050.Validators.GeneralsRulesValidators.DateValidator.validate;
+import static GROUPE6_INF2050.Validators.GeneralValidators.DateValidator.validate;
 
 public class CycleValidator {
+    private static Cycle currentCycle;
 
-    private static Cycle cycle;
+    public static void setCurrentCycle(Cycle currentCycle) {
+        CycleValidator.currentCycle = currentCycle;
+    }
 
     private static final List<Cycle> architectes_cycles = new ArrayList<>();
 
@@ -22,7 +25,7 @@ public class CycleValidator {
      * @param cycle Cycle spécifique pour l'initialisation
      */
     public CycleValidator(Cycle cycle) {
-        CycleValidator.cycle = cycle;
+        setCurrentCycle(cycle);
     }
 
     /**
@@ -41,7 +44,7 @@ public class CycleValidator {
      */
     public static void setCycle(Cycle cycle) {
         if (architectes_cycles.contains(cycle)) {
-            CycleValidator.cycle = cycle;
+            setCurrentCycle(cycle);
         }
     }
 
@@ -57,23 +60,25 @@ public class CycleValidator {
             return true;
         }
         LocalDate date = LocalDate.parse(dateValue);
-        if (date.isBefore(cycle.getStartDate()) || date.isAfter(cycle.getEndDate())) {
-            ErrorHandler.addErrorIfNotNull(errorHandler, "La date " + dateValue + " doit être dans le cycle " + cycle.getLabel() + ".");
+        if (date.isBefore(currentCycle.getStartDate()) || date.isAfter(currentCycle.getEndDate())) {
+            ErrorHandler.addErrorIfNotNull(errorHandler, "La date " + dateValue + " doit être dans le cycle " + currentCycle.getLabel() + ".");
             return true;
         }
         return false;
     }
+
+
 
     /**
      * Retourne la liste des cycles d'architectes.
      *
      * @return Liste des cycles valides pour les architectes
      */
-    public static List<Cycle> getCycle() {
+    public static List<Cycle> getArchitectesCycle() {
         return architectes_cycles;
     }
 
-    public Cycle getOneCycle(){
-        return this.cycle;
+    public static Cycle getCycle(){
+        return currentCycle;
     }
 }

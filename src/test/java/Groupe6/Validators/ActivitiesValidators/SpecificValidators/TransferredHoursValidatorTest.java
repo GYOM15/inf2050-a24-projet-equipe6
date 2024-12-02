@@ -3,7 +3,7 @@ package Groupe6.Validators.ActivitiesValidators.SpecificValidators;
 
 import net.sf.json.JSONObject;
 import GROUPE6_INF2050.Handlers.ErrorHandler;
-import GROUPE6_INF2050.Validators.GeneralsRulesValidators.TransferredHoursValidator;
+import GROUPE6_INF2050.Validators.GeneralValidators.TransferredHoursValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

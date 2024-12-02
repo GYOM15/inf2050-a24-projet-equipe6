@@ -1,7 +1,11 @@
 {
     "complet": false,
     "errors":     [
-        "Erreur pour le numéro de permis 'GO3822' : Le numéro de permis pour l'ordre des architectes doit être non-null, sans espaces, commencer par A ou T, et être suivi de 4 chiffres.",
-        "La clé 'heures_transferees_du_cycle_precedent' est manquante pour l'ordre architectes."
+        "La date 2024-10-22 doit être dans le cycle 2021-2024.",
+        "La date 2024-10-22 est invalide. Les heures ne seront pas ajoutées.",
+        "La catégorie voyage n'est pas valide",
+        "Il manque 26 heures pour compléter le cycle 2021-2024",
+        "Il manque 21 heures dans la catégorie 'cours'. Le minimum autorisé est de 22h.",
+        "Il manque 3 heures dans la catégorie 'projet de recherche'. Le minimum autorisé est de 3h."
     ]
 }	

@@ -4,8 +4,9 @@ import GROUPE6_INF2050.Enums.ActivityCategory;
 import GROUPE6_INF2050.Enums.ActivityOrder;
 import GROUPE6_INF2050.Utilities.JsonFileUtility;
 import GROUPE6_INF2050.Handlers.ErrorHandler;
-import GROUPE6_INF2050.Validators.ValidatorsByOrderAndCycle.ActivityFilters.ActivityJsonBuilderByCategoriesConditions;
+import GROUPE6_INF2050.Validators.Generics.ActivityFilter.ActivityJsonBuilderByCategoriesConditions;
 
+import GROUPE6_INF2050.Validators.Generics.Calculator.ActivityHoursCalculator;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 

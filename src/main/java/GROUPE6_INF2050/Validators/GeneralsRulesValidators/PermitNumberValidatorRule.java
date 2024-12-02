@@ -1,6 +1,8 @@
 package GROUPE6_INF2050.Validators.GeneralsRulesValidators;
 
 
+import GROUPE6_INF2050.Utilities.JsonFileUtility;
+import GROUPE6_INF2050.Validators.GeneralsRulesValidators.Interfaces.ValidationRule;
 import net.sf.json.JSONObject;
 import GROUPE6_INF2050.Handlers.ErrorHandler;
 
@@ -8,7 +10,7 @@ import GROUPE6_INF2050.Handlers.ErrorHandler;
  * Cette classe permet de valider le numéro de permis.
  * Références pour la manipulation des strings : https://www.w3schools.com/java/java_ref_string.asp
  */
-public class PermitNumberValidator {
+public class PermitNumberValidatorRule implements ValidationRule {
 
     public static boolean isPermitNumberValid(JSONObject jsonObject, ErrorHandler errorHandler){
         String ordre = jsonObject.getString("ordre");
@@ -66,4 +68,12 @@ public class PermitNumberValidator {
         return true;
     }
 
+    @Override
+    public boolean validate(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler, StringBuilder errorMessage) {
+        if (!isPermitNumberValid(jsonFileUtility.getJsonObject(), errorHandler)) {
+            errorMessage.append("- Le numéro de permis n'est pas valide.\n");
+            return false;
+        }
+        return true;
+    }
 }

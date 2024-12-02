@@ -1,8 +1,8 @@
 package GROUPE6_INF2050;
 
-
 import GROUPE6_INF2050.Exceptions.Groupe6INF2050Exception;
 import GROUPE6_INF2050.Handlers.JsonHandler;
+import GROUPE6_INF2050.Handlers.HandleGeneralRulesValidator;
 import GROUPE6_INF2050.Utilities.FileTypeDetermine;
 import GROUPE6_INF2050.Utilities.JsonFileUtility;
 
@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class Main {
     /**
-     * Point d'entrée principal de l'application; vérifie d'abord la validité des arguments puis procède au traitement du fichier
+     * Point d'entrée principal de l'application; vérifie d'abord la validité des arguments puis procède au traitement du fichier.
      *
      * @param args Tableau contenant les chemins du fichier d'entrée et de sortie.
      * @throws Groupe6INF2050Exception Si une erreur survient pendant le traitement du fichier.
@@ -38,9 +38,8 @@ public class Main {
         return true;
     }
 
-
     /**
-     * Gère le traitement des fichiers en fonction du type MIME spécifié. ci-dessous un exemple illustré avec un fichier pdf
+     * Gère le traitement des fichiers en fonction du type MIME spécifié.
      * Elle peut prendre en charge différents types de fichiers et leur appliquer un traitement spécifique.
      *
      * @param args      Tableau contenant les chemins du fichier d'entrée et de sortie.
@@ -52,7 +51,9 @@ public class Main {
             case "application/pdf" -> System.out.println("C'est un fichier PDF. Traitement spécifique pour les fichiers PDF.");
             case "application/json" -> {
                 JsonFileUtility obj = new JsonFileUtility(args[0], args[1]);
-                JsonHandler.handleJson(obj);
+                HandleGeneralRulesValidator generalRulesValidator = new HandleGeneralRulesValidator();
+                JsonHandler jsonHandler = new JsonHandler(generalRulesValidator);
+                jsonHandler.handleJson(obj);
             }
             default -> System.out.println("Type du fichier non supporté : " + fileType);
         }

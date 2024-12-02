@@ -9,6 +9,7 @@ public enum Cycle {
     CYCLE_2021_2024("2021-2024", LocalDate.of(2021, 6, 1), LocalDate.of(2024, 6, 1)),
     CYCLE_2020_2025("2020-2025", LocalDate.of(2020, 1, 1), LocalDate.of(2025, 1, 1));
 
+
     private final String label;
     private final LocalDate startDate;
     private final LocalDate endDate;
