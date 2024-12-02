@@ -1,8 +1,8 @@
 package Groupe6.Utilities;
 
 
-import org.example.Inf2050.Groupe6.Exceptions.Groupe6INF2050Exception;
-import org.example.Inf2050.Groupe6.Utilities.FileUtility;
+import GROUPE6_INF2050.Exceptions.Groupe6INF2050Exception;
+import GROUPE6_INF2050.Utilities.FileUtility;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

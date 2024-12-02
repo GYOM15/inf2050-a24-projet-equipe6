@@ -1,8 +1,8 @@
 package Groupe6.Validators.ActivitiesValidators.SpecificValidators;
 
 
-import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
-import org.example.Inf2050.Groupe6.Validators.ActivitiesValidators.SpecificValidators.DateValidator;
+import GROUPE6_INF2050.Handlers.ErrorHandler;
+import GROUPE6_INF2050.Validators.GeneralsRulesValidators.DateValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

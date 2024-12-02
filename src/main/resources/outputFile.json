@@ -1,7 +1,7 @@
 {
     "complet": false,
     "errors":     [
-        "Il manque 16 heures dans la catégorie cours. Le minimum autorisé est de 17h.",
-        "La catégorie voyage n'est pas valide"
+        "Erreur pour le numéro de permis 'GO3822' : Le numéro de permis pour l'ordre des architectes doit être non-null, sans espaces, commencer par A ou T, et être suivi de 4 chiffres.",
+        "La clé 'heures_transferees_du_cycle_precedent' est manquante pour l'ordre architectes."
     ]
 }	

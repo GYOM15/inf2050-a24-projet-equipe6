@@ -1,6 +1,6 @@
 package Groupe6.Validators.HoursCalculators;
 
-import org.example.Inf2050.Groupe6.Validators.HoursCalculators.ValidationConfigForCategoriesWithMinHours;
+import GROUPE6_INF2050.Validators.HoursCalculators.ValidationConfigForCategoriesWithMinHours;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

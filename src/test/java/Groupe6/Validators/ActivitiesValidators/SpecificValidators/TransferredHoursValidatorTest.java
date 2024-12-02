@@ -2,8 +2,8 @@ package Groupe6.Validators.ActivitiesValidators.SpecificValidators;
 
 
 import net.sf.json.JSONObject;
-import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
-import org.example.Inf2050.Groupe6.Validators.ActivitiesValidators.SpecificValidators.TransferredHoursValidator;
+import GROUPE6_INF2050.Handlers.ErrorHandler;
+import GROUPE6_INF2050.Validators.GeneralsRulesValidators.TransferredHoursValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

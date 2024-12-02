@@ -3,8 +3,8 @@ package Groupe6.Utilities;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import org.example.Inf2050.Groupe6.Handlers.ErrorHandler;
-import org.example.Inf2050.Groupe6.Utilities.JsonFieldsUtility;
+import GROUPE6_INF2050.Handlers.ErrorHandler;
+import GROUPE6_INF2050.Utilities.JsonFieldsUtility;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
