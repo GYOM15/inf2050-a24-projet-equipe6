@@ -1,98 +1,63 @@
 package GROUPE6_INF2050.Handlers;
 
-import GROUPE6_INF2050.Enums.ActivityOrder;
 import GROUPE6_INF2050.Enums.Cycle;
 import GROUPE6_INF2050.Exceptions.Groupe6INF2050Exception;
 import GROUPE6_INF2050.Utilities.JsonFileUtility;
-import GROUPE6_INF2050.Validators.HoursCalculators.ActivityHoursCalculator;
+import GROUPE6_INF2050.Validators.CycleValidator;
+import GROUPE6_INF2050.Validators.Generics.Calculator.ActivityHoursCalculator;
 import GROUPE6_INF2050.Validators.HoursCalculators.CalculateMinHoursByOrderCategoryConditions;
-import GROUPE6_INF2050.Validators.ValidatorsByOrderAndCycle.ActivityFilters.ActivityJsonBuilderByCategoriesConditions;
-
-import java.util.List;
+import GROUPE6_INF2050.Enums.ActivityOrder;
 
 public class JsonHandler {
+    private final HandleGeneralRulesValidator generalRulesValidator;
 
     /**
-     * Gère le traitement principal des validations JSON, vérifiant les règles générales,
-     * l'ordre et le cycle, puis calculant et validant les heures par catégorie.
+     * Constructeur avec injection de dépendances.
      *
-     * @param obj L'instance JsonFileUtility contenant les données JSON
-     * @throws Groupe6INF2050Exception Exception personnalisée en cas d'échec de validation
+     * @param generalRulesValidator Instance de HandleGeneralRulesValidator.
      */
-    public static void handleJson(JsonFileUtility obj) throws Groupe6INF2050Exception {
+    public JsonHandler(HandleGeneralRulesValidator generalRulesValidator) {
+        this.generalRulesValidator = generalRulesValidator;
+    }
+
+    /**
+     * Point d'entrée pour gérer le traitement JSON.
+     *
+     * @param obj L'instance JsonFileUtility contenant les données JSON.
+     * @throws Groupe6INF2050Exception Si une validation échoue.
+     */
+    public void handleJson(JsonFileUtility obj) throws Groupe6INF2050Exception {
         ErrorHandler errorHandler = new ErrorHandler();
         obj.loadAndValid();
-        validateJsonContent(obj, errorHandler);
         validateGeneralRules(obj, errorHandler);
-//        ActivityJsonBuilderByCategoriesConditions activityBuilder = filterActivities(obj);
         calculateAndSaveTotalHours(obj, errorHandler);
     }
 
     /**
-     * Valide les règles générales de l'objet JSON.
+     * Valide les règles générales en utilisant le gestionnaire injecté.
+     *
+     * @param obj           Utilitaire JSON.
+     * @param errorHandler  Gestionnaire d'erreurs.
+     * @throws Groupe6INF2050Exception Si les validations échouent.
      */
-    private static void validateGeneralRules(JsonFileUtility obj, ErrorHandler errorHandler) throws Groupe6INF2050Exception {
-        if (HandleGeneralRulesValidator.handleGeneralsRules(obj, errorHandler)) {
-            System.out.println("Les validations préalables avant traitement sont correctes");
-        }
+    private void validateGeneralRules(JsonFileUtility obj, ErrorHandler errorHandler) throws Groupe6INF2050Exception {
+        ActivityOrder.searchFromJsonOrder(obj.getJsonObject().getString("ordre"));
+        Cycle cycle = Cycle.getCycleByLabel(obj.getJsonObject().getString("cycle"));
+        CycleValidator.setCurrentCycle(cycle);
+        generalRulesValidator.handleGeneralsRules(obj, errorHandler);
     }
 
     /**
-     * Filtre les activités par catégories et retourne l'instance d'ActivityJsonBuilderByCategoriesConditions.
+     * Calcule les heures totales et sauvegarde les données JSON.
+     *
+     * @param obj           Utilitaire JSON.
+     * @param errorHandler  Gestionnaire d'erreurs.
+     * @throws Groupe6INF2050Exception Si une validation des heures échoue.
      */
-    private static ActivityJsonBuilderByCategoriesConditions filterActivities(JsonFileUtility obj) {
-        ActivityJsonBuilderByCategoriesConditions activityBuilder = new ActivityJsonBuilderByCategoriesConditions();
-        List<String> categories = List.of("cours", "groupe de discussion", "projet de recherche", "conférence", "présentation", "rédaction professionnelle");
-        activityBuilder.filterByCategorieCondition(obj.getJsonArray(), categories);
-        return activityBuilder;
-    }
-
-    /**
-     * Calcule et sauvegarde les heures totales.
-     */
-    private static void calculateAndSaveTotalHours(JsonFileUtility obj, ErrorHandler errorHandler) throws Groupe6INF2050Exception {
+    private void calculateAndSaveTotalHours(JsonFileUtility obj, ErrorHandler errorHandler) throws Groupe6INF2050Exception {
         int totalHours = ActivityHoursCalculator.getTotalHours(obj.getJsonObject(), errorHandler);
         HandleTotalHoursByCategory.handleHoursTotal(obj, totalHours, errorHandler);
-        ActivityOrder order = ActivityOrder.searchFromJsonOrder(obj.getJsonObject().getString("ordre"));
-        CalculateMinHoursByOrderCategoryConditions.validateMinimumHours(obj,order,errorHandler);
+        CalculateMinHoursByOrderCategoryConditions.validateMinimumHours(obj, ActivityOrder.getCurrentOrder(), errorHandler);
         obj.save(errorHandler);
-    }
-
-    /**
-     * Valide le contenu JSON en vérifiant l'ordre, le cycle
-     */
-    private static void validateJsonContent(JsonFileUtility obj, ErrorHandler errorHandler) throws Groupe6INF2050Exception {
-        ActivityOrder order = extractAndValidateOrder(obj, errorHandler);
-        extractAndValidateCycle(obj, errorHandler, order);
-    }
-
-    /**
-     * Extrait et valide l'ordre des activités du fichier JSON.
-     */
-    private static ActivityOrder extractAndValidateOrder(JsonFileUtility obj, ErrorHandler errorHandler) throws Groupe6INF2050Exception {
-        ActivityOrder order = ActivityOrder.searchFromJsonOrder(obj.getJsonObject().getString("ordre"));
-        if (order == ActivityOrder.ORDER_NON_VALIDE) {
-            handleValidationError(errorHandler, obj, "L'ordre "+obj.getJsonObject().getString("ordre") + " n'est pas valide");
-        }
-        return order;
-    }
-
-    /**
-     * Extrait et valide le cycle associé à l'ordre.
-     */
-    private static void extractAndValidateCycle(JsonFileUtility obj, ErrorHandler errorHandler, ActivityOrder order) throws Groupe6INF2050Exception {
-        Cycle cycle = Cycle.getCycleByLabel(obj.getJsonObject().getString("cycle"));
-        if (ActivityOrder.isCycleValidByOrder(cycle, order)) {
-            handleValidationError(errorHandler, obj, "Cycle invalide pour l'ordre sélectionné");
-        }
-    }
-
-    /**
-     * Gère l'enregistrement et l'affichage d'une erreur de validation, puis lance une exception.
-     */
-    private static void handleValidationError(ErrorHandler errorHandler, JsonFileUtility obj, String message) throws Groupe6INF2050Exception {
-        ErrorHandler.addErrorIfNotNull(errorHandler, message);
-        obj.save(errorHandler);
-        throw new Groupe6INF2050Exception(message);
     }
 }

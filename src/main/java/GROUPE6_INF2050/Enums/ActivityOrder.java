@@ -9,11 +9,19 @@ public enum ActivityOrder {
     PODIATRES("podiatres", new CycleValidator(Cycle.getCycleByLabel("2021-2024"))),
     ORDER_NON_VALIDE("non-valide", null);
 
-    private final String order;
-    private static ActivityOrder ordre;
+    public String getOrder() {
+        return order;
+    }
 
-    public static ActivityOrder getOrdre() {
-        return ordre;
+    private final String order;
+    private static ActivityOrder currentOrder;
+
+    private static void setCurrentOrder(ActivityOrder currentOrder) {
+        ActivityOrder.currentOrder = currentOrder;
+    }
+
+    public static ActivityOrder getCurrentOrder() {
+        return currentOrder;
     }
 
     ActivityOrder(String order, CycleValidator cycleValidator) {
@@ -28,7 +36,8 @@ public enum ActivityOrder {
      * @return true si le cycle est valide pour l'ordre, sinon false
      */
     public static boolean isCycleValidByOrder(Cycle cycle, ActivityOrder order) {
-        if (order == ARCHITECTES && CycleValidator.getCycle().contains(cycle) ) {
+        boolean result = false;
+        if (order == ARCHITECTES && CycleValidator.getArchitectesCycle().contains(cycle) ) {
             CycleValidator.setCycle(cycle);
             return false;
         }
@@ -52,7 +61,7 @@ public enum ActivityOrder {
     public static ActivityOrder searchFromJsonOrder(String label) {
         for (ActivityOrder order : ActivityOrder.values()) {
             if (order.order.equalsIgnoreCase(label)) {
-                ordre = order;
+                setCurrentOrder(order);
                 return order;
             }
         }

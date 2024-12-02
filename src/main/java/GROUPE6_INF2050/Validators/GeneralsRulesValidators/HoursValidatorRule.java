@@ -2,11 +2,12 @@ package GROUPE6_INF2050.Validators.GeneralsRulesValidators;
 
 import GROUPE6_INF2050.Handlers.ErrorHandler;
 import GROUPE6_INF2050.Utilities.JsonFileUtility;
+import GROUPE6_INF2050.Validators.GeneralsRulesValidators.Interfaces.ValidationRule;
 
 /**
  * Valide les heures des activités pour s'assurer qu'elles sont positives.
  */
-public class HoursValidator {
+public class HoursValidatorRule implements ValidationRule {
 
     /**
      * Vérifie que toutes les activités dans le fichier JSON ont un nombre d'heures positif.
@@ -21,6 +22,16 @@ public class HoursValidator {
                         + "contient des heures négatives, le traitement du fichier ne peut pas être complété" );
                 return false;
             }
+        }
+        return true;
+    }
+
+
+    @Override
+    public boolean validate(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler, StringBuilder errorMessage) {
+        if (!areHoursPositive(jsonFileUtility, errorHandler)) {
+            errorMessage.append("- Certaines activités contiennent un nombre d'heures négatif.\n");
+            return false;
         }
         return true;
     }

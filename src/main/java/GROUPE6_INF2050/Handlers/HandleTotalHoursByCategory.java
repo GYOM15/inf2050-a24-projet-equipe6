@@ -3,7 +3,7 @@ package GROUPE6_INF2050.Handlers;
 import GROUPE6_INF2050.Enums.ActivityOrder;
 import GROUPE6_INF2050.Enums.Cycle;
 import GROUPE6_INF2050.Utilities.JsonFileUtility;
-import GROUPE6_INF2050.Validators.GeneralsRulesValidators.TransferredHoursValidator;
+import GROUPE6_INF2050.Validators.GeneralValidators.TransferredHoursValidator;
 import GROUPE6_INF2050.Validators.HoursCalculators.CalculateMaxByHoursOrderCategoryConditions;
 import GROUPE6_INF2050.Validators.HoursCalculators.CalculateMinHoursByOrderCategoryConditions;
 import GROUPE6_INF2050.Validators.HoursCalculators.OrdersHoursTotalCalculators.ArchitectesTotalHoursValidator;
@@ -15,8 +15,8 @@ public class HandleTotalHoursByCategory {
 
     public static void handleHoursTotal(JsonFileUtility obj, int totalHours, ErrorHandler errorHandler) {
         Cycle cycle = getCycleFromJson(obj);
-        if (ActivityOrder.getOrdre() == null || cycle == null) return;
-        switch (ActivityOrder.getOrdre()) {
+        if (ActivityOrder.getCurrentOrder() == null || cycle == null) return;
+        switch (ActivityOrder.getCurrentOrder()) {
             case ARCHITECTES -> processArchitecte(obj, cycle, totalHours, errorHandler);
             case PSYCHOLOGUES -> processPsychologue(obj, cycle, totalHours, errorHandler);
             case GEOLOGUES -> processGeologue(cycle, totalHours, errorHandler);

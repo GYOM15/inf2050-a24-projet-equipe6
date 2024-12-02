@@ -1,4 +1,4 @@
-package GROUPE6_INF2050.Validators.HoursCalculators;
+package GROUPE6_INF2050.Validators.Generics.Calculator;
 
 import GROUPE6_INF2050.Enums.ActivityCategory;
 import GROUPE6_INF2050.Handlers.ErrorHandler;

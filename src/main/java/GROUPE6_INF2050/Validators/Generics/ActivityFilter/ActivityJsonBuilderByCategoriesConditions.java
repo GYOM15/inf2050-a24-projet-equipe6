@@ -1,4 +1,4 @@
-package GROUPE6_INF2050.Validators.ValidatorsByOrderAndCycle.ActivityFilters;
+package GROUPE6_INF2050.Validators.Generics.ActivityFilter;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
