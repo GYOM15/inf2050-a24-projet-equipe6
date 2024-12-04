@@ -7,7 +7,7 @@ public enum ActivityOrder {
     GEOLOGUES("géologues",  new CycleValidator(Cycle.getCycleByLabel("2021-2024"))),
     PSYCHOLOGUES("psychologues", new CycleValidator(Cycle.getCycleByLabel("2020-2025"))),
     PODIATRES("podiatres", new CycleValidator(Cycle.getCycleByLabel("2021-2024"))),
-    ORDER_NON_VALIDE("non-valide", null);
+    ORDER_NON_VALIDE("Ordre Inconu", null);
 
     public String getOrder() {
         return order;
@@ -16,7 +16,7 @@ public enum ActivityOrder {
     private final String order;
     private static ActivityOrder currentOrder;
 
-    private static void setCurrentOrder(ActivityOrder currentOrder) {
+    public static void setCurrentOrder(ActivityOrder currentOrder) {
         ActivityOrder.currentOrder = currentOrder;
     }
 
@@ -36,7 +36,6 @@ public enum ActivityOrder {
      * @return true si le cycle est valide pour l'ordre, sinon false
      */
     public static boolean isCycleValidByOrder(Cycle cycle, ActivityOrder order) {
-        boolean result = false;
         if (order == ARCHITECTES && CycleValidator.getArchitectesCycle().contains(cycle) ) {
             CycleValidator.setCycle(cycle);
             return false;
@@ -61,7 +60,6 @@ public enum ActivityOrder {
     public static ActivityOrder searchFromJsonOrder(String label) {
         for (ActivityOrder order : ActivityOrder.values()) {
             if (order.order.equalsIgnoreCase(label)) {
-                setCurrentOrder(order);
                 return order;
             }
         }

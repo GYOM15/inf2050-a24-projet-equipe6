@@ -12,8 +12,12 @@ import java.util.List;
  * Gestionnaire centralisé pour appliquer les règles générales de validation.
  */
 public class HandleGeneralRulesValidator {
-
+    private static boolean isGeneralRuleValid = false;
     private final List<ValidationRule> validationRules;
+
+    public boolean isGeneralRuleValid() {
+        return isGeneralRuleValid;
+    }
 
     /**
      * Constructeur qui initialise et enregistre les règles générales de validation.
@@ -33,6 +37,7 @@ public class HandleGeneralRulesValidator {
         validationRules.add(new JsonFieldsValidatorRule());
         validationRules.add(new OrderValidatorRule());
         validationRules.add(new CycleValidatorRule());
+        validationRules.add(new PersonValidatorRule());
     }
 
     /**
@@ -50,10 +55,13 @@ public class HandleGeneralRulesValidator {
             isValid &= rule.validate(jsonFileUtility, errorHandler, errorMessage);
         }
         if (!isValid) {
+            isGeneralRuleValid = false;
             jsonFileUtility.save(errorHandler);
             throw new Groupe6INF2050Exception(errorMessage.toString());
         }
-
+        isGeneralRuleValid = true;
         return true;
     }
+
+
 }
