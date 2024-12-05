@@ -4,119 +4,100 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class StatisticsData {
-    private static int totalDeclarations;
-    private static int completeDeclarations;
-    private static int incompleteOrInvalidDeclarations;
-    private static int maleDeclarations;
-    private static int femaleDeclarations;
-    private static int unknownGenderDeclarations;
-    private static int totalActivities;
-    private static Map<String, Integer> activitiesByCategory = new HashMap<>();
-    private static Map<String, Integer> completeDeclarationsByOrder = new HashMap<>();
-    private static Map<String, Integer> validDeclarationsByOrder = new HashMap<>();
-    private static int invalidPermitDeclarations;
-    private static int validDeclaration;
+    private int totalDeclarations;
+    private int completeDeclarations;
+    private int incompleteOrInvalidDeclarations;
+    private int maleDeclarations;
+    private int femaleDeclarations;
+    private int unknownGenderDeclarations;
+    private int totalActivities;
+    private final Map<String, Integer> activitiesByCategory = new HashMap<>();
+    private final Map<String, Integer> completeDeclarationsByOrder = new HashMap<>();
+    private final Map<String, Integer> validDeclarationsByOrder = new HashMap<>();
+    private int invalidPermitDeclarations;
+    private int validDeclaration;
 
     // Increment methods
-    public static void incrementTotalDeclarations() {
+    public void incrementTotalDeclarations() {
         totalDeclarations++;
     }
 
-    public static void incrementCompleteDeclarations() {
+    public void incrementCompleteDeclarations() {
         completeDeclarations++;
     }
 
-    public static void incrementIncompleteOrInvalidDeclarations() {
+    public void incrementIncompleteOrInvalidDeclarations() {
         incompleteOrInvalidDeclarations++;
     }
 
-    public static void incrementValidDeclarations() {
+    public void incrementValidDeclarations() {
         validDeclaration++;
     }
 
-    public static void incrementMaleDeclarations() {
+    public void incrementMaleDeclarations() {
         maleDeclarations++;
     }
 
-    public static void incrementFemaleDeclarations() {
+    public void incrementFemaleDeclarations() {
         femaleDeclarations++;
     }
 
-    public static void incrementUnknownGenderDeclarations() {
+    public void incrementUnknownGenderDeclarations() {
         unknownGenderDeclarations++;
     }
 
-    public static void incrementTotalActivities(int count) {
+    public void incrementTotalActivities(int count) {
         totalActivities += count;
     }
 
-    public static void incrementActivitiesByCategory(String category) {
-        activitiesByCategory.put(category, activitiesByCategory.getOrDefault(category, 0) + 1);
+    public void incrementActivitiesByCategory(String category, int count) {
+        activitiesByCategory.put(category, count);
     }
 
-    public static void incrementCompleteDeclarationsByOrder(String order) {
+    public void incrementCompleteDeclarationsByOrder(String order) {
         completeDeclarationsByOrder.put(order, completeDeclarationsByOrder.getOrDefault(order, 0) + 1);
     }
 
-    public static void incrementValidDeclarationsByOrder(String order) {
+    public void incrementValidDeclarationsByOrder(String order) {
         validDeclarationsByOrder.put(order, validDeclarationsByOrder.getOrDefault(order, 0) + 1);
     }
 
-    public static void incrementInvalidPermitDeclarations() {
+    public void incrementInvalidPermitDeclarations() {
         invalidPermitDeclarations++;
     }
 
     // Getters
-    public static int getTotalDeclarations() {
-        return totalDeclarations;
+    public Map<String, Integer> getActivitiesByCategory() {
+        return new HashMap<>(activitiesByCategory);
     }
 
-    public static int getCompleteDeclarations() {
-        return completeDeclarations;
+    public Map<String, Integer> getCompleteDeclarationsByOrder() {
+        return new HashMap<>(completeDeclarationsByOrder);
     }
 
-    public static int getIncompleteOrInvalidDeclarations() {
-        return incompleteOrInvalidDeclarations;
+    public Map<String, Integer> getValidDeclarationsByOrder() {
+        return new HashMap<>(validDeclarationsByOrder);
     }
 
-    public static int getValidDeclaration() {
-        return validDeclaration;
+    @Override
+    public String toString() {
+        return "StatisticsData{\n" +
+                "  totalDeclarations=" + totalDeclarations + ",\n" +
+                "  completeDeclarations=" + completeDeclarations + ",\n" +
+                "  incompleteOrInvalidDeclarations=" + incompleteOrInvalidDeclarations + ",\n" +
+                "  maleDeclarations=" + maleDeclarations + ",\n" +
+                "  femaleDeclarations=" + femaleDeclarations + ",\n" +
+                "  unknownGenderDeclarations=" + unknownGenderDeclarations + ",\n" +
+                "  totalActivities=" + totalActivities + ",\n" +
+                "  activitiesByCategory=" + (activitiesByCategory.isEmpty() ? "0" : activitiesByCategory) + ",\n" +
+                "  completeDeclarationsByOrder=" + (completeDeclarationsByOrder.isEmpty() ? "0" : completeDeclarationsByOrder) + ",\n" +
+                "  validDeclarationsByOrder=" + (validDeclarationsByOrder.isEmpty() ? "0" : validDeclarationsByOrder) + ",\n" +
+                "  invalidPermitDeclarations=" + invalidPermitDeclarations + "\n" +
+                '}';
     }
 
-    public static int getMaleDeclarations() {
-        return maleDeclarations;
-    }
 
-    public static int getFemaleDeclarations() {
-        return femaleDeclarations;
-    }
-
-    public static int getUnknownGenderDeclarations() {
-        return unknownGenderDeclarations;
-    }
-
-    public static int getTotalActivities() {
-        return totalActivities;
-    }
-
-    public static Map<String, Integer> getActivitiesByCategory() {
-        return activitiesByCategory;
-    }
-
-    public static Map<String, Integer> getCompleteDeclarationsByOrder() {
-        return completeDeclarationsByOrder;
-    }
-
-    public static Map<String, Integer> getValidDeclarationsByOrder() {
-        return validDeclarationsByOrder;
-    }
-
-    public static int getInvalidPermitDeclarations() {
-        return invalidPermitDeclarations;
-    }
-
-    // Reset method for testing or re-initialization
-    public static void reset() {
+    public void reset() {
         totalDeclarations = 0;
         completeDeclarations = 0;
         incompleteOrInvalidDeclarations = 0;
@@ -128,22 +109,8 @@ public class StatisticsData {
         completeDeclarationsByOrder.clear();
         validDeclarationsByOrder.clear();
         invalidPermitDeclarations = 0;
-    }
-
-    @Override
-    public String toString() {
-        return "StatisticsData{" +
-                "totalDeclarations=" + totalDeclarations +
-                ", completeDeclarations=" + completeDeclarations +
-                ", incompleteOrInvalidDeclarations=" + incompleteOrInvalidDeclarations +
-                ", maleDeclarations=" + maleDeclarations +
-                ", femaleDeclarations=" + femaleDeclarations +
-                ", unknownGenderDeclarations=" + unknownGenderDeclarations +
-                ", totalActivities=" + totalActivities +
-                ", activitiesByCategory=" + activitiesByCategory +
-                ", completeDeclarationsByOrder=" + completeDeclarationsByOrder +
-                ", validDeclarationsByOrder=" + validDeclarationsByOrder +
-                ", invalidPermitDeclarations=" + invalidPermitDeclarations +
-                '}';
+        validDeclaration = 0;
+        System.out.println("Statistics have been reset:");
+        System.out.println(this);
     }
 }

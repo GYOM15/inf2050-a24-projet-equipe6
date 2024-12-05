@@ -45,10 +45,9 @@ public class HandleGeneralRulesValidator {
      *
      * @param jsonFileUtility Utilitaire pour manipuler le fichier JSON.
      * @param errorHandler    Gestionnaire des erreurs de validation.
-     * @return true si toutes les validations passent, sinon false.
      * @throws Groupe6INF2050Exception Si une ou plusieurs règles échouent.
      */
-    public boolean handleGeneralsRules(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler) throws Groupe6INF2050Exception {
+    public void handleGeneralsRules(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler) throws Groupe6INF2050Exception {
         StringBuilder errorMessage = new StringBuilder("Échec de la validation pour les raisons suivantes :\n");
         boolean isValid = true;
         for (ValidationRule rule : validationRules) {
@@ -60,7 +59,6 @@ public class HandleGeneralRulesValidator {
             throw new Groupe6INF2050Exception(errorMessage.toString());
         }
         isGeneralRuleValid = true;
-        return true;
     }
 
 

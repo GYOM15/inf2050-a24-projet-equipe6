@@ -9,9 +9,9 @@ import net.sf.json.JSONObject;
  * Règle de validation pour les informations personnelles (nom, prénom, sexe).
  */
 public class PersonValidatorRule implements ValidationRule {
-    private Integer gender;
+    private static Integer gender;
 
-    public Integer getGender() {
+    public static Integer getGender() {
         return gender;
     }
 

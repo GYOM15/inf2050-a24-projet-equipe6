@@ -2,6 +2,7 @@ package GROUPE6_INF2050.Reporting;
 
 import GROUPE6_INF2050.Enums.ActivityCategory;
 import GROUPE6_INF2050.Enums.ActivityOrder;
+import GROUPE6_INF2050.Handlers.ErrorHandler;
 import GROUPE6_INF2050.Handlers.HandleGeneralRulesValidator;
 import GROUPE6_INF2050.Utilities.JsonFileUtility;
 import GROUPE6_INF2050.Validators.GeneralsRulesValidators.PermitNumberValidatorRule;
@@ -13,31 +14,29 @@ import GROUPE6_INF2050.Validators.HoursCalculators.OrdersHoursTotalCalculators.P
 
 import java.util.Map;
 
-
 public class Statistics {
-
     private final JsonFileUtility jsonFileUtility;
-
     private final HandleGeneralRulesValidator handleGeneralRulesValidator;
+    private final StatisticsData statisticsData;
 
-    public Statistics(JsonFileUtility jsonFileUtility, HandleGeneralRulesValidator handleGeneralRulesValidator) {
+    public Statistics(JsonFileUtility jsonFileUtility, HandleGeneralRulesValidator handleGeneralRulesValidator, StatisticsData statisticsData) {
         this.jsonFileUtility = jsonFileUtility;
         this.handleGeneralRulesValidator = handleGeneralRulesValidator;
+        this.statisticsData = statisticsData;
     }
 
     public void validateAndCalculateStatistics() {
-        StatisticsData.incrementTotalDeclarations();
+        statisticsData.incrementTotalDeclarations();
 
         processGenderStatistics();
-        if (!handleGeneralRulesValidator.isGeneralRuleValid()) {
-            StatisticsData.incrementIncompleteOrInvalidDeclarations();
-            return;
+        if (!ErrorHandler.errorHandlerInstance().hasErrors()) {
+            statisticsData.incrementIncompleteOrInvalidDeclarations();
+        }else {
+            statisticsData.incrementValidDeclarations();
         }
 
-        StatisticsData.incrementValidDeclarations();
-
         int activities = ActivityStatistics.getTotalValidActivities(jsonFileUtility);
-        StatisticsData.incrementTotalActivities(activities);
+        statisticsData.incrementTotalActivities(activities);
 
         processActivitiesByCategory();
         processOrderSpecificStatistics();
@@ -45,21 +44,20 @@ public class Statistics {
     }
 
     private void processGenderStatistics() {
-        int gender = new PersonValidatorRule().getGender();
+        int gender = PersonValidatorRule.getGender();
         switch (gender) {
-            case 1 -> StatisticsData.incrementMaleDeclarations();
-            case 2 -> StatisticsData.incrementFemaleDeclarations();
-            default -> StatisticsData.incrementUnknownGenderDeclarations();
+            case 1 -> statisticsData.incrementMaleDeclarations();
+            case 2 -> statisticsData.incrementFemaleDeclarations();
+            default -> statisticsData.incrementUnknownGenderDeclarations();
         }
     }
 
     private void processOrderSpecificStatistics() {
         ActivityOrder order = ActivityOrder.getCurrentOrder();
-        StatisticsData.incrementValidDeclarationsByOrder(order.name());
-
+        statisticsData.incrementValidDeclarationsByOrder(order.getOrder());
         if (isDeclarationComplete(order)) {
-            StatisticsData.incrementCompleteDeclarations();
-            StatisticsData.incrementCompleteDeclarationsByOrder(order.name());
+            statisticsData.incrementCompleteDeclarations();
+            statisticsData.incrementCompleteDeclarationsByOrder(order.getOrder());
         }
     }
 
@@ -74,15 +72,18 @@ public class Statistics {
     }
 
     private void processActivitiesByCategory() {
-        Map<ActivityCategory, Integer> activitiesByCategory = ActivityStatistics.getTotalActivitiesByCategory(jsonFileUtility);
-        activitiesByCategory.forEach((category, count) ->
-                StatisticsData.incrementActivitiesByCategory(category.name())
-        );
+        Map<ActivityCategory, Integer> activitiesByCategoryMap = ActivityStatistics.getTotalActivitiesByCategory(jsonFileUtility);
+
+        activitiesByCategoryMap.forEach((category, count) -> {
+            String categoryName = category.getCategoryFromJsonObj();
+            statisticsData.incrementActivitiesByCategory(categoryName, count);
+        });
+
     }
 
     private void processInvalidPermitStatistics() {
         if (!new PermitNumberValidatorRule().isPermitNumberState()) {
-            StatisticsData.incrementInvalidPermitDeclarations();
+            statisticsData.incrementInvalidPermitDeclarations();
         }
     }
 }
