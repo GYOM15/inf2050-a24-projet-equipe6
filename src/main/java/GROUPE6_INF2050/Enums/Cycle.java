@@ -7,8 +7,8 @@ public enum Cycle {
     CYCLE_2020_2022("2020-2022", LocalDate.of(2020, 4, 1), LocalDate.of(2022, 4, 1)),
     CYCLE_2018_2020("2018-2020", LocalDate.of(2018, 4, 1), LocalDate.of(2020, 7, 1)),
     CYCLE_2021_2024("2021-2024", LocalDate.of(2021, 6, 1), LocalDate.of(2024, 6, 1)),
-    CYCLE_2020_2025("2020-2025", LocalDate.of(2020, 1, 1), LocalDate.of(2025, 1, 1));
-
+    CYCLE_2020_2025("2020-2025", LocalDate.of(2020, 1, 1), LocalDate.of(2025, 1, 1)),
+    DEFAULT_CYCLE("DEFAULT", LocalDate.MIN, LocalDate.MAX);
 
     private final String label;
     private final LocalDate startDate;
@@ -38,6 +38,6 @@ public enum Cycle {
                 return cycle;
             }
         }
-        return null;
+        return DEFAULT_CYCLE;
     }
 }
