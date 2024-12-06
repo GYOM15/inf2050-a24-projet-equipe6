@@ -1,0 +1,20 @@
+{
+    "totalDeclarations": 14,
+    "completeDeclarations": 2,
+    "incompleteOrInvalidDeclarations": 12,
+    "maleDeclarations": 14,
+    "femaleDeclarations": 0,
+    "unknownGenderDeclarations": 0,
+    "totalActivities": 109,
+    "activitiesByCategory":     {
+        "séminaire": 14,
+        "groupe de discussion": 42,
+        "atelier": 14,
+        "cours": 14,
+        "rédaction professionnelle": 14,
+        "conférence": 11
+    },
+    "completeDeclarationsByOrder": {"architectes": 2},
+    "validDeclarationsByOrder": {"géologues": 4},
+    "invalidPermitDeclarations": 0
+}
