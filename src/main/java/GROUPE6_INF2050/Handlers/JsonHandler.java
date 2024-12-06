@@ -10,64 +10,45 @@ import GROUPE6_INF2050.Validators.Generics.Calculator.ActivityHoursCalculator;
 import GROUPE6_INF2050.Validators.HoursCalculators.CalculateMinHoursByOrderCategoryConditions;
 import GROUPE6_INF2050.Enums.ActivityOrder;
 
+import java.io.IOException;
+
 public class JsonHandler {
     private final HandleGeneralRulesValidator generalRulesValidator;
+    private final Object lock = new Object();
 
-    /**
-     * Constructor with dependency injection.
-     *
-     * @param generalRulesValidator Instance of HandleGeneralRulesValidator.
-     */
     public JsonHandler(HandleGeneralRulesValidator generalRulesValidator) {
         this.generalRulesValidator = generalRulesValidator;
     }
 
-    /**
-     * Entry point for handling JSON processing.
-     *
-     * @param obj          The JsonFileUtility instance containing the JSON data.
-     * @param statisticsData The StatisticsData instance to track statistics.
-     * @throws Groupe6INF2050Exception If a validation fails.
-     */
-    public void handleJson(JsonFileUtility obj, StatisticsData statisticsData) throws Groupe6INF2050Exception {
-        ErrorHandler errorHandler = new ErrorHandler();
-        obj.loadAndValid(); // Validate JSON structure
-        validateGeneralRules(obj, errorHandler); // Apply general rules
-        calculateAndSaveTotalHours(obj, errorHandler); // Calculate total hours
-
-        // Process statistics using instance-based StatisticsData
-        Statistics statistics = new Statistics(obj, generalRulesValidator, statisticsData);
-        statistics.validateAndCalculateStatistics();
+    public void handleJson(JsonFileUtility obj, StatisticsData statisticsData) throws Groupe6INF2050Exception, IOException {
+        synchronized (lock) {
+            ErrorHandler errorHandler = new ErrorHandler();
+            obj.loadAndValid();
+            validateGeneralRules(obj, errorHandler, statisticsData);
+            calculateAndSaveTotalHours(obj, errorHandler);
+            Statistics statistics = new Statistics(obj, statisticsData);
+            statistics.validateAndCalculateStatistics();
+        }
     }
 
-    /**
-     * Validates general rules using the injected general rules handler.
-     *
-     * @param obj          JSON Utility object.
-     * @param errorHandler Error handler for validation errors.
-     * @throws Groupe6INF2050Exception If validation fails.
-     */
-    private void validateGeneralRules(JsonFileUtility obj, ErrorHandler errorHandler) throws Groupe6INF2050Exception {
-        ActivityOrder order = ActivityOrder.searchFromJsonOrder(obj.getJsonObject().getString("ordre"));
-        ActivityOrder.setCurrentOrder(order); // Set current order globally
-        Cycle cycle = Cycle.getCycleByLabel(obj.getJsonObject().getString("cycle"));
-        CycleValidator.setCurrentCycle(cycle); // Set current cycle globally
-        generalRulesValidator.handleGeneralsRules(obj, errorHandler); // Apply general rules
+    private void validateGeneralRules(JsonFileUtility obj, ErrorHandler errorHandler, StatisticsData statisticsData) throws Groupe6INF2050Exception, IOException {
+        generalRulesValidator.handleGeneralsRules(obj, errorHandler, statisticsData);
+        synchronized (ActivityOrder.class) {
+            ActivityOrder order = ActivityOrder.searchFromJsonOrder(obj.getJsonObject().getString("ordre"));
+            ActivityOrder.setCurrentOrder(order);
+        }
+        synchronized (CycleValidator.class) {
+            Cycle cycle = Cycle.getCycleByLabel(obj.getJsonObject().getString("cycle"));
+            CycleValidator.setCurrentCycle(cycle);
+        }
     }
 
-    /**
-     * Calculates total hours and validates against conditions.
-     *
-     * @param obj          JSON Utility object.
-     * @param errorHandler Error handler for validation errors.
-     * @throws Groupe6INF2050Exception If a validation fails.
-     */
     private void calculateAndSaveTotalHours(JsonFileUtility obj, ErrorHandler errorHandler) throws Groupe6INF2050Exception {
         int totalHours = ActivityHoursCalculator.getTotalHours(obj.getJsonObject(), errorHandler);
-        HandleTotalHoursByCategory.handleHoursTotal(obj, totalHours, errorHandler); // Process total hours by category
+        HandleTotalHoursByCategory.handleHoursTotal(obj, totalHours, errorHandler);
         CalculateMinHoursByOrderCategoryConditions.validateMinimumHours(
                 obj, ActivityOrder.getCurrentOrder(), errorHandler
-        ); // Validate minimum hours for order
-        obj.save(errorHandler); // Save validated JSON data
+        );
+        obj.save(errorHandler);
     }
 }
