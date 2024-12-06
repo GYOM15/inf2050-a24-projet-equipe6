@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class StatisticsData {
+    // Définition des champs et des méthodes
     private int totalDeclarations;
     private int completeDeclarations;
     private int incompleteOrInvalidDeclarations;
@@ -15,72 +16,116 @@ public class StatisticsData {
     private final Map<String, Integer> completeDeclarationsByOrder = new HashMap<>();
     private final Map<String, Integer> validDeclarationsByOrder = new HashMap<>();
     private int invalidPermitDeclarations;
-    private int validDeclaration;
 
-    // Increment methods
-    public void incrementTotalDeclarations() {
-        totalDeclarations++;
+    // Incrémentation synchronisée
+    public synchronized void incrementTotalDeclarations(int count) {
+        totalDeclarations += count;
     }
 
-    public void incrementCompleteDeclarations() {
-        completeDeclarations++;
+    public synchronized void incrementCompleteDeclarations(int count) {
+        completeDeclarations += count;
     }
 
-    public void incrementIncompleteOrInvalidDeclarations() {
-        incompleteOrInvalidDeclarations++;
+    public synchronized void incrementIncompleteOrInvalidDeclarations(int count) {
+        incompleteOrInvalidDeclarations += count;
     }
 
-    public void incrementValidDeclarations() {
-        validDeclaration++;
+    public synchronized void incrementMaleDeclarations(int count) {
+        maleDeclarations += count;
     }
 
-    public void incrementMaleDeclarations() {
-        maleDeclarations++;
+    public synchronized void incrementFemaleDeclarations(int count) {
+        femaleDeclarations += count;
     }
 
-    public void incrementFemaleDeclarations() {
-        femaleDeclarations++;
+    public synchronized void incrementUnknownGenderDeclarations(int count) {
+        unknownGenderDeclarations += count;
     }
 
-    public void incrementUnknownGenderDeclarations() {
-        unknownGenderDeclarations++;
-    }
-
-    public void incrementTotalActivities(int count) {
+    public synchronized void incrementTotalActivities(int count) {
         totalActivities += count;
     }
 
-    public void incrementActivitiesByCategory(String category, int count) {
-        activitiesByCategory.put(category, count);
+    public synchronized void incrementActivitiesByCategory(String category, int count) {
+        activitiesByCategory.merge(category, count, Integer::sum);
     }
 
-    public void incrementCompleteDeclarationsByOrder(String order) {
-        completeDeclarationsByOrder.put(order, completeDeclarationsByOrder.getOrDefault(order, 0) + 1);
+    public synchronized void incrementCompleteDeclarationsByOrder(String order, int count) {
+        completeDeclarationsByOrder.merge(order, count, Integer::sum);
     }
 
-    public void incrementValidDeclarationsByOrder(String order) {
-        validDeclarationsByOrder.put(order, validDeclarationsByOrder.getOrDefault(order, 0) + 1);
+    public synchronized void incrementValidDeclarationsByOrder(String order, int count) {
+        validDeclarationsByOrder.merge(order, count, Integer::sum);
     }
 
-    public void incrementInvalidPermitDeclarations() {
-        invalidPermitDeclarations++;
+    public synchronized void incrementInvalidPermitDeclarations(int count) {
+        invalidPermitDeclarations += count;
     }
 
-    // Getters
-    public Map<String, Integer> getActivitiesByCategory() {
+    // Getters synchronisés
+    public synchronized int getTotalDeclarations() {
+        return totalDeclarations;
+    }
+
+    public synchronized int getCompleteDeclarations() {
+        return completeDeclarations;
+    }
+
+    public synchronized int getIncompleteOrInvalidDeclarations() {
+        return incompleteOrInvalidDeclarations;
+    }
+
+    public synchronized int getMaleDeclarations() {
+        return maleDeclarations;
+    }
+
+    public synchronized int getFemaleDeclarations() {
+        return femaleDeclarations;
+    }
+
+    public synchronized int getUnknownGenderDeclarations() {
+        return unknownGenderDeclarations;
+    }
+
+    public synchronized int getTotalActivities() {
+        return totalActivities;
+    }
+
+    public synchronized Map<String, Integer> getActivitiesByCategory() {
         return new HashMap<>(activitiesByCategory);
     }
 
-    public Map<String, Integer> getCompleteDeclarationsByOrder() {
+    public synchronized Map<String, Integer> getCompleteDeclarationsByOrder() {
         return new HashMap<>(completeDeclarationsByOrder);
     }
 
-    public Map<String, Integer> getValidDeclarationsByOrder() {
+    public synchronized Map<String, Integer> getValidDeclarationsByOrder() {
         return new HashMap<>(validDeclarationsByOrder);
     }
 
+    public synchronized int getInvalidPermitDeclarations() {
+        return invalidPermitDeclarations;
+    }
+
+    // Reset Method
+    public synchronized void reset() {
+        totalDeclarations = 0;
+        completeDeclarations = 0;
+        incompleteOrInvalidDeclarations = 0;
+        maleDeclarations = 0;
+        femaleDeclarations = 0;
+        unknownGenderDeclarations = 0;
+        totalActivities = 0;
+        activitiesByCategory.clear();
+        completeDeclarationsByOrder.clear();
+        validDeclarationsByOrder.clear();
+        invalidPermitDeclarations = 0;
+        System.out.println("Statistics have been reset:");
+        System.out.println(this);
+    }
+
     @Override
-    public String toString() {
+    public synchronized String toString() {
         return "StatisticsData{\n" +
                 "  totalDeclarations=" + totalDeclarations + ",\n" +
                 "  completeDeclarations=" + completeDeclarations + ",\n" +
@@ -94,23 +139,5 @@ public class StatisticsData {
                 "  validDeclarationsByOrder=" + (validDeclarationsByOrder.isEmpty() ? "0" : validDeclarationsByOrder) + ",\n" +
                 "  invalidPermitDeclarations=" + invalidPermitDeclarations + "\n" +
                 '}';
-    }
-
-
-    public void reset() {
-        totalDeclarations = 0;
-        completeDeclarations = 0;
-        incompleteOrInvalidDeclarations = 0;
-        maleDeclarations = 0;
-        femaleDeclarations = 0;
-        unknownGenderDeclarations = 0;
-        totalActivities = 0;
-        activitiesByCategory.clear();
-        completeDeclarationsByOrder.clear();
-        validDeclarationsByOrder.clear();
-        invalidPermitDeclarations = 0;
-        validDeclaration = 0;
-        System.out.println("Statistics have been reset:");
-        System.out.println(this);
     }
 }

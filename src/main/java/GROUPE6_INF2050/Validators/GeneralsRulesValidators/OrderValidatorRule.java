@@ -8,7 +8,7 @@ import GROUPE6_INF2050.Validators.GeneralsRulesValidators.Interfaces.ValidationR
 public class OrderValidatorRule implements ValidationRule {
     @Override
     public boolean validate(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler, StringBuilder errorMessage) {
-        String orderLabel = ActivityOrder.getCurrentOrder().getOrder();
+        String orderLabel = ActivityOrder.searchFromJsonOrder(jsonFileUtility.getJsonObject().optString("ordre",null)).getOrderString();
         ActivityOrder order = ActivityOrder.searchFromJsonOrder(orderLabel);
         if (order == ActivityOrder.ORDER_NON_VALIDE) {
             errorMessage.append("- L'ordre ").append(orderLabel).append(" n'est pas valide.\n");

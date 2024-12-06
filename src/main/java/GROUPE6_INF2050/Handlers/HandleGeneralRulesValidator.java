@@ -1,10 +1,13 @@
 package GROUPE6_INF2050.Handlers;
 
 import GROUPE6_INF2050.Exceptions.Groupe6INF2050Exception;
+import GROUPE6_INF2050.Reporting.StatisticsData;
 import GROUPE6_INF2050.Utilities.JsonFileUtility;
+import GROUPE6_INF2050.Utilities.StatisticsFileManager;
 import GROUPE6_INF2050.Validators.GeneralsRulesValidators.*;
 import GROUPE6_INF2050.Validators.GeneralsRulesValidators.Interfaces.ValidationRule;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,17 +15,14 @@ import java.util.List;
  * Gestionnaire centralisé pour appliquer les règles générales de validation.
  */
 public class HandleGeneralRulesValidator {
-    private static boolean isGeneralRuleValid = false;
     private final List<ValidationRule> validationRules;
-
-    public boolean isGeneralRuleValid() {
-        return isGeneralRuleValid;
-    }
+    private final StatisticsFileManager statisticsFileManager;
 
     /**
      * Constructeur qui initialise et enregistre les règles générales de validation.
      */
-    public HandleGeneralRulesValidator() {
+    public HandleGeneralRulesValidator(StatisticsFileManager statisticsFileManager) {
+        this.statisticsFileManager = statisticsFileManager;
         validationRules = new ArrayList<>();
         registerValidationRules();
     }
@@ -47,18 +47,17 @@ public class HandleGeneralRulesValidator {
      * @param errorHandler    Gestionnaire des erreurs de validation.
      * @throws Groupe6INF2050Exception Si une ou plusieurs règles échouent.
      */
-    public void handleGeneralsRules(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler) throws Groupe6INF2050Exception {
+    public void handleGeneralsRules(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler, StatisticsData statisticsData) throws Groupe6INF2050Exception, IOException {
         StringBuilder errorMessage = new StringBuilder("Échec de la validation pour les raisons suivantes :\n");
         boolean isValid = true;
         for (ValidationRule rule : validationRules) {
             isValid &= rule.validate(jsonFileUtility, errorHandler, errorMessage);
         }
         if (!isValid) {
-            isGeneralRuleValid = false;
             jsonFileUtility.save(errorHandler);
+            statisticsFileManager.saveStatistics(statisticsData);
             throw new Groupe6INF2050Exception(errorMessage.toString());
         }
-        isGeneralRuleValid = true;
     }
 
 

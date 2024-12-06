@@ -6,6 +6,7 @@ import GROUPE6_INF2050.Handlers.HandleGeneralRulesValidator;
 import GROUPE6_INF2050.Reporting.StatisticsData;
 import GROUPE6_INF2050.Utilities.FileTypeDetermine;
 import GROUPE6_INF2050.Utilities.JsonFileUtility;
+import GROUPE6_INF2050.Utilities.StatisticsFileManager;
 
 import java.io.IOException;
 
@@ -17,26 +18,23 @@ public class Main {
      * @throws Groupe6INF2050Exception If an error occurs while processing the file.
      */
     public static void main(String[] args) throws Groupe6INF2050Exception {
-        if (!areArgumentsValid(args)) return;
-
-        try {
-            // Create an instance of StatisticsData
-            StatisticsData statisticsData = new StatisticsData();
-
-            // Determine the file type
-            String fileType = new FileTypeDetermine().determineFileType(args[0]);
-
-            // Process the file based on its type
-            processFileByType(args, fileType, statisticsData);
-
-            // Handle output options for statistics
-            if (args[2].equals("-S")) {
-                System.out.println(statisticsData); // Display collected statistics
-            } else if (args[2].equals("-SR")) {
-                statisticsData.reset(); // Reset the statistics
+        synchronized (Main.class) {
+            if (!areArgumentsValid(args)) return;
+            try {
+                StatisticsFileManager statisticsFileManager = new StatisticsFileManager();
+                StatisticsData statisticsData = statisticsFileManager.loadStatistics();
+                String fileType = new FileTypeDetermine().determineFileType(args[0]);
+                processFileByType(args, fileType, statisticsData,statisticsFileManager);
+                statisticsFileManager.saveStatistics(statisticsData);
+                if (args[2].equals("-S")) {
+                    System.out.println(statisticsData);
+                } else if (args[2].equals("-SR")) {
+                    statisticsData.reset();
+                    statisticsFileManager.saveStatistics(statisticsData);
+                }
+            } catch (IOException e) {
+                System.err.println("Erreur : " + e.getMessage());
             }
-        } catch (IOException e) {
-            System.err.println("Erreur : " + e.getMessage());
         }
     }
 
@@ -67,7 +65,7 @@ public class Main {
      * @param statisticsData Instance of StatisticsData to track statistics.
      * @throws Groupe6INF2050Exception If an error occurs during JSON file processing.
      */
-    private static void processFileByType(String[] args, String fileType, StatisticsData statisticsData) throws Groupe6INF2050Exception {
+    private static void processFileByType(String[] args, String fileType, StatisticsData statisticsData,StatisticsFileManager statisticsFileManager ) throws Groupe6INF2050Exception, IOException {
         switch (fileType) {
             case "application/pdf" -> System.out.println("C'est un fichier PDF. Traitement spécifique pour les fichiers PDF.");
             case "application/json" -> {
@@ -75,7 +73,7 @@ public class Main {
                 JsonFileUtility obj = new JsonFileUtility(args[0], args[1]);
 
                 // Inject dependencies and process the JSON file
-                HandleGeneralRulesValidator generalRulesValidator = new HandleGeneralRulesValidator();
+                HandleGeneralRulesValidator generalRulesValidator = new HandleGeneralRulesValidator(statisticsFileManager);
                 JsonHandler jsonHandler = new JsonHandler(generalRulesValidator);
 
                 // Pass the StatisticsData instance to handleJson
