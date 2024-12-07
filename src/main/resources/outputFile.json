@@ -1,4 +1,4 @@
 {
     "complet": false,
-    "errors": ["L'activité 7 manque la clé obligatoire 'date'."]
+    "errors": ["La clé 'heures_transferees_du_cycle_precedent' ne doit être utilisée que pour l'ordre 'architectes'."]
 }	
