@@ -26,7 +26,7 @@ public class JsonHandler {
             ErrorHandler errorHandler = loadJsonAndValidate(obj, statisticsData);
             setOrderAndCycle(obj);
             processActivityHours(obj, errorHandler);
-            updateStatistics(obj, statisticsData);
+            updateStatistics(obj, statisticsData, errorHandler);
         }
     }
 
@@ -85,8 +85,8 @@ public class JsonHandler {
         );
     }
 
-    private void updateStatistics(JsonFileUtility obj, StatisticsData statisticsData) throws IOException {
-        Statistics statistics = new Statistics(obj, statisticsData);
+    private void updateStatistics(JsonFileUtility obj, StatisticsData statisticsData, ErrorHandler errorHandler) throws IOException {
+        Statistics statistics = new Statistics(obj, statisticsData, errorHandler);
         statistics.validateAndCalculateStatistics();
     }
 }

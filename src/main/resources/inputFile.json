@@ -4,7 +4,7 @@
     "prenom": "Olivier",
     "sexe": 1,
     "cycle": "2023-2025",
-    "ordre": "arch itectes",
+    "ordre": "architectes",
     "heures_transferees_du_cycle_precedent": 2,
     "activites": [
         {
@@ -46,12 +46,12 @@
         {
             "description": "Participation à un groupe de discussion sur le partage des projets architecturaux de plus de 20 ans",
             "categorie": "groupe de discussion",
-            "heures": 6
-
+            "heures": 6,
+            "date": "2024-05-01"
         },
         {
             "description": "Visite d'établissements architecturaux",
-            "categorie": "confé rence",
+            "categorie": "conférence",
             "heures": 2,
             "date": "2024-02-02"
         }

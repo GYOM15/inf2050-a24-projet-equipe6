@@ -11,10 +11,12 @@ import java.util.Map;
 public class Statistics {
     private final JsonFileUtility jsonFileUtility;
     private final StatisticsData statisticsData;
+    private final ErrorHandler errorHandler;
 
-    public Statistics(JsonFileUtility jsonFileUtility, StatisticsData statisticsData) {
+    public Statistics(JsonFileUtility jsonFileUtility, StatisticsData statisticsData, ErrorHandler errorHandler) {
         this.jsonFileUtility = jsonFileUtility;
         this.statisticsData = statisticsData;
+        this.errorHandler = errorHandler;
     }
 
     public void validateAndCalculateStatistics() {
@@ -26,9 +28,10 @@ public class Statistics {
     }
 
     private void processDeclarationValidity() {
-        if (!ErrorHandler.errorHandlerInstance().hasErrors()) {
+        if (!errorHandler.hasErrors()) {
             statisticsData.incrementIncompleteOrInvalidDeclarations(1);
-        } else {
+        }
+        else {
             statisticsData.incrementCompleteDeclarations(1);
             statisticsData.incrementCompleteDeclarationsByOrder(
                     ActivityOrder.getCurrentOrder().getOrderString(), 1
