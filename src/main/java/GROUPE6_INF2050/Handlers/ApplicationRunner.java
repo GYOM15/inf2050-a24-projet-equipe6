@@ -16,7 +16,6 @@ public class ApplicationRunner {
     public void run(String[] args) throws IOException, Groupe6INF2050Exception {
         validateArguments(args);
         initialize(args);
-
         try {
             processInputFile(args);
         } catch (IOException e) {
@@ -61,7 +60,6 @@ public class ApplicationRunner {
 
     private void finalizeActions() {
         saveStatistics();
-
         if ("-SR".equals(option)) {
             resetStatistics();
         } else if ("-S".equals(option)) {
