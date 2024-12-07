@@ -1,88 +1,63 @@
 package GROUPE6_INF2050.Reporting;
 
-import GROUPE6_INF2050.Enums.ActivityCategory;
 import GROUPE6_INF2050.Enums.ActivityOrder;
-import GROUPE6_INF2050.Handlers.HandleGeneralRulesValidator;
+import GROUPE6_INF2050.Handlers.ErrorHandler;
 import GROUPE6_INF2050.Utilities.JsonFileUtility;
-import GROUPE6_INF2050.Validators.GeneralsRulesValidators.PermitNumberValidatorRule;
 import GROUPE6_INF2050.Validators.GeneralsRulesValidators.PersonValidatorRule;
-import GROUPE6_INF2050.Validators.HoursCalculators.OrdersHoursTotalCalculators.ArchitectesTotalHoursValidator;
-import GROUPE6_INF2050.Validators.HoursCalculators.OrdersHoursTotalCalculators.GeologueTotalHoursValidator;
-import GROUPE6_INF2050.Validators.HoursCalculators.OrdersHoursTotalCalculators.PodiatresTotalHoursValidator;
-import GROUPE6_INF2050.Validators.HoursCalculators.OrdersHoursTotalCalculators.PsychologueTotalHoursValidator;
+import GROUPE6_INF2050.Enums.ActivityCategory;
 
 import java.util.Map;
 
-
 public class Statistics {
-
     private final JsonFileUtility jsonFileUtility;
+    private final StatisticsData statisticsData;
+    private final ErrorHandler errorHandler;
 
-    private final HandleGeneralRulesValidator handleGeneralRulesValidator;
-
-    public Statistics(JsonFileUtility jsonFileUtility, HandleGeneralRulesValidator handleGeneralRulesValidator) {
+    public Statistics(JsonFileUtility jsonFileUtility, StatisticsData statisticsData, ErrorHandler errorHandler) {
         this.jsonFileUtility = jsonFileUtility;
-        this.handleGeneralRulesValidator = handleGeneralRulesValidator;
+        this.statisticsData = statisticsData;
+        this.errorHandler = errorHandler;
     }
 
     public void validateAndCalculateStatistics() {
-        StatisticsData.incrementTotalDeclarations();
-
-        processGenderStatistics();
-        if (!handleGeneralRulesValidator.isGeneralRuleValid()) {
-            StatisticsData.incrementIncompleteOrInvalidDeclarations();
-            return;
+        synchronized (statisticsData) {
+            processGenderStatistics();
+            processDeclarationValidity();
+            processActivities();
         }
+    }
 
-        StatisticsData.incrementValidDeclarations();
-
-        int activities = ActivityStatistics.getTotalValidActivities(jsonFileUtility);
-        StatisticsData.incrementTotalActivities(activities);
-
-        processActivitiesByCategory();
-        processOrderSpecificStatistics();
-        processInvalidPermitStatistics();
+    private void processDeclarationValidity() {
+        if (!errorHandler.hasErrors()) {
+            statisticsData.incrementIncompleteOrInvalidDeclarations(1);
+        }
+        else {
+            statisticsData.incrementCompleteDeclarations(1);
+            statisticsData.incrementCompleteDeclarationsByOrder(
+                    ActivityOrder.getCurrentOrder().getOrderString(), 1
+            );
+        }
     }
 
     private void processGenderStatistics() {
-        int gender = new PersonValidatorRule().getGender();
+        int gender = PersonValidatorRule.getGender();
         switch (gender) {
-            case 1 -> StatisticsData.incrementMaleDeclarations();
-            case 2 -> StatisticsData.incrementFemaleDeclarations();
-            default -> StatisticsData.incrementUnknownGenderDeclarations();
+            case 1 -> statisticsData.incrementMaleDeclarations(1);
+            case 2 -> statisticsData.incrementFemaleDeclarations(1);
+            default -> statisticsData.incrementUnknownGenderDeclarations(1);
         }
     }
 
-    private void processOrderSpecificStatistics() {
-        ActivityOrder order = ActivityOrder.getCurrentOrder();
-        StatisticsData.incrementValidDeclarationsByOrder(order.name());
-
-        if (isDeclarationComplete(order)) {
-            StatisticsData.incrementCompleteDeclarations();
-            StatisticsData.incrementCompleteDeclarationsByOrder(order.name());
-        }
-    }
-
-    private boolean isDeclarationComplete(ActivityOrder order) {
-        return switch (order) {
-            case ARCHITECTES -> ArchitectesTotalHoursValidator.isComplet();
-            case PSYCHOLOGUES -> PsychologueTotalHoursValidator.isComplet();
-            case GEOLOGUES -> GeologueTotalHoursValidator.isComplet();
-            case PODIATRES -> PodiatresTotalHoursValidator.isComplet();
-            default -> false;
-        };
+    private void processActivities() {
+        int totalValidActivities = ActivityStatistics.getTotalValidActivities(jsonFileUtility);
+        statisticsData.incrementTotalActivities(totalValidActivities);
+        processActivitiesByCategory();
     }
 
     private void processActivitiesByCategory() {
         Map<ActivityCategory, Integer> activitiesByCategory = ActivityStatistics.getTotalActivitiesByCategory(jsonFileUtility);
-        activitiesByCategory.forEach((category, count) ->
-                StatisticsData.incrementActivitiesByCategory(category.name())
-        );
-    }
-
-    private void processInvalidPermitStatistics() {
-        if (!new PermitNumberValidatorRule().isPermitNumberState()) {
-            StatisticsData.incrementInvalidPermitDeclarations();
-        }
+        activitiesByCategory.forEach((category, count) -> {
+                statisticsData.incrementActivitiesByCategory(category.getCategoryFromJsonObj(), count);
+        });
     }
 }

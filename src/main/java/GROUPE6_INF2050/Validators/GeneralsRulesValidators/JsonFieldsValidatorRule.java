@@ -1,7 +1,6 @@
 package GROUPE6_INF2050.Validators.GeneralsRulesValidators;
 
 import GROUPE6_INF2050.Utilities.JsonFileUtility;
-import GROUPE6_INF2050.Validators.CycleValidator;
 import GROUPE6_INF2050.Validators.GeneralsRulesValidators.Interfaces.ValidationRule;
 import net.sf.json.JSONObject;
 import GROUPE6_INF2050.Enums.ActivityOrder;
@@ -32,7 +31,7 @@ public class JsonFieldsValidatorRule implements ValidationRule {
     public static boolean areAllFieldsValid(JSONObject jsonObject, ErrorHandler errorHandler, StringBuilder errorMessage) {
         return checkRequiredKeys(jsonObject, errorHandler, errorMessage) &&
                 checkArchitecteSpecificKey(jsonObject, errorHandler, errorMessage) &&
-                validateCycleByOrder(errorHandler, errorMessage) &&
+                validateCycleByOrder(jsonObject,errorHandler, errorMessage) &&
                 checkActivitiesFields(jsonObject, errorHandler, errorMessage);
     }
 
@@ -64,10 +63,10 @@ public class JsonFieldsValidatorRule implements ValidationRule {
         return true;
     }
 
-    private static boolean validateCycleByOrder(ErrorHandler errorHandler, StringBuilder errorMessage) {
-        Cycle cycle = CycleValidator.getCycle();
-        if (cycle == null || ActivityOrder.isCycleValidByOrder(cycle, ActivityOrder.getCurrentOrder())) {
-            String error = "Le cycle '" + (cycle != null ? cycle.getLabel() : "inconnu") + "' n'est pas valide pour l'ordre '" + ActivityOrder.getCurrentOrder().getOrder() + "'.";
+    private static boolean validateCycleByOrder(JSONObject jsonObject, ErrorHandler errorHandler, StringBuilder errorMessage) {
+        Cycle cycle = Cycle.getCycleByLabel(jsonObject.optString("cycle", null));
+        if (cycle == null || ActivityOrder.isCycleValidByOrder(cycle, ActivityOrder.searchFromJsonOrder(jsonObject.optString("ordre",null)))) {
+            String error = "Le cycle '" + (cycle != null ? cycle.getLabel() : "inconnu") + "' n'est pas valide pour l'ordre '" + ActivityOrder.searchFromJsonOrder(jsonObject.optString("ordre",null)).getOrderString() + "'.";
             ErrorHandler.addErrorIfNotNull(errorHandler, error);
             errorMessage.append("- ").append(error).append("\n");
             return false;

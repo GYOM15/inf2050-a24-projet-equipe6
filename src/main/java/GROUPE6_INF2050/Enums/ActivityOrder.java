@@ -9,7 +9,7 @@ public enum ActivityOrder {
     PODIATRES("podiatres", new CycleValidator(Cycle.getCycleByLabel("2021-2024"))),
     ORDER_NON_VALIDE("Ordre Inconu", null);
 
-    public String getOrder() {
+    public String getOrderString() {
         return order;
     }
 
