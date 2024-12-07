@@ -1,11 +1,10 @@
 {
-  "numero_de_permis": "A0001",
+  "numero_de_permis": "34455",
   "nom": "Guy",
   "prenom": "Olivier",
   "sexe": 1,
-  "cycle": "2023-2025",
-  "ordre": "architectes",
-  "heures_transferees_du_cycle_precedent": 2,
+  "cycle": "2021-2024",
+  "ordre": "podiatres",
   "activites": [
     {
       "description": "Cours sur la déontologie",
@@ -14,14 +13,14 @@
       "date": "2024-03-20"
     },
     {
-      "description": "Séminaire sur l'architecture contemporaine",
+      "description": "Séminaire déontologiedéontologie",
       "categorie": "séminaire",
-      "heures": 10,
+      "heures": 1,
       "date": "2024-01-07"
     },
     {
       "description": "Séminaire sur l'architecture contemporaine",
-      "categorie": "atelier",
+      "categorie": "séminaire",
       "heures": 10,
       "date": "2024-03-07"
     },

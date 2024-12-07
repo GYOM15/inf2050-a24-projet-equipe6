@@ -1,9 +1,10 @@
-package GROUPE6_INF2050.Utilities;
+package Groupe6.Utilities;
 
 
-import GROUPE6_INF2050.Handlers.ErrorHandler;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import GROUPE6_INF2050.Handlers.ErrorHandler;
+import GROUPE6_INF2050.Validators.GeneralsRulesValidators.JsonFieldsValidatorRule;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,7 @@ class JsonFieldsUtilityTest {
         jsonObject.put("heures_transferees_du_cycle_precedent", 1);
         jsonObject.put("activites", new JSONArray());
 
-        boolean result = JsonFieldsUtility.checkJsonFields(jsonObject, errorHandler);
+        boolean result = JsonFieldsValidatorRule.checkJsonFields(jsonObject, errorHandler);
         assertTrue(result);
 
         assertTrue(errorHandler.getErrors().isEmpty());
@@ -50,7 +51,7 @@ class JsonFieldsUtilityTest {
         jsonObject.put("cycle", "2023-2025");
         jsonObject.put("ordre", "architectes");
 
-        assertFalse(JsonFieldsUtility.checkJsonFields(jsonObject, errorHandler));
+        assertFalse(JsonFieldsValidatorRule.checkJsonFields(jsonObject, errorHandler));
 
         assertEquals(1, errorHandler.getErrors().size());
         assertTrue(errorHandler.getErrors().contains("La clé : activites est manquante dans le fichier JSON"));
@@ -64,7 +65,7 @@ class JsonFieldsUtilityTest {
         jsonObject.put("heures_transferees_du_cycle_precedent", 10);
         jsonObject.put("activites", new JSONArray());
 
-        assertTrue(JsonFieldsUtility.checkJsonFields(jsonObject, errorHandler));
+        assertTrue(JsonFieldsValidatorRule.checkJsonFields(jsonObject, errorHandler));
 
         assertTrue(errorHandler.getErrors().isEmpty());
     }
@@ -77,7 +78,7 @@ class JsonFieldsUtilityTest {
         jsonObject.put("heures_transferees_du_cycle_precedent", 1);
         jsonObject.put("activites", new JSONArray());
 
-        assertFalse(JsonFieldsUtility.checkJsonFields(jsonObject, errorHandler));
+        assertFalse(JsonFieldsValidatorRule.checkJsonFields(jsonObject, errorHandler));
 
         assertEquals(1, errorHandler.getErrors().size());
         assertTrue(errorHandler.getErrors().contains("La clé 'heures_transferees_du_cycle_precedent' ne doit exister que pour l'ordre architectes."));
@@ -91,7 +92,7 @@ class JsonFieldsUtilityTest {
         jsonObject.put("heures_transferees_du_cycle_precedent", 1);
         jsonObject.put("activites", new JSONArray());
 
-        JsonFieldsUtility.checkJsonFields(jsonObject, errorHandler);
+        JsonFieldsValidatorRule.checkJsonFields(jsonObject, errorHandler);
 
         assertTrue(errorHandler.getErrors().isEmpty());
     }
@@ -104,7 +105,7 @@ class JsonFieldsUtilityTest {
         jsonObject.put("heures_transferees_du_cycle_precedent", 1);
         jsonObject.put("activites", new JSONArray());
 
-        JsonFieldsUtility.checkJsonFields(jsonObject, errorHandler);
+        JsonFieldsValidatorRule.checkJsonFields(jsonObject, errorHandler);
 
         assertTrue(errorHandler.getErrors().contains("Le cycle 2014-2022 n'est pas valide pour l'ordre architectes"));
     }
@@ -124,7 +125,7 @@ class JsonFieldsUtilityTest {
 
         jsonObject.getJSONArray("activites").add(activity);
 
-        assertTrue(JsonFieldsUtility.areAllFieldsValid(jsonObject, errorHandler));
+        assertTrue(JsonFieldsValidatorRule.areAllFieldsValid(jsonObject, errorHandler));
 
         assertTrue(errorHandler.getErrors().isEmpty());
     }
@@ -143,7 +144,7 @@ class JsonFieldsUtilityTest {
 
         jsonObject.getJSONArray("activites").add(activity);
 
-        assertFalse(JsonFieldsUtility.areAllFieldsValid(jsonObject, errorHandler));
+        assertFalse(JsonFieldsValidatorRule.areAllFieldsValid(jsonObject, errorHandler));
 
         assertEquals(1, errorHandler.getErrors().size());
         assertTrue(errorHandler.getErrors().contains("La clé : heures est manquante pour l'activité 0"));

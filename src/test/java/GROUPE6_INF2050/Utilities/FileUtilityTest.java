@@ -1,6 +1,8 @@
-package GROUPE6_INF2050.Utilities;
+package Groupe6.Utilities;
+
 
 import GROUPE6_INF2050.Exceptions.Groupe6INF2050Exception;
+import GROUPE6_INF2050.Utilities.FileUtility;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

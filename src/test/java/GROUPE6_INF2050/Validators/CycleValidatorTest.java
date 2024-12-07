@@ -1,7 +1,9 @@
-package GROUPE6_INF2050.Validators;
+package Groupe6.Validators;
+
 
 import GROUPE6_INF2050.Enums.Cycle;
 import GROUPE6_INF2050.Handlers.ErrorHandler;
+import GROUPE6_INF2050.Validators.CycleValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,28 +20,28 @@ class CycleValidatorTest {
     @Test
     public void testCycleValidator_OneCycleConstructor() {
         CycleValidator cycleValidator = new CycleValidator(Cycle.CYCLE_2021_2024);
-        assertEquals(Cycle.CYCLE_2021_2024, cycleValidator.getOneCycle());
+        assertEquals(Cycle.CYCLE_2021_2024, cycleValidator.getCycle());
     }
 
     @Test
     public void testCycleValidator_MultipleCyclesConstructor() {
         CycleValidator cycleValidator = new CycleValidator(Cycle.CYCLE_2020_2022, Cycle.CYCLE_2023_2025);
-        assertTrue(cycleValidator.getCycle().contains(Cycle.CYCLE_2020_2022));
-        assertTrue(cycleValidator.getCycle().contains(Cycle.CYCLE_2023_2025));
+        assertTrue(cycleValidator.getArchitectesCycle().contains(Cycle.CYCLE_2020_2022));
+        assertTrue(cycleValidator.getArchitectesCycle().contains(Cycle.CYCLE_2023_2025));
     }
 
     @Test
     public void testSetCycle_ValidCycle() {
         CycleValidator cycleValidator = new CycleValidator(Cycle.CYCLE_2020_2022, Cycle.CYCLE_2023_2025);
         cycleValidator.setCycle(Cycle.CYCLE_2020_2022);
-        assertEquals(Cycle.CYCLE_2020_2022, CycleValidator.getCycle().get(0));
+        assertEquals(Cycle.CYCLE_2020_2022, CycleValidator.getArchitectesCycle().get(0));
     }
 
     @Test
     public void testSetCycle_InvalidCycle() {
         CycleValidator cycleValidator = new CycleValidator(Cycle.CYCLE_2020_2022);
         cycleValidator.setCycle(Cycle.CYCLE_2023_2025);
-        assertEquals(Cycle.CYCLE_2020_2022, CycleValidator.getCycle().get(0));
+        assertEquals(Cycle.CYCLE_2020_2022, CycleValidator.getArchitectesCycle().get(0));
     }
 
     @Test
@@ -70,7 +72,7 @@ class CycleValidatorTest {
     @Test
     public void testGetCycle() {
         CycleValidator cycleValidator = new CycleValidator(Cycle.CYCLE_2020_2022, Cycle.CYCLE_2023_2025);
-        assertTrue(cycleValidator.getCycle().contains(Cycle.CYCLE_2020_2022));
-        assertTrue(cycleValidator.getCycle().contains(Cycle.CYCLE_2023_2025));
+        assertTrue(cycleValidator.getArchitectesCycle().contains(Cycle.CYCLE_2020_2022));
+        assertTrue(cycleValidator.getArchitectesCycle().contains(Cycle.CYCLE_2023_2025));
     }
 }

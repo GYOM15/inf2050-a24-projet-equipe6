@@ -1,5 +1,6 @@
-package GROUPE6_INF2050.Enums;
+package Groupe6.Enums;
 
+import GROUPE6_INF2050.Enums.Cycle;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;

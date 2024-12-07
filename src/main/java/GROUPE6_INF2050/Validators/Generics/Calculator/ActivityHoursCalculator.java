@@ -1,12 +1,11 @@
-package GROUPE6_INF2050.Validators.HoursCalculators;
+package GROUPE6_INF2050.Validators.Generics.Calculator;
 
-
+import GROUPE6_INF2050.Enums.ActivityCategory;
 import GROUPE6_INF2050.Handlers.ErrorHandler;
 import GROUPE6_INF2050.Validators.CycleValidator;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
-
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,10 +19,12 @@ public class ActivityHoursCalculator {
     static class Activity {
         String date;
         int heures;
+        String categorie;
 
         Activity(JSONObject activityJson) {
             this.date = activityJson.getString("date");
             this.heures = activityJson.getInt("heures");
+            this.categorie = activityJson.optString("categorie");
         }
     }
 
@@ -67,8 +68,20 @@ public class ActivityHoursCalculator {
     private static int calcul(JSONObject jsonObject, ErrorHandler errorHandler) {
         JSONArray activities = (JSONArray) JSONSerializer.toJSON(jsonObject.getString("activites"));
         Map<String, Integer> hoursByDate = new HashMap<>();
-        activities.forEach(obj -> addHours(hoursByDate, new Activity((JSONObject) obj), errorHandler));
+        checkIfValidCategory(errorHandler, activities, hoursByDate);
         return hoursByDate.values().stream().mapToInt(Integer::intValue).sum();
+    }
+
+    private static void checkIfValidCategory(ErrorHandler errorHandler, JSONArray activities, Map<String, Integer> hoursByDate) {
+        for (Object obj : activities) {
+            JSONObject activityJson = (JSONObject) obj;
+            Activity activity = new Activity(activityJson);
+            // Vérifier si la catégorie est valide
+            ActivityCategory category = ActivityCategory.searchFromJsonCategory(activity.categorie, errorHandler);
+            if (category != ActivityCategory.CATEGORIE_NON_VALIDE) {
+                addHours(hoursByDate, activity, errorHandler);
+            }
+        }
     }
 
     /**
