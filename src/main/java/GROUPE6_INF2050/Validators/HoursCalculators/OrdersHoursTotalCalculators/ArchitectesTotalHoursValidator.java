@@ -1,8 +1,8 @@
 package GROUPE6_INF2050.Validators.HoursCalculators.OrdersHoursTotalCalculators;
 
+
 import GROUPE6_INF2050.Enums.Cycle;
 import GROUPE6_INF2050.Handlers.ErrorHandler;
-
 
 public class ArchitectesTotalHoursValidator{
 

@@ -1,11 +1,14 @@
 package GROUPE6_INF2050.Utilities;
-import GROUPE6_INF2050.Exceptions.Groupe6INF2050Exception;
-import GROUPE6_INF2050.Handlers.ErrorHandler;
+
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 import org.apache.commons.io.IOUtils;
+import GROUPE6_INF2050.Exceptions.Groupe6INF2050Exception;
+import GROUPE6_INF2050.Handlers.ErrorHandler;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -17,11 +20,9 @@ import java.nio.charset.StandardCharsets;
  * */
 public class JsonFileUtility extends FileUtility {
     private JSONObject jsonObject;
-    private JSONArray jsonArray;
 
     public JSONArray getJsonArray() {
-        this.jsonArray = jsonObject.getJSONArray("activites");
-        return jsonArray;
+        return jsonObject.getJSONArray("activites");
     }
 
     /**

@@ -1,8 +1,10 @@
-package GROUPE6_INF2050.Validators.GeneralsRulesValidators;
+package Groupe6.Validators.GeneralsRulesValidators;
+
 
 import GROUPE6_INF2050.Exceptions.Groupe6INF2050Exception;
 import GROUPE6_INF2050.Handlers.ErrorHandler;
 import GROUPE6_INF2050.Utilities.JsonFileUtility;
+import GROUPE6_INF2050.Validators.GeneralsRulesValidators.HoursValidatorRule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +26,7 @@ class HoursValidatorTest {
     public void testAreHoursPositive_ValidHours() throws Groupe6INF2050Exception {
         JsonFileUtility jsonFileUtility = new JsonFileUtility(INPUT_FILE_VALIDHOURS, OUTPUT_FILE);
         jsonFileUtility.loadAndValid();
-        assertTrue(HoursValidator.areHoursPositive(jsonFileUtility, errorHandler));
+        assertTrue(HoursValidatorRule.areHoursPositive(jsonFileUtility, errorHandler));
         assertTrue(errorHandler.getErrors().isEmpty());
     }
 
@@ -32,7 +34,7 @@ class HoursValidatorTest {
     public void testAreHoursPositive_NegativeHours() throws Groupe6INF2050Exception {
         JsonFileUtility jsonFileUtility = new JsonFileUtility(INPUT_FILE_NEGATIVEHOURS, OUTPUT_FILE);
         jsonFileUtility.loadAndValid();
-        assertFalse(HoursValidator.areHoursPositive(jsonFileUtility, errorHandler));
+        assertFalse(HoursValidatorRule.areHoursPositive(jsonFileUtility, errorHandler));
         assertFalse(errorHandler.getErrors().isEmpty());
     }
 

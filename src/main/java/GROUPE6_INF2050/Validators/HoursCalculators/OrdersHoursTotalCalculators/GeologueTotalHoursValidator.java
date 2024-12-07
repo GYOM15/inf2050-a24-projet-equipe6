@@ -16,6 +16,7 @@ public class GeologueTotalHoursValidator {
     public static void validateByCycle(Cycle cycle, int totalHours, ErrorHandler errorHandler) {
         int requiredHours = 55;
         if (totalHours < requiredHours) {
+            System.out.println(totalHours);
             ErrorHandler.addErrorIfNotNull(errorHandler,"Il manque " + (requiredHours - totalHours) +
                     " heures pour compléter le cycle " + cycle.getLabel());
         }

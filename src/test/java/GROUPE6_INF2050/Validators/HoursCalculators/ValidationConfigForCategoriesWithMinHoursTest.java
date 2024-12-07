@@ -1,10 +1,12 @@
-package GROUPE6_INF2050.Validators.HoursCalculators;
+package Groupe6.Validators.HoursCalculators;
 
+import GROUPE6_INF2050.Validators.HoursCalculators.ValidationConfigForCategoriesWithMinHours;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
 
+import static net.sf.ezmorph.test.ArrayAssertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ValidationConfigForCategoriesWithMinHoursTest {

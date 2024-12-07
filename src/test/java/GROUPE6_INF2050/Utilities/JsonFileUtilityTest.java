@@ -1,11 +1,12 @@
-package GROUPE6_INF2050.Utilities;
+package Groupe6.Utilities;
+
 
 import GROUPE6_INF2050.Exceptions.Groupe6INF2050Exception;
 import GROUPE6_INF2050.Handlers.ErrorHandler;
+import GROUPE6_INF2050.Utilities.JsonFileUtility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.lang.*;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
