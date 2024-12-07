@@ -1,4 +1,4 @@
-package Groupe6.Enums;
+package GROUPE6_INF2050.Enums;
 
 
 import GROUPE6_INF2050.Enums.ActivityCategory;
