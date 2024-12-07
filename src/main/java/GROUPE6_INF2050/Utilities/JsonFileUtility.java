@@ -84,7 +84,7 @@ public class JsonFileUtility extends FileUtility {
      */
     private JSONObject createJsonOutput(ErrorHandler errorHandler) {
         JSONObject jsonOutput = new JSONObject();
-        jsonOutput.put("complet", !errorHandler.hasErrors());
+        jsonOutput.put("complet", errorHandler.hasErrors());
         JSONArray jsonErrors = new JSONArray();
         jsonErrors.addAll(errorHandler.getErrors());
         jsonOutput.put("errors", jsonErrors);

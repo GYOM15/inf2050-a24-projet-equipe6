@@ -72,7 +72,8 @@ public class ErrorHandler {
      * @return true si la liste n'est pas vide
      * */
     public boolean hasErrors() {
-        return !errors.isEmpty();
+
+        return errors.isEmpty();
     }
 
     /**
