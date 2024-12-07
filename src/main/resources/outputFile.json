@@ -1,4 +1,7 @@
 {
-    "complet": true,
-    "errors": []
+    "complet": false,
+    "errors":     [
+        "Il manque 2 heures pour compléter le cycle 2023-2025",
+        "Il manque 4 heures dans les catégories : cours, atelier, séminaire, colloque, conférence, lecture dirigée. Le minimum autorisé est de 17h."
+    ]
 }	
