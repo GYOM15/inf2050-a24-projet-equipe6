@@ -2,7 +2,10 @@ package GROUPE6_INF2050.Validators.GeneralsRulesValidators;
 
 import GROUPE6_INF2050.Handlers.ErrorHandler;
 import GROUPE6_INF2050.Utilities.JsonFileUtility;
+<<<<<<<< HEAD:src/main/java/GROUPE6_INF2050/Validators/GeneralsRulesValidators/DescriptionValidatorRule.java
 import GROUPE6_INF2050.Validators.GeneralsRulesValidators.Interfaces.ValidationRule;
+========
+>>>>>>>> main:src/main/java/GROUPE6_INF2050/Validators/GeneralsRulesValidators/DescriptionValidator.java
 
 /**
  * Valide la description des activités pour s'assurer qu'elle dépasse 20 caractères.
