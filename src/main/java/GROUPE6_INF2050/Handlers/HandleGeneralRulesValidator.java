@@ -11,25 +11,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Gestionnaire centralisé pour appliquer les règles générales de validation.
- */
 public class HandleGeneralRulesValidator {
     private final List<ValidationRule> validationRules;
     private final StatisticsFileManager statisticsFileManager;
 
-    /**
-     * Constructeur qui initialise et enregistre les règles générales de validation.
-     */
     public HandleGeneralRulesValidator(StatisticsFileManager statisticsFileManager) {
         this.statisticsFileManager = statisticsFileManager;
-        validationRules = new ArrayList<>();
+        this.validationRules = new ArrayList<>();
         registerValidationRules();
     }
 
-    /**
-     * Enregistre toutes les règles générales de validation.
-     */
     private void registerValidationRules() {
         validationRules.add(new PermitNumberValidatorRule());
         validationRules.add(new DescriptionValidatorRule());
@@ -40,30 +31,38 @@ public class HandleGeneralRulesValidator {
         validationRules.add(new PersonValidatorRule());
     }
 
-    /**
-     * Applique toutes les règles de validation sur un fichier JSON.
-     *
-     * @param jsonFileUtility Utilitaire pour manipuler le fichier JSON.
-     * @param errorHandler    Gestionnaire des erreurs de validation.
-     * @throws Groupe6INF2050Exception Si une ou plusieurs règles échouent.
-     */
-    public boolean handleGeneralsRules(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler, StatisticsData statisticsData) throws Groupe6INF2050Exception, IOException {
+    public boolean handleGeneralsRules(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler, StatisticsData statisticsData) throws IOException, Groupe6INF2050Exception {
         StringBuilder errorMessage = new StringBuilder("Échec de la validation pour les raisons suivantes :\n");
+        boolean isValid = validateRules(jsonFileUtility, errorHandler, errorMessage);
+        if (!isValid) {
+            updateStatisticsOnFailure(statisticsData, jsonFileUtility, errorHandler);
+            throwValidationException(errorMessage);
+        }
+        return true;
+    }
+
+    private boolean validateRules(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler, StringBuilder errorMessage) {
         boolean isValid = true;
         for (ValidationRule rule : validationRules) {
             isValid &= rule.validate(jsonFileUtility, errorHandler, errorMessage);
         }
-        if (!isValid) {
-            if (!PermitNumberValidatorRule.isPermitNumberState()){
-                statisticsData.incrementInvalidPermitDeclarations(1);
-            }
-            statisticsData.incrementIncompleteOrInvalidDeclarations(1);
-            jsonFileUtility.save(errorHandler);
-            statisticsFileManager.saveStatistics(statisticsData);
-            throw new Groupe6INF2050Exception(errorMessage.toString());
-        }
         return isValid;
     }
 
+    private void updateStatisticsOnFailure(StatisticsData statisticsData, JsonFileUtility jsonFileUtility, ErrorHandler errorHandler) throws IOException, Groupe6INF2050Exception {
+        if (!PermitNumberValidatorRule.isPermitNumberState()) {
+            statisticsData.incrementInvalidPermitDeclarations(1);
+        }
+        statisticsData.incrementIncompleteOrInvalidDeclarations(1);
+        saveErrorData(jsonFileUtility, errorHandler, statisticsData);
+    }
 
+    private void saveErrorData(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler, StatisticsData statisticsData) throws IOException, Groupe6INF2050Exception {
+        jsonFileUtility.save(errorHandler);
+        statisticsFileManager.saveStatistics(statisticsData);
+    }
+
+    private void throwValidationException(StringBuilder errorMessage) throws Groupe6INF2050Exception {
+        throw new Groupe6INF2050Exception(errorMessage.toString());
+    }
 }
