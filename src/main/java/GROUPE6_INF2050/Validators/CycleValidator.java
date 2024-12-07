@@ -10,6 +10,7 @@ import java.util.List;
 
 import static GROUPE6_INF2050.Validators.GeneralValidators.DateValidator.validate;
 
+
 public class CycleValidator {
     private static Cycle currentCycle;
 
