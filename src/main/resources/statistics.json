@@ -1,20 +1,13 @@
 {
-    "totalDeclarations": 6,
-    "completeDeclarations": 4,
-    "incompleteOrInvalidDeclarations": 2,
-    "maleDeclarations": 6,
+    "totalDeclarations": 0,
+    "completeDeclarations": 0,
+    "incompleteOrInvalidDeclarations": 0,
+    "maleDeclarations": 0,
     "femaleDeclarations": 0,
     "unknownGenderDeclarations": 0,
-    "totalActivities": 46,
-    "activitiesByCategory":     {
-        "séminaire": 4,
-        "groupe de discussion": 18,
-        "atelier": 6,
-        "cours": 6,
-        "conférence": 6,
-        "rédaction professionnelle": 6
-    },
-    "completeDeclarationsByOrder": {"architectes": 4},
-    "validDeclarationsByOrder": {"architectes": 6},
+    "totalActivities": 0,
+    "activitiesByCategory": {},
+    "completeDeclarationsByOrder": {},
+    "validDeclarationsByOrder": {},
     "invalidPermitDeclarations": 0
 }
