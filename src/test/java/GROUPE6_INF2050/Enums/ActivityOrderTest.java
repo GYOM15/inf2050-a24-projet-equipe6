@@ -1,4 +1,4 @@
-package Groupe6.Enums;
+package GROUPE6_INF2050.Enums;
 
 import GROUPE6_INF2050.Enums.ActivityOrder;
 import GROUPE6_INF2050.Enums.Cycle;
@@ -55,33 +55,33 @@ class ActivityOrderTest {
 
     @Test
     void testSearchFromJsonOrder_ValidOrder() {
-        ActivityOrder order = ActivityOrder.searchFromJsonOrder("architectes", errorHandler);
+        ActivityOrder order = ActivityOrder.searchFromJsonOrder("architectes");
         assertEquals(ActivityOrder.ARCHITECTES, order);
     }
 
     @Test
     void testSearchFromJsonOrder_CaseInsensitive() {
-        ActivityOrder order = ActivityOrder.searchFromJsonOrder("ARCHITECTES", errorHandler);
+        ActivityOrder order = ActivityOrder.searchFromJsonOrder("ARCHITECTES");
         assertEquals(ActivityOrder.ARCHITECTES, order);
     }
 
     @Test
     void testSearchFromJsonOrder_InvalidOrder() {
-        ActivityOrder order = ActivityOrder.searchFromJsonOrder("non-existant-order", errorHandler);
+        ActivityOrder order = ActivityOrder.searchFromJsonOrder("non-existant-order");
         assertEquals(ActivityOrder.ORDER_NON_VALIDE, order);
         assertTrue(errorHandler.getErrors().contains("L'ordre non-existant-order n'est pas valide"));
     }
 
     @Test
     void testSearchFromJsonOrder_NullOrder() {
-        ActivityOrder order = ActivityOrder.searchFromJsonOrder(null, errorHandler);
+        ActivityOrder order = ActivityOrder.searchFromJsonOrder(null);
         assertEquals(ActivityOrder.ORDER_NON_VALIDE, order);
         assertTrue(errorHandler.getErrors().contains("L'ordre null n'est pas valide"));
     }
 
     @Test
     void testSearchFromJsonOrder_NoErrorHandler() {
-        ActivityOrder order = ActivityOrder.searchFromJsonOrder("non-existant-order", null);
+        ActivityOrder order = ActivityOrder.searchFromJsonOrder("non-existant-order");
         assertEquals(ActivityOrder.ORDER_NON_VALIDE, order);
     }
 }

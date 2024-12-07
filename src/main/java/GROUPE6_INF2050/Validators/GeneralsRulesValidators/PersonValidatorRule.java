@@ -3,7 +3,6 @@ package GROUPE6_INF2050.Validators.GeneralsRulesValidators;
 import GROUPE6_INF2050.Validators.GeneralsRulesValidators.Interfaces.ValidationRule;
 import GROUPE6_INF2050.Utilities.JsonFileUtility;
 import GROUPE6_INF2050.Handlers.ErrorHandler;
-import net.sf.json.JSONObject;
 
 /**
  * Règle de validation pour les informations personnelles (nom, prénom, sexe).
@@ -26,14 +25,11 @@ public class PersonValidatorRule implements ValidationRule {
     @Override
     public boolean validate(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler, StringBuilder errorMessage) {
         boolean isValid = true;
-        JSONObject jsonObject = jsonFileUtility.getJsonObject();
-        String lastName = jsonObject.optString("nom", null);
-        String firstName = jsonObject.optString("prenom", null);
-        gender = jsonObject.has("sexe") ? jsonObject.optInt("sexe") : null;
-        if (!validateLastName(lastName, errorHandler, errorMessage)) {
+        gender = jsonFileUtility.getJsonObject().has("sexe") ? jsonFileUtility.getJsonObject().optInt("sexe") : null;
+        if (!validateLastName(jsonFileUtility.getJsonObject().optString("nom", null), errorHandler, errorMessage)) {
             isValid = false;
         }
-        if (!validateFirstName(firstName, errorHandler, errorMessage)) {
+        if (!validateFirstName(jsonFileUtility.getJsonObject().optString("prenom", null), errorHandler, errorMessage)) {
             isValid = false;
         }
         if (!validateGender(gender, errorHandler, errorMessage)) {

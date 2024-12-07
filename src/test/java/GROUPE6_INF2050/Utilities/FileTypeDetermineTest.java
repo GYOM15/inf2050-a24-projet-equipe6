@@ -1,4 +1,4 @@
-package Groupe6.Utilities;
+package GROUPE6_INF2050.Utilities;
 
 import GROUPE6_INF2050.Utilities.FileTypeDetermine;
 import org.junit.jupiter.api.BeforeEach;
