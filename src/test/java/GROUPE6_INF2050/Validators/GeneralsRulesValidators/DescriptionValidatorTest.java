@@ -1,15 +1,17 @@
-package Groupe6.Validators.GeneralsRulesValidators;
+package GROUPE6_INF2050.Validators.GeneralsRulesValidators;
 
 
 import GROUPE6_INF2050.Exceptions.Groupe6INF2050Exception;
 import GROUPE6_INF2050.Handlers.ErrorHandler;
 import GROUPE6_INF2050.Utilities.JsonFileUtility;
-import GROUPE6_INF2050.Validators.GeneralsRulesValidators.DescriptionValidatorRule;
+import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertTrue;
 
 
-
-
-class DescriptionValidatorTest {
+public class DescriptionValidatorTest {
     private static final String INPUT_FILE_DESCRIPTIONTOOSHORT = "tests/main/Vendor/DescriptionValidatorTest/inputTestIsDescriptionOver20Characters_DescriptionTooShort.json";
     private static final String INPUT_FILE_VALIDDESCRIPTION = "tests/main/Vendor/DescriptionValidatorTest/inputTestIsDescriptionOver20Characters_ValidDescription.json";
     private static final String OUTPUT_FILE = "tests/main/Vendor/outputTest.json";

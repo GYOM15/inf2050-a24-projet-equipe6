@@ -1,4 +1,4 @@
-package Groupe6.Validators.ActivitiesValidators.SpecificValidators;
+package GROUPE6_INF2050.Validators.ActivitiesValidators.SpecificValidators;
 
 
 import net.sf.json.JSONObject;

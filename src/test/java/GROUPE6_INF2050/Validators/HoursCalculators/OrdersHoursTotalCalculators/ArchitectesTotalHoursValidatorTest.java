@@ -1,4 +1,4 @@
-package Groupe6.Validators.HoursCalculators.OrdersHoursTotalCalculators;
+package GROUPE6_INF2050.Validators.HoursCalculators.OrdersHoursTotalCalculators;
 
 
 import GROUPE6_INF2050.Enums.Cycle;
