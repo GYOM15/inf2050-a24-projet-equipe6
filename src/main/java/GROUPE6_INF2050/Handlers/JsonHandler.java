@@ -22,33 +22,71 @@ public class JsonHandler {
 
     public void handleJson(JsonFileUtility obj, StatisticsData statisticsData) throws Groupe6INF2050Exception, IOException {
         synchronized (lock) {
-            ErrorHandler errorHandler = new ErrorHandler();
-            obj.loadAndValid();
-            validateGeneralRules(obj, errorHandler, statisticsData);
-            calculateAndSaveTotalHours(obj, errorHandler);
-            Statistics statistics = new Statistics(obj, statisticsData);
-            statistics.validateAndCalculateStatistics();
+            initializeStatistics(statisticsData);
+            ErrorHandler errorHandler = loadJsonAndValidate(obj, statisticsData);
+            setOrderAndCycle(obj);
+            processActivityHours(obj, errorHandler);
+            updateStatistics(obj, statisticsData);
         }
     }
 
-    private void validateGeneralRules(JsonFileUtility obj, ErrorHandler errorHandler, StatisticsData statisticsData) throws Groupe6INF2050Exception, IOException {
-        generalRulesValidator.handleGeneralsRules(obj, errorHandler, statisticsData);
+    private void initializeStatistics(StatisticsData statisticsData) {
+        statisticsData.incrementTotalDeclarations(1);
+    }
+
+    private ErrorHandler loadJsonAndValidate(JsonFileUtility obj, StatisticsData statisticsData) throws IOException, Groupe6INF2050Exception {
+        ErrorHandler errorHandler = new ErrorHandler();
+        obj.loadAndValid();
+        validateAndIncrementStatistics(obj, errorHandler, statisticsData);
+        return errorHandler;
+    }
+
+    private void validateAndIncrementStatistics(JsonFileUtility obj, ErrorHandler errorHandler, StatisticsData statisticsData) throws IOException, Groupe6INF2050Exception {
+        boolean isValid = generalRulesValidator.handleGeneralsRules(obj, errorHandler, statisticsData);
+        if (isValid) {
+            incrementValidDeclarations(obj, statisticsData);
+        }
+    }
+
+    private void incrementValidDeclarations(JsonFileUtility obj, StatisticsData statisticsData) {
+        String orderString = ActivityOrder.searchFromJsonOrder(obj.getJsonObject().optString("ordre", null)).getOrderString();
+        statisticsData.incrementValidDeclarationsByOrder(orderString, 1);
+    }
+
+    private void setOrderAndCycle(JsonFileUtility obj) {
+        setCurrentOrder(obj);
+        setCurrentCycle(obj);
+    }
+
+    private void setCurrentOrder(JsonFileUtility obj) {
         synchronized (ActivityOrder.class) {
             ActivityOrder order = ActivityOrder.searchFromJsonOrder(obj.getJsonObject().getString("ordre"));
             ActivityOrder.setCurrentOrder(order);
         }
+    }
+
+    private void setCurrentCycle(JsonFileUtility obj) {
         synchronized (CycleValidator.class) {
             Cycle cycle = Cycle.getCycleByLabel(obj.getJsonObject().getString("cycle"));
             CycleValidator.setCurrentCycle(cycle);
         }
     }
 
-    private void calculateAndSaveTotalHours(JsonFileUtility obj, ErrorHandler errorHandler) throws Groupe6INF2050Exception {
+    private void processActivityHours(JsonFileUtility obj, ErrorHandler errorHandler) throws Groupe6INF2050Exception {
         int totalHours = ActivityHoursCalculator.getTotalHours(obj.getJsonObject(), errorHandler);
+        validateActivityHours(obj, errorHandler, totalHours);
+        obj.save(errorHandler);
+    }
+
+    private void validateActivityHours(JsonFileUtility obj, ErrorHandler errorHandler, int totalHours) throws Groupe6INF2050Exception {
         HandleTotalHoursByCategory.handleHoursTotal(obj, totalHours, errorHandler);
         CalculateMinHoursByOrderCategoryConditions.validateMinimumHours(
                 obj, ActivityOrder.getCurrentOrder(), errorHandler
         );
-        obj.save(errorHandler);
+    }
+
+    private void updateStatistics(JsonFileUtility obj, StatisticsData statisticsData) throws IOException {
+        Statistics statistics = new Statistics(obj, statisticsData);
+        statistics.validateAndCalculateStatistics();
     }
 }

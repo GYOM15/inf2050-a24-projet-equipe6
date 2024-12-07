@@ -47,17 +47,22 @@ public class HandleGeneralRulesValidator {
      * @param errorHandler    Gestionnaire des erreurs de validation.
      * @throws Groupe6INF2050Exception Si une ou plusieurs règles échouent.
      */
-    public void handleGeneralsRules(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler, StatisticsData statisticsData) throws Groupe6INF2050Exception, IOException {
+    public boolean handleGeneralsRules(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler, StatisticsData statisticsData) throws Groupe6INF2050Exception, IOException {
         StringBuilder errorMessage = new StringBuilder("Échec de la validation pour les raisons suivantes :\n");
         boolean isValid = true;
         for (ValidationRule rule : validationRules) {
             isValid &= rule.validate(jsonFileUtility, errorHandler, errorMessage);
         }
         if (!isValid) {
+            if (!PermitNumberValidatorRule.isPermitNumberState()){
+                statisticsData.incrementInvalidPermitDeclarations(1);
+            }
+            statisticsData.incrementIncompleteOrInvalidDeclarations(1);
             jsonFileUtility.save(errorHandler);
             statisticsFileManager.saveStatistics(statisticsData);
             throw new Groupe6INF2050Exception(errorMessage.toString());
         }
+        return isValid;
     }
 
 

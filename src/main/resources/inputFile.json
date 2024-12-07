@@ -1,5 +1,5 @@
 {
-    "numero_de_permis": "A 0001",
+    "numero_de_permis": "A0001",
     "nom": "Guy",
     "prenom": "Olivier",
     "sexe": 1,
@@ -46,12 +46,12 @@
         {
             "description": "Participation à un groupe de discussion sur le partage des projets architecturaux de plus de 20 ans",
             "categorie": "groupe de discussion",
-            "heures": 6,
-            "date": "2024-05-01"
+            "heures": 6
+
         },
         {
             "description": "Visite d'établissements architecturaux",
-            "categorie": "conférence",
+            "categorie": "confé rence",
             "heures": 2,
             "date": "2024-02-02"
         }

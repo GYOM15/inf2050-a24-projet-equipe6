@@ -1,20 +1,23 @@
 {
-    "totalDeclarations": 14,
-    "completeDeclarations": 2,
-    "incompleteOrInvalidDeclarations": 12,
-    "maleDeclarations": 14,
+    "totalDeclarations": 38,
+    "completeDeclarations": 14,
+    "incompleteOrInvalidDeclarations": 20,
+    "maleDeclarations": 29,
     "femaleDeclarations": 0,
     "unknownGenderDeclarations": 0,
-    "totalActivities": 109,
+    "totalActivities": 223,
     "activitiesByCategory":     {
-        "séminaire": 14,
-        "groupe de discussion": 42,
-        "atelier": 14,
-        "cours": 14,
-        "rédaction professionnelle": 14,
-        "conférence": 11
+        "séminaire": 29,
+        "groupe de discussion": 87,
+        "atelier": 29,
+        "cours": 29,
+        "rédaction professionnelle": 29,
+        "conférence": 20
     },
-    "completeDeclarationsByOrder": {"architectes": 2},
-    "validDeclarationsByOrder": {"géologues": 4},
-    "invalidPermitDeclarations": 0
+    "completeDeclarationsByOrder": {"architectes": 14},
+    "validDeclarationsByOrder":     {
+        "architectes": 8,
+        "géologues": 4
+    },
+    "invalidPermitDeclarations": 4
 }
