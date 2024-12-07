@@ -7,7 +7,7 @@ import net.sf.json.JSONSerializer;
 import java.io.*;
 
 public class StatisticsFileManager {
-    private static final String DEFAULT_FILE_PATH = "src/main/resources/statistics.json";
+    private static final String DEFAULT_FILE_PATH = "/Users/guyolivier/IdeaProjects/2120/2050/Developpement/inf2050-a24-projet-equipe6/src/main/resources/statistics.json";
     private final String filePath;
     private final Object lock = new Object();
 
