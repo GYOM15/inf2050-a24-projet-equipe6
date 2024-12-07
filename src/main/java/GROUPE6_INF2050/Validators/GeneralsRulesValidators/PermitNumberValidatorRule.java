@@ -23,12 +23,12 @@ public class PermitNumberValidatorRule implements ValidationRule {
      *
      * @return true si le numéro de permis est valide, false sinon.
      */
-    public boolean isPermitNumberState() {
+    public static boolean isPermitNumberState() {
         return isValidPermitNumber.get();
     }
 
     public static boolean isPermitNumberValid(JSONObject jsonObject, ErrorHandler errorHandler){
-        boolean isValid = switch (ActivityOrder.getCurrentOrder().getOrder()) {
+        boolean isValid = switch (ActivityOrder.searchFromJsonOrder(jsonObject.optString("ordre", null)).getOrderString()) {
             case "architectes" -> isPermitNumberArchitectesValid(jsonObject, errorHandler);
             case "psychologues" -> isPermitNumberPsychologuesValid(jsonObject, errorHandler);
             case "géologues" -> isPermitNumberGeologuesValid(jsonObject, errorHandler);

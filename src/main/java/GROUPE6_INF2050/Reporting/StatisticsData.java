@@ -4,119 +4,111 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class StatisticsData {
-    private static int totalDeclarations;
-    private static int completeDeclarations;
-    private static int incompleteOrInvalidDeclarations;
-    private static int maleDeclarations;
-    private static int femaleDeclarations;
-    private static int unknownGenderDeclarations;
-    private static int totalActivities;
-    private static Map<String, Integer> activitiesByCategory = new HashMap<>();
-    private static Map<String, Integer> completeDeclarationsByOrder = new HashMap<>();
-    private static Map<String, Integer> validDeclarationsByOrder = new HashMap<>();
-    private static int invalidPermitDeclarations;
-    private static int validDeclaration;
+    // Définition des champs et des méthodes
+    private int totalDeclarations;
+    private int completeDeclarations;
+    private int incompleteOrInvalidDeclarations;
+    private int maleDeclarations;
+    private int femaleDeclarations;
+    private int unknownGenderDeclarations;
+    private int totalActivities;
+    private final Map<String, Integer> activitiesByCategory = new HashMap<>();
+    private final Map<String, Integer> completeDeclarationsByOrder = new HashMap<>();
+    private final Map<String, Integer> validDeclarationsByOrder = new HashMap<>();
+    private int invalidPermitDeclarations;
 
-    // Increment methods
-    public static void incrementTotalDeclarations() {
-        totalDeclarations++;
+    // Incrémentation synchronisée
+    public synchronized void incrementTotalDeclarations(int count) {
+        totalDeclarations += count;
     }
 
-    public static void incrementCompleteDeclarations() {
-        completeDeclarations++;
+    public synchronized void incrementCompleteDeclarations(int count) {
+        completeDeclarations += count;
     }
 
-    public static void incrementIncompleteOrInvalidDeclarations() {
-        incompleteOrInvalidDeclarations++;
+    public synchronized void incrementIncompleteOrInvalidDeclarations(int count) {
+        incompleteOrInvalidDeclarations += count;
     }
 
-    public static void incrementValidDeclarations() {
-        validDeclaration++;
+    public synchronized void incrementMaleDeclarations(int count) {
+        maleDeclarations += count;
     }
 
-    public static void incrementMaleDeclarations() {
-        maleDeclarations++;
+    public synchronized void incrementFemaleDeclarations(int count) {
+        femaleDeclarations += count;
     }
 
-    public static void incrementFemaleDeclarations() {
-        femaleDeclarations++;
+    public synchronized void incrementUnknownGenderDeclarations(int count) {
+        unknownGenderDeclarations += count;
     }
 
-    public static void incrementUnknownGenderDeclarations() {
-        unknownGenderDeclarations++;
-    }
-
-    public static void incrementTotalActivities(int count) {
+    public synchronized void incrementTotalActivities(int count) {
         totalActivities += count;
     }
 
-    public static void incrementActivitiesByCategory(String category) {
-        activitiesByCategory.put(category, activitiesByCategory.getOrDefault(category, 0) + 1);
+    public synchronized void incrementActivitiesByCategory(String category, int count) {
+        activitiesByCategory.merge(category, count, Integer::sum);
     }
 
-    public static void incrementCompleteDeclarationsByOrder(String order) {
-        completeDeclarationsByOrder.put(order, completeDeclarationsByOrder.getOrDefault(order, 0) + 1);
+    public synchronized void incrementCompleteDeclarationsByOrder(String order, int count) {
+        completeDeclarationsByOrder.merge(order, count, Integer::sum);
     }
 
-    public static void incrementValidDeclarationsByOrder(String order) {
-        validDeclarationsByOrder.put(order, validDeclarationsByOrder.getOrDefault(order, 0) + 1);
+    public synchronized void incrementValidDeclarationsByOrder(String order, int count) {
+        validDeclarationsByOrder.merge(order, count, Integer::sum);
     }
 
-    public static void incrementInvalidPermitDeclarations() {
-        invalidPermitDeclarations++;
+    public synchronized void incrementInvalidPermitDeclarations(int count) {
+        invalidPermitDeclarations += count;
     }
 
-    // Getters
-    public static int getTotalDeclarations() {
+    // Getters synchronisés
+    public synchronized int getTotalDeclarations() {
         return totalDeclarations;
     }
 
-    public static int getCompleteDeclarations() {
+    public synchronized int getCompleteDeclarations() {
         return completeDeclarations;
     }
 
-    public static int getIncompleteOrInvalidDeclarations() {
+    public synchronized int getIncompleteOrInvalidDeclarations() {
         return incompleteOrInvalidDeclarations;
     }
 
-    public static int getValidDeclaration() {
-        return validDeclaration;
-    }
-
-    public static int getMaleDeclarations() {
+    public synchronized int getMaleDeclarations() {
         return maleDeclarations;
     }
 
-    public static int getFemaleDeclarations() {
+    public synchronized int getFemaleDeclarations() {
         return femaleDeclarations;
     }
 
-    public static int getUnknownGenderDeclarations() {
+    public synchronized int getUnknownGenderDeclarations() {
         return unknownGenderDeclarations;
     }
 
-    public static int getTotalActivities() {
+    public synchronized int getTotalActivities() {
         return totalActivities;
     }
 
-    public static Map<String, Integer> getActivitiesByCategory() {
-        return activitiesByCategory;
+    public synchronized Map<String, Integer> getActivitiesByCategory() {
+        return new HashMap<>(activitiesByCategory);
     }
 
-    public static Map<String, Integer> getCompleteDeclarationsByOrder() {
-        return completeDeclarationsByOrder;
+    public synchronized Map<String, Integer> getCompleteDeclarationsByOrder() {
+        return new HashMap<>(completeDeclarationsByOrder);
     }
 
-    public static Map<String, Integer> getValidDeclarationsByOrder() {
-        return validDeclarationsByOrder;
+    public synchronized Map<String, Integer> getValidDeclarationsByOrder() {
+        return new HashMap<>(validDeclarationsByOrder);
     }
 
-    public static int getInvalidPermitDeclarations() {
+    public synchronized int getInvalidPermitDeclarations() {
         return invalidPermitDeclarations;
     }
 
-    // Reset method for testing or re-initialization
-    public static void reset() {
+    // Reset Method
+    public synchronized void reset() {
         totalDeclarations = 0;
         completeDeclarations = 0;
         incompleteOrInvalidDeclarations = 0;
@@ -128,22 +120,24 @@ public class StatisticsData {
         completeDeclarationsByOrder.clear();
         validDeclarationsByOrder.clear();
         invalidPermitDeclarations = 0;
+        System.out.println("Statistics have been reset:");
+        System.out.println(this);
     }
 
     @Override
-    public String toString() {
-        return "StatisticsData{" +
-                "totalDeclarations=" + totalDeclarations +
-                ", completeDeclarations=" + completeDeclarations +
-                ", incompleteOrInvalidDeclarations=" + incompleteOrInvalidDeclarations +
-                ", maleDeclarations=" + maleDeclarations +
-                ", femaleDeclarations=" + femaleDeclarations +
-                ", unknownGenderDeclarations=" + unknownGenderDeclarations +
-                ", totalActivities=" + totalActivities +
-                ", activitiesByCategory=" + activitiesByCategory +
-                ", completeDeclarationsByOrder=" + completeDeclarationsByOrder +
-                ", validDeclarationsByOrder=" + validDeclarationsByOrder +
-                ", invalidPermitDeclarations=" + invalidPermitDeclarations +
+    public synchronized String toString() {
+        return "StatisticsData{\n" +
+                "  totalDeclarations=" + totalDeclarations + ",\n" +
+                "  completeDeclarations=" + completeDeclarations + ",\n" +
+                "  incompleteOrInvalidDeclarations=" + incompleteOrInvalidDeclarations + ",\n" +
+                "  maleDeclarations=" + maleDeclarations + ",\n" +
+                "  femaleDeclarations=" + femaleDeclarations + ",\n" +
+                "  unknownGenderDeclarations=" + unknownGenderDeclarations + ",\n" +
+                "  totalActivities=" + totalActivities + ",\n" +
+                "  activitiesByCategory=" + (activitiesByCategory.isEmpty() ? "0" : activitiesByCategory) + ",\n" +
+                "  completeDeclarationsByOrder=" + (completeDeclarationsByOrder.isEmpty() ? "0" : completeDeclarationsByOrder) + ",\n" +
+                "  validDeclarationsByOrder=" + (validDeclarationsByOrder.isEmpty() ? "0" : validDeclarationsByOrder) + ",\n" +
+                "  invalidPermitDeclarations=" + invalidPermitDeclarations + "\n" +
                 '}';
     }
 }

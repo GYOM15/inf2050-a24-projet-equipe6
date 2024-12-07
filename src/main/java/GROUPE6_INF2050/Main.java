@@ -3,59 +3,89 @@ package GROUPE6_INF2050;
 import GROUPE6_INF2050.Exceptions.Groupe6INF2050Exception;
 import GROUPE6_INF2050.Handlers.JsonHandler;
 import GROUPE6_INF2050.Handlers.HandleGeneralRulesValidator;
+import GROUPE6_INF2050.Reporting.StatisticsData;
 import GROUPE6_INF2050.Utilities.FileTypeDetermine;
 import GROUPE6_INF2050.Utilities.JsonFileUtility;
+import GROUPE6_INF2050.Utilities.StatisticsFileManager;
 
 import java.io.IOException;
 
 public class Main {
-    /**
-     * Point d'entrée principal de l'application; vérifie d'abord la validité des arguments puis procède au traitement du fichier.
-     *
-     * @param args Tableau contenant les chemins du fichier d'entrée et de sortie.
-     * @throws Groupe6INF2050Exception Si une erreur survient pendant le traitement du fichier.
-     */
-    public static void main(String[] args) throws Groupe6INF2050Exception {
-        if (!areArgumentsValid(args)) return;
+
+    public static void main(String[] args) {
+        StatisticsFileManager statisticsFileManager = null;
+        StatisticsData statisticsData = null;
+        String option = null;
+
         try {
+            if (!areArgumentsValid(args)) return;
+            option = args[2];
+            statisticsFileManager = new StatisticsFileManager();
+            statisticsData = statisticsFileManager.loadStatistics();
             String fileType = new FileTypeDetermine().determineFileType(args[0]);
-            processFileByType(args, fileType);
+            processFileByType(args, fileType, statisticsData, statisticsFileManager);
         } catch (IOException e) {
-            System.err.println("Erreur : " + e.getMessage());
+            System.err.println("Erreur d'entrée/sortie : " + e.getMessage());
+        } catch (Groupe6INF2050Exception e) {
+            System.err.println("Erreur de validation : " + e.getMessage());
+        } finally {
+            handleFinalActions(option, statisticsData, statisticsFileManager);
         }
     }
 
-    /**
-     * Valide le nombre d'arguments passés au programme.
-     *
-     * @param args Tableau contenant les arguments passés à l'application.
-     * @return true si le nombre d'arguments est valide, false sinon.
-     */
     private static boolean areArgumentsValid(String[] args) {
-        if (args.length != 2) {
-            throw new IllegalArgumentException("Nombre d'arguments invalide. Deux arguments sont requis.");
+        if (args.length < 3) {
+            throw new IllegalArgumentException("Aucun argument valide fourni. Utilisez -S, -SR ou spécifiez des fichiers d'entrée et de sortie.");
+        }
+        if ((args[2].equals("-S") || args[2].equals("-SR")) && args.length > 4) {
+            throw new IllegalArgumentException("Option invalide. Utilisez -S ou -SR suivi de fichiers d'entrée et de sortie.");
         }
         return true;
     }
 
-    /**
-     * Gère le traitement des fichiers en fonction du type MIME spécifié.
-     * Elle peut prendre en charge différents types de fichiers et leur appliquer un traitement spécifique.
-     *
-     * @param args      Tableau contenant les chemins du fichier d'entrée et de sortie.
-     * @param fileType  Le type MIME du fichier (exemple : "application/json" ou "application/pdf").
-     * @throws Groupe6INF2050Exception Si une erreur survient lors du traitement du fichier JSON.
-     */
-    private static void processFileByType(String[] args, String fileType) throws Groupe6INF2050Exception {
-        switch (fileType) {
-            case "application/pdf" -> System.out.println("C'est un fichier PDF. Traitement spécifique pour les fichiers PDF.");
-            case "application/json" -> {
-                JsonFileUtility obj = new JsonFileUtility(args[0], args[1]);
-                HandleGeneralRulesValidator generalRulesValidator = new HandleGeneralRulesValidator();
-                JsonHandler jsonHandler = new JsonHandler(generalRulesValidator);
-                jsonHandler.handleJson(obj);
+    private static void processFileByType(String[] args, String fileType, StatisticsData statisticsData, StatisticsFileManager statisticsFileManager) throws IOException, Groupe6INF2050Exception {
+        if ("application/json".equals(fileType)) {
+            JsonFileUtility obj = new JsonFileUtility(args[0], args[1]);
+            HandleGeneralRulesValidator generalRulesValidator = new HandleGeneralRulesValidator(statisticsFileManager);
+            JsonHandler jsonHandler = new JsonHandler(generalRulesValidator);
+            jsonHandler.handleJson(obj, statisticsData);
+        } else {
+            System.out.println("Type de fichier non pris en charge : " + fileType);
+        }
+    }
+
+    private static void resetStatistics(StatisticsData statisticsData, StatisticsFileManager statisticsFileManager) throws IOException {
+        statisticsData.reset();
+        statisticsFileManager.saveStatistics(statisticsData);
+        System.out.println("Statistiques réinitialisées.");
+    }
+
+    private static void displayStatistics(StatisticsData statisticsData) {
+        System.out.println("Statistiques finales :");
+        System.out.println(statisticsData);
+    }
+
+    private static void saveStatistics(StatisticsData statisticsData, StatisticsFileManager statisticsFileManager) {
+        try {
+            if (statisticsFileManager != null && statisticsData != null) {
+                statisticsFileManager.saveStatistics(statisticsData);
             }
-            default -> System.out.println("Type du fichier non supporté : " + fileType);
+        } catch (IOException e) {
+            System.err.println("Erreur lors de la sauvegarde des statistiques : " + e.getMessage());
+        }
+    }
+
+    private static void handleFinalActions(String option, StatisticsData statisticsData, StatisticsFileManager statisticsFileManager) {
+        saveStatistics(statisticsData, statisticsFileManager);
+
+        if ("-SR".equals(option)) {
+            try {
+                resetStatistics(statisticsData, statisticsFileManager);
+            } catch (IOException e) {
+                System.err.println("Erreur lors de la réinitialisation des statistiques : " + e.getMessage());
+            }
+        } else if ("-S".equals(option)) {
+            displayStatistics(statisticsData);
         }
     }
 }
