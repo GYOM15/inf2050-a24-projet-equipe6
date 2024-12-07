@@ -2,6 +2,7 @@ package GROUPE6_INF2050.Handlers;
 
 import GROUPE6_INF2050.Enums.Cycle;
 import GROUPE6_INF2050.Exceptions.Groupe6INF2050Exception;
+import GROUPE6_INF2050.Reporting.Statistics;
 import GROUPE6_INF2050.Utilities.JsonFileUtility;
 import GROUPE6_INF2050.Validators.CycleValidator;
 import GROUPE6_INF2050.Validators.Generics.Calculator.ActivityHoursCalculator;
@@ -31,6 +32,8 @@ public class JsonHandler {
         obj.loadAndValid();
         validateGeneralRules(obj, errorHandler);
         calculateAndSaveTotalHours(obj, errorHandler);
+        Statistics statistics = new Statistics(obj, generalRulesValidator);
+        statistics.validateAndCalculateStatistics();
     }
 
     /**
@@ -41,7 +44,8 @@ public class JsonHandler {
      * @throws Groupe6INF2050Exception Si les validations échouent.
      */
     private void validateGeneralRules(JsonFileUtility obj, ErrorHandler errorHandler) throws Groupe6INF2050Exception {
-        ActivityOrder.searchFromJsonOrder(obj.getJsonObject().getString("ordre"));
+        ActivityOrder order = ActivityOrder.searchFromJsonOrder(obj.getJsonObject().getString("ordre"));
+        ActivityOrder.setCurrentOrder(order);
         Cycle cycle = Cycle.getCycleByLabel(obj.getJsonObject().getString("cycle"));
         CycleValidator.setCurrentCycle(cycle);
         generalRulesValidator.handleGeneralsRules(obj, errorHandler);
