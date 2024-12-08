@@ -78,14 +78,14 @@ public class JsonHandler {
         obj.save(errorHandler);
     }
 
-    private void validateActivityHours(JsonFileUtility obj, ErrorHandler errorHandler, int totalHours) throws Groupe6INF2050Exception {
+    private void validateActivityHours(JsonFileUtility obj, ErrorHandler errorHandler, int totalHours) {
         HandleTotalHoursByCategory.handleHoursTotal(obj, totalHours, errorHandler);
         CalculateMinHoursByOrderCategoryConditions.validateMinimumHours(
                 obj, ActivityOrder.getCurrentOrder(), errorHandler
         );
     }
 
-    private void updateStatistics(JsonFileUtility obj, StatisticsData statisticsData, ErrorHandler errorHandler) throws IOException {
+    private void updateStatistics(JsonFileUtility obj, StatisticsData statisticsData, ErrorHandler errorHandler) {
         Statistics statistics = new Statistics(obj, statisticsData, errorHandler);
         statistics.validateAndCalculateStatistics();
     }

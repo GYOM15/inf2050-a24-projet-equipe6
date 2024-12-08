@@ -1,20 +1,20 @@
 {
-    "totalDeclarations": 7,
-    "completeDeclarations": 3,
-    "incompleteOrInvalidDeclarations": 4,
-    "maleDeclarations": 7,
+    "totalDeclarations": 10,
+    "completeDeclarations": 5,
+    "incompleteOrInvalidDeclarations": 5,
+    "maleDeclarations": 1,
     "femaleDeclarations": 0,
-    "unknownGenderDeclarations": 0,
-    "totalActivities": 54,
+    "unknownGenderDeclarations": 4,
+    "totalActivities": 41,
     "activitiesByCategory":     {
         "séminaire": 5,
-        "groupe de discussion": 21,
-        "atelier": 7,
-        "cours": 7,
-        "rédaction professionnelle": 7,
-        "conférence": 7
+        "groupe de discussion": 15,
+        "atelier": 5,
+        "cours": 6,
+        "conférence": 5,
+        "rédaction professionnelle": 5
     },
-    "completeDeclarationsByOrder": {"architectes": 3},
-    "validDeclarationsByOrder": {"architectes": 7},
-    "invalidPermitDeclarations": 0
+    "completeDeclarationsByOrder": {"architectes": 5},
+    "validDeclarationsByOrder": {"architectes": 5},
+    "invalidPermitDeclarations": 5
 }
