@@ -21,30 +21,57 @@ Chaque ordre a des règles précises concernant la durée de son cycle et le nom
 - **Durée du cycle** : 3 ans (cycle **2021-2024**).
 - **Période valide** : activités effectuées entre le **1er juin 2021** et le **1er juin 2024** inclusivement.
 - **Nombre total d'heures minimum** : 55 heures par cycle.
+- **Numéro de permis** : Composé de **2 lettres majuscules** suivies de **4 chiffres**.
+  - La **première lettre** correspond à la **première lettre du nom du membre**, en majuscule.
+    - La **deuxième lettre** correspond à la **première lettre du prénom du membre**, en majuscule.
+    - Exemple : DS3822 (D = nom, S = prénom).
 - **Heures requises par catégorie** :
     - **Cours** : minimum **22 heures**.
     - **Projet de recherche** : minimum **3 heures**.
     - **Groupe de discussion** : minimum **1 heure**.
 - **Autres règles** :
     - Pas de transfert d’heures vers un autre cycle (**les heures du cycle précédent ne sont pas comptabilisées**).
+  
 
 ### **Psychologues**
 - **Durée du cycle** : 5 ans (cycle **2020-2025**).
 - **Période valide** : activités effectuées entre le **1er janvier 2020** et le **1er janvier 2025** inclusivement.
 - **Nombre total d'heures minimum** : 90 heures par cycle.
+- **Numéro de permis** : Composé de **5 chiffres**, d’un **trait d’union** et de **2 chiffres** (exemple : 83723-34).
 - **Heures requises par catégorie** :
     - **Cours** : minimum **25 heures**.
     - **Conférence** : maximum **15 heures**. Les heures supplémentaires ne sont pas comptabilisées mais ne génèrent pas d'erreur.
 - **Autres règles** :
     - Pas de transfert d’heures vers un autre cycle (**les heures du cycle précédent ne sont pas comptabilisées**).
+  
 
-### **Architectes**
-- **Durée du cycle** : 2 ans.
-- **Nombre total d'heures minimum** : 40 heures par cycle.
+## Architectes
 
-### **Podiatres**
-- **Durée du cycle** : 3 ans.
+- **Durée du cycle** : 2 ans (cycle 2023-2025).
 - **Nombre total d'heures minimum** : 40 heures par cycle.
+- **Période valide** : Activités complétées entre **1er avril 2023** et **1er avril 2025** (ISO 8601 : AAAA-MM-JJ).
+- **Numéro de permis** : Composé d’une **lettre majuscule (A ou T)** suivie de **4 chiffres** (exemple : T3443).
+- **Heures transférées** :
+    - Maximum : **7 heures** transférables.
+    - Si supérieur à 7 : seul 7 heures sont comptées, message produit.
+    - Si négatif : ignoré, message produit.
+- **Heures requises par catégories** :
+    - Minimum **17 heures** pour **cours, atelier, séminaire, colloque, conférence, lecture dirigée** (heures transférées incluses).
+    - Maximum :
+        - **23 heures** : présentation et projet de recherche (au-delà ignoré, pas de message).
+        - **17 heures** : groupe de discussion et rédaction professionnelle (au-delà ignoré, pas de message).
+
+
+## Podiatres
+- **Durée du cycle** : 3 ans (cycle 2021-2024).
+- **Nombre total d'heures minimum** : 60 heures minimum
+- **Période valide** : Activités complétées entre **1er juin 2021** et **1er juin 2024**.
+- **Numéro de permis** : Composé de **5 chiffres** (exemple : 83453).
+- **Heures requises par catégories** : 
+    - **Cours** : minimum **22 heures**.
+    - **Projet de recherche** : minimum **3 heures**.
+    - **Groupe de discussion** : minimum **1 heure**.
+- **Transfert d’heures** : Non autorisé.
 
 ---
 
@@ -177,7 +204,7 @@ Le logiciel n'inclut pas d'interface utilisateur, car il est conçu pour être i
 
 
 ### **Exécution via le terminal l'IDE** : 
-    - juste cliquer sur "RUN"
+    Cliquer sur "RUN"
 
 ---
 

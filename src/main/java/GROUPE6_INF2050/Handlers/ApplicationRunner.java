@@ -16,13 +16,14 @@ public class ApplicationRunner {
     public void run(String[] args) throws IOException{
         validateArguments(args);
         initialize(args);
-        try {
-            processInputFile(args);
-        } catch (IOException e) {
-            System.err.println("Erreur d'entrée/sortie : " + e.getMessage());
-        } catch (Groupe6INF2050Exception e) {
-            System.err.println("Erreur de validation : " + e.getMessage());
-        } finally {
+        blockTryCatchForMainArgs(args);
+    }
+
+    private void blockTryCatchForMainArgs(String[] args) {
+        try { processInputFile(args); }
+        catch (IOException e) { System.err.println("Erreur d'entrée/sortie : " + e.getMessage()); }
+        catch (Groupe6INF2050Exception e) { System.err.println("Erreur de validation : " + e.getMessage()); }
+        finally {
             finalizeActions();
         }
     }
@@ -31,8 +32,7 @@ public class ApplicationRunner {
         if (args.length == 1) {
             if (!args[0].equals("-S") && !args[0].equals("-SR")) {
                 throw new IllegalArgumentException("Option invalide. Utilisez '-S' ou '-SR' uniquement lorsque vous fournissez un seul argument.");
-            }
-            option = args[0];
+            }option = args[0];
         } else if (args.length == 2) {
             if (args[0].isEmpty() || args[1].isEmpty()) {
                 throw new IllegalArgumentException("Les fichiers d'entrée et de sortie ne doivent pas être vides.");
@@ -48,6 +48,9 @@ public class ApplicationRunner {
     }
 
     private void processInputFile(String[] args) throws IOException, Groupe6INF2050Exception {
+        if (args[0].equals("-S") || args[0].equals("-SR")) {
+            return;
+        }
         String fileType = new FileTypeDetermine().determineFileType(args[0]);
         if ("application/json".equals(fileType)) {
             processJsonFile(args);

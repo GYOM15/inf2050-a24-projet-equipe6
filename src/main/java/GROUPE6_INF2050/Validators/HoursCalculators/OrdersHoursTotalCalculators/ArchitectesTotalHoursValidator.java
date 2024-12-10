@@ -32,7 +32,10 @@ public class ArchitectesTotalHoursValidator {
             case CYCLE_2020_2022, CYCLE_2018_2020 -> 42;
             default -> 0;
         };
+        shouldAddError(cycle, totalHours, errorHandler, requiredHours);
+    }
 
+    private static void shouldAddError(Cycle cycle, int totalHours, ErrorHandler errorHandler, int requiredHours) {
         if (requiredHours > 0 && totalHours < requiredHours) {
             isComplet.set(false);
             ErrorHandler.addErrorIfNotNull(errorHandler,

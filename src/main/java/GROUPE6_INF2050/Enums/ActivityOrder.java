@@ -39,14 +39,11 @@ public enum ActivityOrder {
         if (order == ARCHITECTES && CycleValidator.getArchitectesCycle().contains(cycle) ) {
             CycleValidator.setCycle(cycle);
             return false;
-        }
-        if (order == GEOLOGUES && cycle == Cycle.CYCLE_2021_2024) {
+        }if (order == GEOLOGUES && cycle == Cycle.CYCLE_2021_2024) {
             return false;
-        }
-        if (order == PODIATRES && cycle == Cycle.CYCLE_2021_2024){
+        }if (order == PODIATRES && cycle == Cycle.CYCLE_2021_2024){
             return false;
-        }
-        return order != PSYCHOLOGUES || cycle != Cycle.CYCLE_2020_2025;
+        }return order != PSYCHOLOGUES || cycle != Cycle.CYCLE_2020_2025;
     }
 
 

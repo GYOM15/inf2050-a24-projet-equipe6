@@ -64,8 +64,7 @@ public class CycleValidator {
         if (date.isBefore(currentCycle.getStartDate()) || date.isAfter(currentCycle.getEndDate())) {
             ErrorHandler.addErrorIfNotNull(errorHandler, "La date " + dateValue + " doit être dans le cycle " + currentCycle.getLabel() + ".");
             return true;
-        }
-        return false;
+        } return false;
     }
 
 

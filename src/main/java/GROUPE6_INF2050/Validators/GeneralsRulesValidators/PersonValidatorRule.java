@@ -28,14 +28,11 @@ public class PersonValidatorRule implements ValidationRule {
         gender = jsonFileUtility.getJsonObject().has("sexe") ? jsonFileUtility.getJsonObject().optInt("sexe") : null;
         if (!validateLastName(jsonFileUtility.getJsonObject().optString("nom", null), errorHandler, errorMessage)) {
             isValid = false;
-        }
-        if (!validateFirstName(jsonFileUtility.getJsonObject().optString("prenom", null), errorHandler, errorMessage)) {
+        }if (!validateFirstName(jsonFileUtility.getJsonObject().optString("prenom", null), errorHandler, errorMessage)) {
             isValid = false;
-        }
-        if (!validateGender(gender, errorHandler, errorMessage)) {
+        }if (!validateGender(gender, errorHandler, errorMessage)) {
             isValid = false;
-        }
-        return isValid;
+        }return isValid;
     }
 
     private boolean validateLastName(String lastName, ErrorHandler errorHandler, StringBuilder errorMessage) {

@@ -27,13 +27,13 @@ public class PsychologueTotalHoursValidator {
      * @param errorHandler L'instance ErrorHandler pour enregistrer les erreurs éventuelles
      */
     public static void validateByCycle(Cycle cycle, int totalHours, ErrorHandler errorHandler) {
-        int requiredHours = 90; // Le nombre d'heures requis pour tous les cycles
+        int requiredHours = 90;
         if (totalHours < requiredHours) {
-            isComplet.set(false); // Marque l'état comme incomplet
+            isComplet.set(false);
             ErrorHandler.addErrorIfNotNull(errorHandler,
                     "Il manque " + (requiredHours - totalHours) + " heures pour compléter le cycle " + cycle.getLabel());
         } else {
-            isComplet.set(true); // Marque l'état comme complet
+            isComplet.set(true);
         }
     }
 }

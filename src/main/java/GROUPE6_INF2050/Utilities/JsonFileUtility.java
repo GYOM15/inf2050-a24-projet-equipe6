@@ -54,13 +54,10 @@ public class JsonFileUtility extends FileUtility {
     public void loadAndValid() throws Groupe6INF2050Exception {
         try {
             this.jsonObject = (JSONObject) JSONSerializer.toJSON(IOUtils.toString(new FileInputStream(inputFile), StandardCharsets.UTF_8));
-        } catch (FileNotFoundException e) {
-            throw new Groupe6INF2050Exception("Le fichier n'existe pas");
-        } catch (JSONException e) {
-            throw new Groupe6INF2050Exception("Le fichier JSON n'est pas valide");
-        } catch (IOException e) {
-            throw new Groupe6INF2050Exception("Erreur de lecture du fichier JSON");
         }
+        catch (FileNotFoundException e) { throw new Groupe6INF2050Exception("Le fichier n'existe pas"); }
+        catch (JSONException e) { throw new Groupe6INF2050Exception("Le fichier JSON n'est pas valide"); }
+        catch (IOException e) { throw new Groupe6INF2050Exception("Erreur de lecture du fichier JSON"); }
     }
 
     /**
