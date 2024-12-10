@@ -22,15 +22,12 @@ public class ActivityStatistics {
     public static int getTotalValidActivities(JsonFileUtility jsonFileUtility) {
         JSONArray activities = jsonFileUtility.getJsonArray();
         int count = 0;
-
         for (Object activityObj : activities) {
             if (activityObj instanceof JSONObject activity) {
                 String category = activity.optString("categorie", "");
-                if (ActivityCategory.searchFromJsonCategory(category, null) != ActivityCategory.CATEGORIE_NON_VALIDE) {
-                    count++;
-                }            }
-        }
-        return count;
+                if (ActivityCategory.searchFromJsonCategory(category, null) != ActivityCategory.CATEGORIE_NON_VALIDE) { count++; }
+            }
+        }return count;
     }
 
     /**
@@ -42,16 +39,12 @@ public class ActivityStatistics {
     public static Map<ActivityCategory, Integer> getTotalActivitiesByCategory(JsonFileUtility jsonFileUtility) {
         JSONArray activities = jsonFileUtility.getJsonArray();
         Map<ActivityCategory, Integer> categoryCounts = new EnumMap<>(ActivityCategory.class);
-
         activities.forEach(activityObj -> {
             JSONObject activity = (JSONObject) activityObj;
-            String categoryLabel = activity.optString("categorie", "");
-            ActivityCategory category = ActivityCategory.searchFromJsonCategory(categoryLabel, null);
-
+            ActivityCategory category = ActivityCategory.searchFromJsonCategory(activity.optString("categorie", ""), null);
             if (category != ActivityCategory.CATEGORIE_NON_VALIDE) {
                 categoryCounts.put(category, categoryCounts.getOrDefault(category, 0) + 1);
             }
-        });
-        return categoryCounts;
+        });return categoryCounts;
     }
 }

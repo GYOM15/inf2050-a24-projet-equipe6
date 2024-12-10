@@ -33,9 +33,7 @@ public class Statistics {
         }
         else {
             statisticsData.incrementCompleteDeclarations(1);
-            statisticsData.incrementCompleteDeclarationsByOrder(
-                    ActivityOrder.getCurrentOrder().getOrderString(), 1
-            );
+            statisticsData.incrementCompleteDeclarationsByOrder( ActivityOrder.getCurrentOrder().getOrderString(), 1 );
         }
     }
 

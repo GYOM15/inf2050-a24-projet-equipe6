@@ -7,12 +7,12 @@ import net.sf.json.JSONSerializer;
 import java.io.*;
 
 public class StatisticsFileManager {
-    private static final String DEFAULT_FILE_PATH = "/Users/guyolivier/IdeaProjects/2120/2050/Developpement/inf2050-a24-projet-equipe6/src/main/resources/statistics.json";
+    private static final String RELATIVE_RESOURCE_PATH = "src/main/resources/statistics.json";
     private final String filePath;
     private final Object lock = new Object();
 
     public StatisticsFileManager() {
-        this(DEFAULT_FILE_PATH);
+        this.filePath = resolveProjectPath();
     }
 
     public StatisticsFileManager(String filePath) {
@@ -22,6 +22,7 @@ public class StatisticsFileManager {
     public StatisticsData loadStatistics() throws IOException {
         synchronized (lock) {
             File file = new File(filePath);
+            System.out.println("Using statistics file at: " + file.getAbsolutePath());
             if (!file.exists()) {
                 return initializeDefaultStatistics();
             }
@@ -127,7 +128,19 @@ public class StatisticsFileManager {
 
     private void writeFile(JSONObject jsonObject) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write(jsonObject.toString(4)); // JSON format with indentation
+            writer.write(jsonObject.toString(4));
         }
+    }
+
+    private String resolveProjectPath() {
+        File currentDir = new File(System.getProperty("user.dir"));
+        while (currentDir != null) {
+            File potentialResource = new File(currentDir, StatisticsFileManager.RELATIVE_RESOURCE_PATH);
+            if (potentialResource.exists()) {
+                return potentialResource.getAbsolutePath();
+            }
+            currentDir = currentDir.getParentFile();
+        }
+        throw new RuntimeException("Unable to locate the resource: " + StatisticsFileManager.RELATIVE_RESOURCE_PATH);
     }
 }

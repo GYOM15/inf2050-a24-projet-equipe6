@@ -106,7 +106,7 @@ public class StatisticsData {
         return invalidPermitDeclarations;
     }
 
-    // Reset Method
+
     public synchronized void reset() {
         totalDeclarations = 0;
         completeDeclarations = 0;
@@ -115,6 +115,10 @@ public class StatisticsData {
         femaleDeclarations = 0;
         unknownGenderDeclarations = 0;
         totalActivities = 0;
+        variablesWithMaps();
+    }
+
+    private void variablesWithMaps() {
         activitiesByCategory.clear();
         completeDeclarationsByOrder.clear();
         validDeclarationsByOrder.clear();
@@ -126,17 +130,12 @@ public class StatisticsData {
     @Override
     public synchronized String toString() {
         return "StatisticsData{\n" +
-                "  totalDeclarations=" + totalDeclarations + ",\n" +
-                "  completeDeclarations=" + completeDeclarations + ",\n" +
-                "  incompleteOrInvalidDeclarations=" + incompleteOrInvalidDeclarations + ",\n" +
-                "  maleDeclarations=" + maleDeclarations + ",\n" +
-                "  femaleDeclarations=" + femaleDeclarations + ",\n" +
-                "  unknownGenderDeclarations=" + unknownGenderDeclarations + ",\n" +
-                "  totalActivities=" + totalActivities + ",\n" +
-                "  activitiesByCategory=" + (activitiesByCategory.isEmpty() ? "0" : activitiesByCategory) + ",\n" +
+                "  totalDeclarations=" + totalDeclarations + ",\n" + "  completeDeclarations=" + completeDeclarations + ",\n" +
+                "  incompleteOrInvalidDeclarations=" + incompleteOrInvalidDeclarations + ",\n" + "  maleDeclarations=" + maleDeclarations + ",\n" +
+                "  femaleDeclarations=" + femaleDeclarations + ",\n" + "  unknownGenderDeclarations=" + unknownGenderDeclarations + ",\n" +
+                "  totalActivities=" + totalActivities + ",\n" + "  activitiesByCategory=" + (activitiesByCategory.isEmpty() ? "0" : activitiesByCategory) + ",\n" +
                 "  completeDeclarationsByOrder=" + (completeDeclarationsByOrder.isEmpty() ? "0" : completeDeclarationsByOrder) + ",\n" +
                 "  validDeclarationsByOrder=" + (validDeclarationsByOrder.isEmpty() ? "0" : validDeclarationsByOrder) + ",\n" +
-                "  invalidPermitDeclarations=" + invalidPermitDeclarations + "\n" +
-                '}';
+                "  invalidPermitDeclarations=" + invalidPermitDeclarations + "\n" + '}';
     }
 }

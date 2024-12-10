@@ -27,9 +27,7 @@ public class ActivityJsonBuilderByCategoriesConditions {
                 if (categories.contains(activity.getCategory())) {
                     categorizedActivities.computeIfAbsent(activity.getCategory(), k -> new JSONArray()).add(activity.toJson());
                 }
-            } catch (Exception e) {
-                System.err.println("Erreur lors du traitement d'une activité : " + e.getMessage());
-            }
+            } catch (Exception e) { System.err.println("Erreur lors du traitement d'une activité : " + e.getMessage()); }
         }
     }
 

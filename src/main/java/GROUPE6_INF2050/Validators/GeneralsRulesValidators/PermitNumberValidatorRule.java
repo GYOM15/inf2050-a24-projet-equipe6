@@ -34,8 +34,7 @@ public class PermitNumberValidatorRule implements ValidationRule {
             case "géologues" -> isPermitNumberGeologuesValid(jsonObject, errorHandler);
             case "podiatres" -> isPermitNumberPodiatresValid(jsonObject, errorHandler);
             default -> false;
-        };
-        isValidPermitNumber.set(isValid);
+        }; isValidPermitNumber.set(isValid);
         return isValid;
     }
 

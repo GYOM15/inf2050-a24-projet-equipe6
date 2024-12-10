@@ -45,22 +45,18 @@ public class JsonFieldsValidatorRule implements ValidationRule {
                 errorMessage.append("- ").append(error).append("\n");
                 isValid = false;
             }
-        }
-        return isValid;
+        }return isValid;
     }
 
     private static boolean checkArchitecteSpecificKey(JSONObject jsonObject, ErrorHandler errorHandler, StringBuilder errorMessage) {
-        String order = jsonObject.optString("ordre");
         boolean hasTransferHoursKey = jsonObject.containsKey("heures_transferees_du_cycle_precedent");
-        if ("architectes".equalsIgnoreCase(order) != hasTransferHoursKey) {
-            String error = hasTransferHoursKey
-                    ? "La clé 'heures_transferees_du_cycle_precedent' ne doit être utilisée que pour l'ordre 'architectes'."
+        if ("architectes".equalsIgnoreCase(jsonObject.optString("ordre")) != hasTransferHoursKey) {
+            String error = hasTransferHoursKey ? "La clé 'heures_transferees_du_cycle_precedent' ne doit être utilisée que pour l'ordre 'architectes'."
                     : "La clé 'heures_transferees_du_cycle_precedent' est requise pour l'ordre 'architectes'.";
             ErrorHandler.addErrorIfNotNull(errorHandler, error);
             errorMessage.append("- ").append(error).append("\n");
             return false;
-        }
-        return true;
+        }return true;
     }
 
     private static boolean validateCycleByOrder(JSONObject jsonObject, ErrorHandler errorHandler, StringBuilder errorMessage) {
@@ -77,17 +73,15 @@ public class JsonFieldsValidatorRule implements ValidationRule {
     private static boolean checkActivitiesFields(JSONObject jsonObject, ErrorHandler errorHandler, StringBuilder errorMessage) {
         boolean isValid = true;
         for (int i = 0; i < jsonObject.getJSONArray("activites").size(); i++) {
-            JSONObject activity = jsonObject.getJSONArray("activites").getJSONObject(i);
             for (String key : requiredActivitiesKeys) {
-                if (!activity.containsKey(key)) {
+                if (!jsonObject.getJSONArray("activites").getJSONObject(i).containsKey(key)) {
                     String error = "L'activité " + (i + 1) + " manque la clé obligatoire '" + key + "'.";
                     ErrorHandler.addErrorIfNotNull(errorHandler, error);
                     errorMessage.append("- ").append(error).append("\n");
                     isValid = false;
                 }
             }
-        }
-        return isValid;
+        }return isValid;
     }
 
     @Override

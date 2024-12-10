@@ -30,13 +30,13 @@ public class GeologueTotalHoursValidator {
      * @param errorHandler L'instance ErrorHandler pour enregistrer les erreurs éventuelles
      */
     public static void validateByCycle(Cycle cycle, int totalHours, ErrorHandler errorHandler) {
-        int requiredHours = 55; // Nombre d'heures requis pour compléter un cycle
+        int requiredHours = 55;
         if (totalHours < requiredHours) {
-            isComplet.set(false); // Marque l'état comme incomplet
+            isComplet.set(false);
             ErrorHandler.addErrorIfNotNull(errorHandler,
                     "Il manque " + (requiredHours - totalHours) + " heures pour compléter le cycle " + cycle.getLabel());
         } else {
-            isComplet.set(true); // Marque l'état comme complet
+            isComplet.set(true);
         }
     }
 }
