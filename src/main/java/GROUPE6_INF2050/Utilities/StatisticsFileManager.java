@@ -12,7 +12,7 @@ public class StatisticsFileManager {
     private final Object lock = new Object();
 
     public StatisticsFileManager() {
-        this.filePath = resolveProjectPath();
+        this.filePath = resolveStatisticsPath();
     }
 
     public StatisticsFileManager(String filePath) {
@@ -132,7 +132,7 @@ public class StatisticsFileManager {
         }
     }
 
-    private String resolveProjectPath() {
+    private String resolveStatisticsPath() {
         File currentDir = new File(System.getProperty("user.dir"));
         while (currentDir != null) {
             File potentialResource = new File(currentDir, StatisticsFileManager.RELATIVE_RESOURCE_PATH);
