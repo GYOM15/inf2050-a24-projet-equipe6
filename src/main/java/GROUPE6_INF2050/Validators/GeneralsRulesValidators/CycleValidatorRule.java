@@ -7,6 +7,15 @@ import GROUPE6_INF2050.Handlers.ErrorHandler;
 import GROUPE6_INF2050.Validators.GeneralsRulesValidators.Interfaces.ValidationRule;
 
 public class CycleValidatorRule implements ValidationRule {
+
+    /**
+     * Valide si le cycle spécifié est valide pour l'ordre d'activité.
+     *
+     * @param jsonFileUtility L'utilitaire JSON contenant les données à valider.
+     * @param errorHandler    Le gestionnaire d'erreurs pour enregistrer les erreurs détectées.
+     * @param errorMessage    Un accumulateur pour enregistrer les messages d'erreur.
+     * @return true si le cycle est valide pour l'ordre, false sinon.
+     */
     @Override
     public boolean validate(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler, StringBuilder errorMessage) {
         Cycle cycle = Cycle.getCycleByLabel(jsonFileUtility.getJsonObject().optString("cycle",null));
