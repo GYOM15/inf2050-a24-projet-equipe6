@@ -77,7 +77,7 @@ class ApplicationRunnerTest {
     @Test
     void testFinalizeActions_DisplayStatistics() throws IOException {
         String[] args = {"-S"};
-        StatisticsFileManager mockStatisticsFileManager = new StatisticsFileManager("stats.json");
+        StatisticsFileManager mockStatisticsFileManager = new StatisticsFileManager("src/test/java/resources/ApplicationRunnerTest/statisticsTest.json");
         StatisticsData statisticsData = mockStatisticsFileManager.loadStatistics();
         statisticsData.incrementIncompleteOrInvalidDeclarations(2);
         applicationRunner.run(args);
