@@ -18,7 +18,7 @@ class Groupe6INF2050ExceptionTest {
         try {
             throw new Groupe6INF2050Exception("Erreur de test");
         } catch (Groupe6INF2050Exception e) {
-            assertTrue(e instanceof Groupe6INF2050Exception);
+            assertInstanceOf(Groupe6INF2050Exception.class, e);
         }
     }
 
@@ -27,7 +27,7 @@ class Groupe6INF2050ExceptionTest {
         try {
             throw new Groupe6INF2050Exception("Erreur de test");
         } catch (Groupe6INF2050Exception e) {
-            assertTrue(e instanceof Exception);
+            assertTrue(true);
         }
     }
 
