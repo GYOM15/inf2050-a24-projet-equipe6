@@ -1,0 +1,40 @@
+{
+  "numero_de_permis": "A0001",
+  "nom": "Guy",
+  "prenom": "Olivier",
+  "sexe": 0,
+  "cycle": "2021-2024",
+  "ordre": "géologues",
+  "activites": [
+    {
+      "description": "Cours sur la déontologie",
+      "categorie": "cours",
+      "heures": 10,
+      "date": "2023-03-20"
+    },
+    {
+      "description": "Cours sur la déontologie",
+      "categorie": "cours",
+      "heures": 10,
+      "date": "2022-03-10"
+    },
+    {
+      "description": "Cours sur la déontologie",
+      "categorie": "cours",
+      "heures": 2,
+      "date": "2023-03-10"
+    },
+    {
+      "description": "Rédaction pour le magazine Architecture moderne",
+      "categorie": "projet de recherche",
+      "heures": 3,
+      "date": "2022-10-22"
+    },
+    {
+      "description": "Participation à un groupe de discussion sur le partage des projets architecturaux de plus de 20 ans",
+      "categorie": "groupe de discussion",
+      "heures": 1,
+      "date": "2023-04-01"
+    }
+  ]
+}

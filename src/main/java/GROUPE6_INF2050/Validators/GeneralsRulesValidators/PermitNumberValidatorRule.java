@@ -1,6 +1,5 @@
 package GROUPE6_INF2050.Validators.GeneralsRulesValidators;
 
-
 import GROUPE6_INF2050.Enums.ActivityOrder;
 import GROUPE6_INF2050.Utilities.JsonFileUtility;
 import GROUPE6_INF2050.Validators.GeneralsRulesValidators.Interfaces.ValidationRule;
@@ -11,11 +10,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Cette classe permet de valider le numéro de permis.
- * Références pour la manipulation des strings : https://www.w3schools.com/java/java_ref_string.asp
  */
 public class PermitNumberValidatorRule implements ValidationRule {
 
-    // Variable thread-safe pour stocker l'état de validation
+
+    /**
+     * Variable thread-safe indiquant si le numéro de permis est valide.
+     */
     private static final AtomicBoolean isValidPermitNumber = new AtomicBoolean();
 
     /**
@@ -27,68 +28,120 @@ public class PermitNumberValidatorRule implements ValidationRule {
         return isValidPermitNumber.get();
     }
 
-    public static boolean isPermitNumberValid(JSONObject jsonObject, ErrorHandler errorHandler){
+    /**
+     * Valide le numéro de permis en fonction de l'ordre spécifié.
+     *
+     * @param jsonObject   L'objet JSON contenant les informations de validation.
+     * @param errorMessage L'accumulateur pour les messages d'erreur.
+     * @return true si le numéro de permis est valide, false sinon.
+     */
+    public static boolean isPermitNumberValid(JSONObject jsonObject, StringBuilder errorMessage) {
         boolean isValid = switch (ActivityOrder.searchFromJsonOrder(jsonObject.optString("ordre", null)).getOrderString()) {
-            case "architectes" -> isPermitNumberArchitectesValid(jsonObject, errorHandler);
-            case "psychologues" -> isPermitNumberPsychologuesValid(jsonObject, errorHandler);
-            case "géologues" -> isPermitNumberGeologuesValid(jsonObject, errorHandler);
-            case "podiatres" -> isPermitNumberPodiatresValid(jsonObject, errorHandler);
-            default -> false;
-        }; isValidPermitNumber.set(isValid);
+            case "architectes" -> validateArchitectesPermit(jsonObject, errorMessage);
+            case "psychologues" -> validatePsychologuesPermit(jsonObject, errorMessage);
+            case "géologues" -> validateGeologuesPermit(jsonObject, errorMessage);
+            case "podiatres" -> validatePodiatresPermit(jsonObject, errorMessage);
+            default -> {
+                errorMessage.append("- Le numéro de permis n'est pas valide pour l'ordre.\n");
+                yield false;
+            }
+        };
+
+        isValidPermitNumber.set(isValid);
         return isValid;
     }
 
-    private static boolean isPermitNumberArchitectesValid(JSONObject jsonObject, ErrorHandler errorHandler) {
+    private static boolean validateArchitectesPermit(JSONObject jsonObject, StringBuilder errorMessage) {
         String permitNumber = jsonObject.optString("numero_de_permis", null);
-        if (permitNumber == null || permitNumber.contains(" ") || !permitNumber.matches("[AT][0-9]{4}")) {
-            errorHandler.addPermitError(permitNumber, "Le numéro de permis pour l'ordre des architectes doit être non-null, sans espaces, commencer par A ou T, et être suivi de 4 chiffres.");
+        if (isPermitInvalid(permitNumber, "[AT][0-9]{4}")) {
+            appendError(
+                    "Le numéro de permis pour l'ordre des architectes doit être non-null, sans espaces, commencer par A ou T, et être suivi de 4 chiffres.",
+                    errorMessage
+            );
             return false;
         }
         return true;
     }
 
-    private static boolean isPermitNumberPsychologuesValid(JSONObject jsonObject, ErrorHandler errorHandler) {
+    private static boolean validatePsychologuesPermit(JSONObject jsonObject, StringBuilder errorMessage) {
         String permitNumber = jsonObject.optString("numero_de_permis", null);
-        if (permitNumber == null || permitNumber.contains(" ") || !permitNumber.matches("[0-9]{5}-[0-9]{2}")) {
-            errorHandler.addPermitError(permitNumber, "Le numéro de permis pour l'ordre des psychologues doit être non-null, sans espaces, commencer par 5 chiffres suivi d'un - et fini par 2 chiffres.");
+        if (isPermitInvalid(permitNumber, "[0-9]{5}-[0-9]{2}")) {
+            appendError(
+                    "Le numéro de permis pour l'ordre des psychologues doit être non-null, sans espaces, commencer par 5 chiffres suivi d'un - et fini par 2 chiffres.",
+                    errorMessage
+            );
             return false;
         }
         return true;
     }
 
-    private static boolean isPermitNumberGeologuesValid(JSONObject jsonObject, ErrorHandler errorHandler) {
+    private static boolean validateGeologuesPermit(JSONObject jsonObject, StringBuilder errorMessage) {
         String permitNumber = jsonObject.optString("numero_de_permis", null);
-        String lastName = jsonObject.getString("nom");
-        String firstName = jsonObject.getString("prenom");
-        if (permitNumber == null || permitNumber.contains(" ") || !permitNumber.matches("[A-Z]{2}[0-9]{4}")) {
-            errorHandler.addPermitError(permitNumber, "Le numéro de permis pour l'ordre des géologues doit être non-null, sans espaces, commencer par 2 lettres majuscules et suivi par 4 chiffres.");
+        String lastName = jsonObject.optString("nom", "");
+        String firstName = jsonObject.optString("prenom", "");
+
+        if (isPermitInvalid(permitNumber, "[A-Z]{2}[0-9]{4}")) {
+            appendError(
+                    "Le numéro de permis pour l'ordre des géologues doit être non-null, sans espaces, commencer par 2 lettres majuscules et suivi par 4 chiffres.",
+                    errorMessage
+            );
+            return false;
+        }
+
+        return validateInitialsForGeologues(errorMessage, permitNumber, lastName, firstName);
+    }
+
+    private static boolean validateInitialsForGeologues(StringBuilder errorMessage, String permitNumber, String lastName, String firstName) {
+        if (!areInitialsValid(permitNumber, lastName, firstName)) {
+            appendError(
+                    "Le numéro de permis pour l'ordre des géologues doit commencer avec les premières lettres du nom et du prénom.",
+                    errorMessage
+            );
+            return false;
+        }
+        return true;
+    }
+
+    private static boolean validatePodiatresPermit(JSONObject jsonObject, StringBuilder errorMessage) {
+        String permitNumber = jsonObject.optString("numero_de_permis", null);
+        if (isPermitInvalid(permitNumber, "[0-9]{5}")) {
+            appendError(
+                    "Le numéro de permis pour l'ordre des podiatres doit être non-null, sans espaces, et contenir exactement 5 chiffres.",
+                    errorMessage
+            );
+            return false;
+        }
+        return true;
+    }
+
+    private static boolean isPermitInvalid(String permitNumber, String pattern) {
+        return permitNumber == null || permitNumber.contains(" ") || !permitNumber.matches(pattern);
+    }
+
+    private static boolean areInitialsValid(String permitNumber, String lastName, String firstName) {
+        if (permitNumber == null || lastName.isEmpty() || firstName.isEmpty()) {
             return false;
         }
         char firstLetter = permitNumber.charAt(0);
         char secondLetter = permitNumber.charAt(1);
-        if (firstLetter != Character.toUpperCase(lastName.charAt(0)) ||
-                secondLetter != Character.toUpperCase(firstName.charAt(0))) {
-            errorHandler.addPermitError(permitNumber, "Le numéro de permis pour l'ordre des géologues doit commencer avec les première lettre du nom et du prénom");
-            return false;
-        }
-        return true;
+        return firstLetter == Character.toUpperCase(lastName.charAt(0)) &&
+                secondLetter == Character.toUpperCase(firstName.charAt(0));
     }
 
-    private static boolean isPermitNumberPodiatresValid(JSONObject jsonObject, ErrorHandler errorHandler) {
-        String permitNumber = jsonObject.optString("numero_de_permis", null);
-        if (permitNumber == null || permitNumber.contains(" ") || !permitNumber.matches("[0-9]{5}")) {
-            errorHandler.addPermitError(permitNumber, "Le numéro de permis pour l'ordre des podiatres doit être non-null, sans espaces,  doit contenir 5 chiffres.");
-            return false;
-        }
-        return true;
+    private static void appendError(String error, StringBuilder errorMessage) {
+        errorMessage.append("- ").append(error).append("\n");
     }
 
+    /**
+     * Implémente la méthode de validation définie par l'interface `ValidationRule`.
+     *
+     * @param jsonFileUtility L'utilitaire pour accéder aux données JSON.
+     * @param errorHandler    Le gestionnaire d'erreurs pour enregistrer les problèmes détectés.
+     * @param errorMessage    L'accumulateur pour les messages d'erreur.
+     * @return true si le numéro de permis est valide, false sinon.
+     */
     @Override
     public boolean validate(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler, StringBuilder errorMessage) {
-        if (!isPermitNumberValid(jsonFileUtility.getJsonObject(), errorHandler)) {
-            errorMessage.append("- Le numéro de permis n'est pas valide.\n");
-            return false;
-        }
-        return true;
+        return isPermitNumberValid(jsonFileUtility.getJsonObject(), errorMessage);
     }
 }
