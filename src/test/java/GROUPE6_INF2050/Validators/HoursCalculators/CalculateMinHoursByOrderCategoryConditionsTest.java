@@ -1,9 +1,13 @@
 package GROUPE6_INF2050.Validators.HoursCalculators;
 
 import GROUPE6_INF2050.Enums.ActivityOrder;
+import GROUPE6_INF2050.Enums.Cycle;
 import GROUPE6_INF2050.Exceptions.Groupe6INF2050Exception;
 import GROUPE6_INF2050.Handlers.ErrorHandler;
 import GROUPE6_INF2050.Utilities.JsonFileUtility;
+import GROUPE6_INF2050.Validators.CycleValidator;
+import GROUPE6_INF2050.Validators.GeneralsRulesValidators.CycleValidatorRule;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,9 +26,10 @@ class CalculateMinHoursByOrderCategoryConditionsTest {
 
     @BeforeEach
     void setUp() {
-
+        CycleValidator.setCurrentCycle(Cycle.DEFAULT_CYCLE);
         errorHandler = new ErrorHandler();
     }
+
 
     @Test
     void testValidateGeologueMinimumHours() throws Groupe6INF2050Exception {
