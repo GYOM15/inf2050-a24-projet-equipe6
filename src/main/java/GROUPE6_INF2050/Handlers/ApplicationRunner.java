@@ -14,9 +14,17 @@ public class ApplicationRunner {
     private StatisticsData statisticsData;
     private String option;
 
+    public ApplicationRunner() {
+        this.statisticsFileManager = new StatisticsFileManager();
+    }
+
+    public ApplicationRunner(StatisticsFileManager statisticsFileManager) {
+        this.statisticsFileManager = statisticsFileManager;
+    }
+
     public void run(String[] args) throws IOException {
         validateArguments(args);
-        initialize(args);
+        initialize();
         blockTryCatchForMainArgs(args);
     }
 
@@ -47,8 +55,7 @@ public class ApplicationRunner {
         }
     }
 
-    private void initialize(String[] args) throws IOException {
-        statisticsFileManager = new StatisticsFileManager();
+    private void initialize() throws IOException {
         statisticsData = statisticsFileManager.loadStatistics();
     }
 
