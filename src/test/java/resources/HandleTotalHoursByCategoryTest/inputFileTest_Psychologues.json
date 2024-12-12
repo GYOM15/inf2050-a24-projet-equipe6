@@ -5,6 +5,7 @@
     "sexe": 0,
     "cycle": "2020-2025",
     "ordre": "psychologues",
+    "heures_transferees_du_cycle_precedent": 2,
     "activites": [
         {
             "description": "Cours sur la déontologie",
