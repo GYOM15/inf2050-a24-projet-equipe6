@@ -22,7 +22,6 @@ public class OrderValidatorRule implements ValidationRule {
             errorMessage.append("- L'ordre ").append(orderLabel).append(" n'est pas valide.\n");
             return false;
         }
-
         return true;
     }
 }

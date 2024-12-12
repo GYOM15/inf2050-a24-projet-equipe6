@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class ApplicationRunner {
 
-    private StatisticsFileManager statisticsFileManager;
+    private final StatisticsFileManager statisticsFileManager;
     private StatisticsData statisticsData;
     private String option;
 
