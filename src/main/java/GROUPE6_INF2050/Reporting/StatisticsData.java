@@ -126,6 +126,10 @@ public class StatisticsData {
         System.out.println(this);
     }
 
+    /**
+     * Charge les statistiques à partir d'un objet JSON.
+     * @param jsonObject L'objet JSON contenant les statistiques.
+     */
     public synchronized void populateFromJson(JSONObject jsonObject) {
         populateGeneralStatistics(jsonObject);
         populateActivitiesByCategory(jsonObject.optJSONObject("activitiesByCategory"));
