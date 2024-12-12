@@ -1,49 +1,80 @@
-# FormationContinue - Groupe 6
+# FormationContinue
 
-# Guide de Style de Code 
+# Guide de Style de Code
 
 ## Introduction
-Ce document présente le style que nous avons appliqué, tout au long du développement de notre projet, pour garder une cohérence et une lisibilité claire de notre code.
+Ce document présente les conventions de style de programmation que nous avons suivies tout au long du développement de notre projet, afin de garantir une cohérence et une lisibilité optimales du code.
 
 ## Langage
-Nous avons utilisé **Java** pour le développement du programme.
+Nous avons utilisé **Java** comme langage principal pour le développement du programme.
 
 ## Langue
-- Pour les classes, les méthodes, les fonctions et les variables nous utilisons l'**Anglais**
-- Au niveau des commentaires nous les avons écrit en **Français**.
+- Les noms des classes, des méthodes, des fonctions, et des variables sont écrits en **anglais**.
+- Les commentaires explicatifs et la documentation sont rédigés en **français**.
 
-## Convention de nommage
-- Nous avons opté pour l'utilisation du **camelCase** pour la nomination de nos variables, méthodes et fonctions.
+## Convention de Nommage
+
+### Variables, Méthodes et Fonctions
+- Nous utilisons le style **camelCase** pour nommer les variables, les méthodes et les fonctions.
   - Exemple : `permitNumber`, `firstChar`, `validatePermitNumber()`, `determineFileType()`.
-- Pour les constantes d'après la norme de JAVA, tout en **MAJUSCULES** avec des underscores.
+
+### Constantes
+- Les constantes suivent la convention standard Java : **MAJUSCULES** avec des underscores pour séparer les mots.
   - Exemple : `GROUPE_DE_DISCUSSION`, `COURS`.
-- Spécifiquement au fonctions et méthodes nous commençons par un verbe pour indiquer l'action. 
-- Pour les classes, ont utilisent le **PascalCase**.
-  - Exemple : `FileTypeDetermine`, `ActivityValidator`.
+
+### Noms des Classes
+- Les classes suivent le style **PascalCase**.
+  - Exemple : `FilePathResolver`, `ActivityValidator`.
+
+### Méthodes
+- Les méthodes et fonctions commencent par un verbe pour indiquer clairement l’action qu’elles accomplissent.
+  - Exemple : `incrementTotalDeclarations`, `resetStatistics`.
 
 ## Commentaires
-- Les commentaires sont en Javadoc pour documenter les classes et les fonctions.
+
+### Documentation
+- Nous utilisons **Javadoc** pour documenter les classes, les méthodes et les paramètres, afin de faciliter la compréhension et l’utilisation du code.
   - Exemple :
     ```java
     /**
-     * @param permitNumber pour le numéro de permis à vérifier
-     * @param errorHandler pour stocker les erreurs liées au numéro de permis
-     * @return boolean
+     * Valide le numéro de permis en fonction des critères de l'ordre.
+     * @param permitNumber Le numéro de permis à valider.
+     * @param errorHandler Le gestionnaire d'erreurs pour enregistrer les messages d'erreur.
+     * @return true si le numéro est valide, false sinon.
      */
     public static boolean validatePermitNumber(String permitNumber, ErrorHandler errorHandler) {
-        // Implementation ici
+        // Implémentation ici
     }
     ```
-- Nous utilisons aussi des commentaire simple et parfois sur plusieurs lignes pour expliquer certains détails de notre code.
-- Exemple :  ``` //, /* */  ```
 
+### Explications en Ligne
+- Nous utilisons des commentaires simples (`//`) ou multi-lignes (`/* */`) pour expliquer des parties spécifiques du code si nécessaire.
+
+  - Exemple :
+    ```java
+    // Valider les heures transférées uniquement si elles dépassent le seuil minimum.
+    int transferredHours = validateTransferredHours(obj, errorHandler);
+    ```
 
 ## Indentation
-- Pour l'indentation, elle est automatiquement gérée par l'IDE.
+- L'indentation est automatiquement gérée par notre IDE (IntelliJ IDEA) pour garantir la cohérence et éviter les erreurs d'alignement.
 
 ## Longueur des Lignes
-- Nous avons essayé de limitez les caractères par ligne pour améliorer la lisibilité et pour ne pas avoir des très longues lignes de code.
+- Nous limitons la longueur des lignes à environ **80-120 caractères**, afin de garantir la lisibilité du code, particulièrement sur des écrans standards.
 
+## Structures de Contrôle
+- Nous favorisons des structures de contrôle claires avec des blocs explicites, même pour des instructions uniques.
+- Exemple :
+  ```java
+  if (isValid) {
+    updateStatistics();
+  } else {
+    logError();
+  }
+  ```
+
+## Bonne Pratique de la Synchronisation
+- Les sections critiques partagées entre plusieurs threads utilisent `synchronized` pour éviter les conditions de concurrence, comme dans `StatisticsData`.
 
 ## Conclusion
-Le respect du style appliquer dans le programme est essentiel pour le travail en équipe et la maintenance du code.
+Le respect des conventions de style et de structure est essentiel pour assurer une collaboration efficace et une maintenance facile du code à long terme. Ce guide de style sert de référence pour tout développement futur dans le projet.
