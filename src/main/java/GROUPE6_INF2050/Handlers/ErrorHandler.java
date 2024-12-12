@@ -88,8 +88,4 @@ public class ErrorHandler {
         }
     }
 
-    public static ErrorHandler errorHandlerInstance(){
-        return new ErrorHandler();
-    }
-
 }
