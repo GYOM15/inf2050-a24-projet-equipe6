@@ -19,6 +19,11 @@ public class Statistics {
         this.errorHandler = errorHandler;
     }
 
+    /**
+     * Valide les données et met à jour les statistiques globales.
+     * Cette méthode synchronise l'accès à l'objet `statisticsData` pour garantir
+     * la cohérence des mises à jour dans un environnement multi-threadé.
+     */
     public void validateAndCalculateStatistics() {
         synchronized (statisticsData) {
             processGenderStatistics();
@@ -27,6 +32,11 @@ public class Statistics {
         }
     }
 
+    /**
+     * Met à jour les statistiques liées à la validité des déclarations.
+     * Incrémente les déclarations complètes ou incomplètes/invalides
+     * en fonction des erreurs détectées.
+     */
     private void processDeclarationValidity() {
         if (!errorHandler.hasErrors()) {
             statisticsData.incrementIncompleteOrInvalidDeclarations(1);
@@ -38,6 +48,10 @@ public class Statistics {
         }
     }
 
+    /**
+     * Met à jour les statistiques liées au genre des déclarants,
+     * basées sur la valeur extraite via la règle de validation des personnes.
+     */
     private void processGenderStatistics() {
         int gender = PersonValidatorRule.getGender();
         switch (gender) {
@@ -47,12 +61,19 @@ public class Statistics {
         }
     }
 
+    /**
+     * Met à jour les statistiques globales pour les activités, notamment
+     * le nombre total d'activités valides.
+     */
     private void processActivities() {
         int totalValidActivities = ActivityStatistics.getTotalValidActivities(jsonFileUtility);
         statisticsData.incrementTotalActivities(totalValidActivities);
         processActivitiesByCategory();
     }
-
+    /**
+     * Met à jour les statistiques des activités en fonction de leurs catégories.
+     * Les catégories sont calculées et comptées à l'aide d'ActivityStatistics.
+     */
     private void processActivitiesByCategory() {
         Map<ActivityCategory, Integer> activitiesByCategory = ActivityStatistics.getTotalActivitiesByCategory(jsonFileUtility);
         activitiesByCategory.forEach((category, count) -> {

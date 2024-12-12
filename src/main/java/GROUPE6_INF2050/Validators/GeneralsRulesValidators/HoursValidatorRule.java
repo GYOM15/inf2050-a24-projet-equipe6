@@ -27,6 +27,13 @@ public class HoursValidatorRule implements ValidationRule {
     }
 
 
+/**
+ * Valide que toutes les activités contiennent un nombre d'heures positif.
+ *
+ * @param jsonFileUtility L'utilitaire JSON contenant les données des activités à valider.
+ * @param errorHandler    Le gestionnaire d'erreurs pour enregistrer les erreurs détectées.
+ * @param errorMessage    Un accumulateur pour enregistrer les messages d'erreur.
+ * @return true si toutes les activités ont un nombre **/
     @Override
     public boolean validate(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler, StringBuilder errorMessage) {
         if (!areHoursPositive(jsonFileUtility, errorHandler)) {
