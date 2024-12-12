@@ -1,4 +1,9 @@
 {
-    "complet": true,
-    "errors": []
+    "complet": false,
+    "errors":     [
+        "La clé obligatoire 'cycle' est manquante dans le fichier JSON.",
+        "Échec de la validation pour les raisons suivantes :",
+        "- Le cycle Cycle Invalide n'est pas valide pour l'ordre architectes.",
+        "- La clé obligatoire 'cycle' est manquante dans le fichier JSON."
+    ]
 }	
