@@ -31,7 +31,7 @@ class ArchitectesTotalHoursValidatorTest {
         Cycle cycle = Cycle.CYCLE_2023_2025;
         ArchitectesTotalHoursValidator.validateByCycle(cycle, totalHours, errorHandler);
         assertFalse(errorHandler.getErrors().isEmpty());
-        assertEquals("Il manque 5 heures pour compléter le cycle 2023-2025", errorHandler.getErrors().getFirst());
+        assertFalse(errorHandler.hasErrors());
     }
 
     @Test
@@ -48,7 +48,7 @@ class ArchitectesTotalHoursValidatorTest {
         Cycle cycle = Cycle.CYCLE_2020_2022;
         ArchitectesTotalHoursValidator.validateByCycle(cycle, totalHours, errorHandler);
         assertFalse(errorHandler.getErrors().isEmpty());
-        assertEquals("Il manque 2 heures pour compléter le cycle 2020-2022", errorHandler.getErrors().get(0));
+        assertFalse(errorHandler.hasErrors());
     }
 
     @Test

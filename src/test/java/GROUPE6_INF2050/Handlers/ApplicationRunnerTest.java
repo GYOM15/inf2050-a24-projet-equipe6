@@ -1,6 +1,5 @@
 package GROUPE6_INF2050.Handlers;
 
-import GROUPE6_INF2050.Exceptions.Groupe6INF2050Exception;
 import GROUPE6_INF2050.Reporting.StatisticsData;
 import GROUPE6_INF2050.Utilities.StatisticsFileManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,9 +15,17 @@ class ApplicationRunnerTest {
     private static final String STATISTIC_FILE = "src/test/java/resources/statisticsTest.json";
     private ApplicationRunner applicationRunner;
 
+    private void resetStatisticsFile() throws IOException {
+        StatisticsData statisticsData = new StatisticsData();
+        StatisticsFileManager statisticsFileManager = new StatisticsFileManager(STATISTIC_FILE);
+        statisticsFileManager.saveStatistics(statisticsData);
+    }
+
     @BeforeEach
-    void setUp() {
-        applicationRunner = new ApplicationRunner();
+    void setUp() throws IOException {
+        resetStatisticsFile();
+        StatisticsFileManager mockStatisticsFileManager = new StatisticsFileManager(STATISTIC_FILE);
+        applicationRunner = new ApplicationRunner(mockStatisticsFileManager);
     }
 
     @Test
@@ -50,38 +57,42 @@ class ApplicationRunnerTest {
     @Test
     void testProcessInputFile_JsonFile() throws IOException {
         String[] args = {INPUT_FILE, OUTPUT_FILE};
-        assertDoesNotThrow(() -> {
-            applicationRunner.run(args);
-        });
+        assertDoesNotThrow(() -> applicationRunner.run(args));
+    }
+
+    @Test
+    void testProcessInputFile_NonJsonFile() {
+        String[] args = {"src/test/java/resources/ApplicationRunnerTest/unsupportedFile.txt", OUTPUT_FILE};
+        assertDoesNotThrow(() -> applicationRunner.run(args));
     }
 
     @Test
     void testFinalizeActions_SaveStatistics() throws IOException {
-        String[] args = {"-S"};
+        applicationRunner.run(new String[]{"-S"});
         StatisticsFileManager statisticsFileManager = new StatisticsFileManager(STATISTIC_FILE);
-        applicationRunner.run(args);
         assertNotNull(statisticsFileManager.loadStatistics());
     }
 
     @Test
     void testFinalizeActions_ResetStatistics() throws IOException {
-        String[] args = {"-SR"};
-        StatisticsFileManager mockStatisticsFileManager = new StatisticsFileManager("stats.json");
+        StatisticsFileManager statisticsFileManager = new StatisticsFileManager(STATISTIC_FILE);
         StatisticsData statisticsData = new StatisticsData();
         statisticsData.incrementInvalidPermitDeclarations(5);
-        applicationRunner.run(args);
-        StatisticsData updatedStatistics = mockStatisticsFileManager.loadStatistics();
+        statisticsFileManager.saveStatistics(statisticsData);
+        applicationRunner.run(new String[]{"-SR"});
+        StatisticsData updatedStatistics = statisticsFileManager.loadStatistics();
         assertEquals(0, updatedStatistics.getInvalidPermitDeclarations());
     }
 
     @Test
     void testFinalizeActions_DisplayStatistics() throws IOException {
-        String[] args = {"-S"};
-        StatisticsFileManager mockStatisticsFileManager = new StatisticsFileManager("src/test/java/resources/ApplicationRunnerTest/statisticsTest.json");
+        StatisticsFileManager mockStatisticsFileManager = new StatisticsFileManager(STATISTIC_FILE);
         StatisticsData statisticsData = mockStatisticsFileManager.loadStatistics();
         statisticsData.incrementIncompleteOrInvalidDeclarations(2);
-        applicationRunner.run(args);
-        assertNotNull(statisticsData, "Les statistiques doivent être affichées.");
-        assertEquals(2, statisticsData.getIncompleteOrInvalidDeclarations());
+        mockStatisticsFileManager.saveStatistics(statisticsData);
+        applicationRunner.run(new String[]{"-S"});
+        StatisticsData updatedStatistics = mockStatisticsFileManager.loadStatistics();
+        assertEquals(2, updatedStatistics.getIncompleteOrInvalidDeclarations());
     }
+
 }

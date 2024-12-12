@@ -9,13 +9,26 @@ import GROUPE6_INF2050.Utilities.StatisticsFileManager;
 import java.io.IOException;
 
 public class ApplicationRunner {
+
     private StatisticsFileManager statisticsFileManager;
     private StatisticsData statisticsData;
     private String option;
 
-    public void run(String[] args) throws IOException{
+    public ApplicationRunner() {
+        this.statisticsFileManager = new StatisticsFileManager();
+    }
+
+    public ApplicationRunner(StatisticsFileManager statisticsFileManager) {
+        this.statisticsFileManager = statisticsFileManager;
+    }
+
+    public void run(String[] args) throws IOException {
         validateArguments(args);
-        initialize(args);
+        initialize();
+        blockTryCatchForMainArgs(args);
+    }
+
+    private void blockTryCatchForMainArgs(String[] args) {
         try {
             processInputFile(args);
         } catch (IOException e) {
@@ -42,12 +55,15 @@ public class ApplicationRunner {
         }
     }
 
-    private void initialize(String[] args) throws IOException {
-        statisticsFileManager = new StatisticsFileManager();
+    private void initialize() throws IOException {
         statisticsData = statisticsFileManager.loadStatistics();
     }
 
     private void processInputFile(String[] args) throws IOException, Groupe6INF2050Exception {
+        if (args[0].equals("-S") || args[0].equals("-SR")) {
+            return;
+        }
+
         String fileType = new FileTypeDetermine().determineFileType(args[0]);
         if ("application/json".equals(fileType)) {
             processJsonFile(args);
