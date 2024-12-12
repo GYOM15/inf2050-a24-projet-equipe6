@@ -7,12 +7,12 @@ import net.sf.json.JSONSerializer;
 import java.io.*;
 
 public class StatisticsFileManager {
-    private static final String DEFAULT_FILE_PATH = "src/main/resources/statistics.json";
+    private static final String RELATIVE_RESOURCE_PATH = "src/main/resources/statistics.json";
     private final String filePath;
     private final Object lock = new Object();
 
     public StatisticsFileManager() {
-        this(DEFAULT_FILE_PATH);
+        this.filePath = resolveStatisticsPath();
     }
 
     public StatisticsFileManager(String filePath) {
@@ -38,7 +38,8 @@ public class StatisticsFileManager {
     private StatisticsData readStatisticsFromFile(File file) throws IOException {
         StatisticsData statisticsData = new StatisticsData();
         String jsonContent = readFileContent(file);
-        populateStatisticsData(statisticsData, parseJsonContent(jsonContent));
+        JSONObject jsonObject = parseJsonContent(jsonContent);
+        statisticsData.populateFromJson(jsonObject);
         return statisticsData;
     }
 
@@ -50,45 +51,6 @@ public class StatisticsFileManager {
 
     private JSONObject parseJsonContent(String jsonContent) {
         return (JSONObject) JSONSerializer.toJSON(jsonContent);
-    }
-
-    private void populateStatisticsData(StatisticsData statisticsData, JSONObject jsonObject) {
-        populateGeneralStatistics(statisticsData, jsonObject);
-        populateActivityCategories(statisticsData, jsonObject.optJSONObject("activitiesByCategory"));
-        populateCompleteDeclarationsByOrder(statisticsData, jsonObject.optJSONObject("completeDeclarationsByOrder"));
-        populateValidDeclarationsByOrder(statisticsData, jsonObject.optJSONObject("validDeclarationsByOrder"));
-        statisticsData.incrementInvalidPermitDeclarations(jsonObject.optInt("invalidPermitDeclarations", 0));
-    }
-
-    private void populateGeneralStatistics(StatisticsData statisticsData, JSONObject jsonObject) {
-        statisticsData.incrementTotalDeclarations(jsonObject.optInt("totalDeclarations", 0));
-        statisticsData.incrementCompleteDeclarations(jsonObject.optInt("completeDeclarations", 0));
-        statisticsData.incrementIncompleteOrInvalidDeclarations(jsonObject.optInt("incompleteOrInvalidDeclarations", 0));
-        statisticsData.incrementMaleDeclarations(jsonObject.optInt("maleDeclarations", 0));
-        statisticsData.incrementFemaleDeclarations(jsonObject.optInt("femaleDeclarations", 0));
-        statisticsData.incrementUnknownGenderDeclarations(jsonObject.optInt("unknownGenderDeclarations", 0));
-        statisticsData.incrementTotalActivities(jsonObject.optInt("totalActivities", 0));
-    }
-
-    private void populateActivityCategories(StatisticsData statisticsData, JSONObject activities) {
-        if (activities != null) {
-            activities.keySet().forEach(key ->
-                    statisticsData.incrementActivitiesByCategory(key.toString(), activities.optInt(key.toString())));
-        }
-    }
-
-    private void populateCompleteDeclarationsByOrder(StatisticsData statisticsData, JSONObject completeByOrder) {
-        if (completeByOrder != null) {
-            completeByOrder.keySet().forEach(key ->
-                    statisticsData.incrementCompleteDeclarationsByOrder(key.toString(), completeByOrder.optInt(key.toString())));
-        }
-    }
-
-    private void populateValidDeclarationsByOrder(StatisticsData statisticsData, JSONObject validByOrder) {
-        if (validByOrder != null) {
-            validByOrder.keySet().forEach(key ->
-                    statisticsData.incrementValidDeclarationsByOrder(key.toString(), validByOrder.optInt(key.toString())));
-        }
     }
 
     public void saveStatistics(StatisticsData statisticsData) throws IOException {
@@ -113,6 +75,7 @@ public class StatisticsFileManager {
         jsonObject.put("femaleDeclarations", statisticsData.getFemaleDeclarations());
         jsonObject.put("unknownGenderDeclarations", statisticsData.getUnknownGenderDeclarations());
         jsonObject.put("totalActivities", statisticsData.getTotalActivities());
+        jsonObject.put("invalidPermitDeclarations", statisticsData.getInvalidPermitDeclarations());
     }
 
     private void addCategoryStatistics(JSONObject jsonObject, StatisticsData statisticsData) {
@@ -122,12 +85,17 @@ public class StatisticsFileManager {
     private void addOrderStatistics(JSONObject jsonObject, StatisticsData statisticsData) {
         jsonObject.put("completeDeclarationsByOrder", statisticsData.getCompleteDeclarationsByOrder());
         jsonObject.put("validDeclarationsByOrder", statisticsData.getValidDeclarationsByOrder());
-        jsonObject.put("invalidPermitDeclarations", statisticsData.getInvalidPermitDeclarations());
     }
 
     private void writeFile(JSONObject jsonObject) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write(jsonObject.toString(4)); // JSON format with indentation
+            writer.write(jsonObject.toString(4));
         }
     }
+
+    private String resolveStatisticsPath() {
+        return FilePathResolver.resolvePath(RELATIVE_RESOURCE_PATH);
+    }
+
+
 }

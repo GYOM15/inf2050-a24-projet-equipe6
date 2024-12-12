@@ -19,6 +19,7 @@ class ApplicationRunnerTest {
     @BeforeEach
     void setUp() {
         applicationRunner = new ApplicationRunner();
+        StatisticsFileManager statisticsFileManager = new StatisticsFileManager(STATISTIC_FILE);
     }
 
     @Test
@@ -66,7 +67,7 @@ class ApplicationRunnerTest {
     @Test
     void testFinalizeActions_ResetStatistics() throws IOException {
         String[] args = {"-SR"};
-        StatisticsFileManager mockStatisticsFileManager = new StatisticsFileManager("stats.json");
+        StatisticsFileManager mockStatisticsFileManager = new StatisticsFileManager("src/test/java/resources/ApplicationRunnerTest/statisticsTest.json");
         StatisticsData statisticsData = new StatisticsData();
         statisticsData.incrementInvalidPermitDeclarations(5);
         applicationRunner.run(args);
