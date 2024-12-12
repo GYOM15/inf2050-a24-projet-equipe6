@@ -2,6 +2,9 @@ package GROUPE6_INF2050.Enums;
 
 import java.time.LocalDate;
 
+/**
+ * Représente les cycles d'activité possibles avec leurs périodes de validité.
+ */
 public enum Cycle {
     CYCLE_2023_2025("2023-2025", LocalDate.of(2023, 4, 1), LocalDate.of(2025, 4, 1)),
     CYCLE_2020_2022("2020-2022", LocalDate.of(2020, 4, 1), LocalDate.of(2022, 4, 1)),
@@ -16,6 +19,13 @@ public enum Cycle {
 
 
 
+    /**
+     * Constructeur pour définir un cycle.
+     *
+     * @param label     Le label du cycle.
+     * @param startDate La date de début du cycle.
+     * @param endDate   La date de fin du cycle.
+     */
     Cycle(String label, LocalDate startDate, LocalDate endDate) {
         this.label = label;
         this.startDate = startDate;
@@ -34,6 +44,13 @@ public enum Cycle {
         return endDate;
     }
 
+
+    /**
+     * Trouve un cycle basé sur son label.
+     *
+     * @param label Le label du cycle recherché.
+     * @return Le cycle correspondant au label, ou {@link #DEFAULT_CYCLE} si aucun cycle ne correspond.
+     */
     public static Cycle getCycleByLabel(String label) {
         for (Cycle cycle : Cycle.values()) {
             if (cycle.getLabel().equalsIgnoreCase(label)) {

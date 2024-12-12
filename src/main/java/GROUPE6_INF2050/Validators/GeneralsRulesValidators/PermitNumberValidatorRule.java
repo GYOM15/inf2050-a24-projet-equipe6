@@ -13,6 +13,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class PermitNumberValidatorRule implements ValidationRule {
 
+
+    /**
+     * Variable thread-safe indiquant si le numéro de permis est valide.
+     */
     private static final AtomicBoolean isValidPermitNumber = new AtomicBoolean();
 
     /**
@@ -24,6 +28,13 @@ public class PermitNumberValidatorRule implements ValidationRule {
         return isValidPermitNumber.get();
     }
 
+    /**
+     * Valide le numéro de permis en fonction de l'ordre spécifié.
+     *
+     * @param jsonObject   L'objet JSON contenant les informations de validation.
+     * @param errorMessage L'accumulateur pour les messages d'erreur.
+     * @return true si le numéro de permis est valide, false sinon.
+     */
     public static boolean isPermitNumberValid(JSONObject jsonObject, StringBuilder errorMessage) {
         boolean isValid = switch (ActivityOrder.searchFromJsonOrder(jsonObject.optString("ordre", null)).getOrderString()) {
             case "architectes" -> validateArchitectesPermit(jsonObject, errorMessage);
@@ -121,6 +132,14 @@ public class PermitNumberValidatorRule implements ValidationRule {
         errorMessage.append("- ").append(error).append("\n");
     }
 
+    /**
+     * Implémente la méthode de validation définie par l'interface `ValidationRule`.
+     *
+     * @param jsonFileUtility L'utilitaire pour accéder aux données JSON.
+     * @param errorHandler    Le gestionnaire d'erreurs pour enregistrer les problèmes détectés.
+     * @param errorMessage    L'accumulateur pour les messages d'erreur.
+     * @return true si le numéro de permis est valide, false sinon.
+     */
     @Override
     public boolean validate(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler, StringBuilder errorMessage) {
         return isPermitNumberValid(jsonFileUtility.getJsonObject(), errorMessage);
