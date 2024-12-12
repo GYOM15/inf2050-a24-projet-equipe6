@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class HoursValidatorTest {
+class HoursValidatorRuleTest {
     private static final String INPUT_FILE_VALIDHOURS = "src/test/java/resources/HoursValidatorTest/inputFileTest_ValidHours.json";
     private static final String INPUT_FILE_NEGATIVEHOURS = "src/test/java/resources/HoursValidatorTest/inputFileTest_NegativeHours.json";
     private static final String OUTPUT_FILE = "src/test/java/resources/outputFileTest.json";
