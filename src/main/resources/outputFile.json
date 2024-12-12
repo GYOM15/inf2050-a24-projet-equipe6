@@ -1,4 +1,7 @@
 {
-    "complet": true,
-    "errors": []
+    "complet": false,
+    "errors":     [
+        "Échec de la validation pour les raisons suivantes :",
+        "- Le numéro de permis pour l'ordre des architectes doit être non-null, sans espaces, commencer par A ou T, et être suivi de 4 chiffres."
+    ]
 }	
