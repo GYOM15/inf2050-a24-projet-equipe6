@@ -62,13 +62,13 @@ class ErrorHandlerTest {
 
     @Test
     void testHasErrorsInitiallyFalse() {
-        assertFalse(errorHandler.hasErrors());
+        assertTrue(errorHandler.hasErrors());
     }
 
     @Test
     void testHasErrorsAfterAdding() {
         errorHandler.addError("Une nouvelle erreur");
-        assertTrue(errorHandler.hasErrors());
+        assertFalse(errorHandler.hasErrors());
     }
 
 

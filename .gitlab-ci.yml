@@ -1,0 +1,33 @@
+# Configuration des variables globales pour le pipeline
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository -Xmx512m -XX:+UseSerialGC"
+
+# Image Docker à utiliser pour l'environnement d'exécution (ici, la dernière version de Maven)
+image: maven:latest
+
+# Configuration du cache pour accélérer les builds en sauvegardant le répertoire Maven local
+cache:
+  paths:
+    - .m2/repository
+
+# Définition des étapes du pipeline
+stages:
+  - build
+  - test
+
+# Job de build
+build_job:
+  stage: build
+  script:
+    - mvn clean compile
+  artifacts:
+    paths:
+      - target/  # Sauvegarde les fichiers construits pour les autres jobs
+    
+# Job de test
+test_job:
+  stage: test
+  script:
+    - mvn test
+  dependencies:
+    - build_job  # S'assure que les artefacts du build sont disponibles avant de tester

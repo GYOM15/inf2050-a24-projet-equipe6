@@ -11,10 +11,10 @@ import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 
 
-public class DescriptionValidatorTest {
-    private static final String INPUT_FILE_DESCRIPTIONTOOSHORT = "tests/main/Vendor/DescriptionValidatorTest/inputTestIsDescriptionOver20Characters_DescriptionTooShort.json";
-    private static final String INPUT_FILE_VALIDDESCRIPTION = "tests/main/Vendor/DescriptionValidatorTest/inputTestIsDescriptionOver20Characters_ValidDescription.json";
-    private static final String OUTPUT_FILE = "tests/main/Vendor/outputTest.json";
+public class DescriptionValidatorRuleTest {
+    private static final String INPUT_FILE_DESCRIPTIONTOOSHORT = "src/test/java/resources/DescriptionValidatorRuleTest/inputFileTest_DescriptionTooShort.json";
+    private static final String INPUT_FILE_VALIDDESCRIPTION = "src/test/java/resources/DescriptionValidatorRuleTest/inputFileTest_ValidDescription.json";
+    private static final String OUTPUT_FILE = "src/test/java/resources/outputFileTest.json";
     private ErrorHandler errorHandler;
 
     @BeforeEach

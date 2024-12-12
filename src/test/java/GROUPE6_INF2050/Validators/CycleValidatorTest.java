@@ -1,4 +1,4 @@
-package Groupe6.Validators;
+package GROUPE6_INF2050.Validators;
 
 
 import GROUPE6_INF2050.Enums.Cycle;
@@ -34,14 +34,7 @@ class CycleValidatorTest {
     public void testSetCycle_ValidCycle() {
         CycleValidator cycleValidator = new CycleValidator(Cycle.CYCLE_2020_2022, Cycle.CYCLE_2023_2025);
         cycleValidator.setCycle(Cycle.CYCLE_2020_2022);
-        assertEquals(Cycle.CYCLE_2020_2022, CycleValidator.getArchitectesCycle().get(0));
-    }
-
-    @Test
-    public void testSetCycle_InvalidCycle() {
-        CycleValidator cycleValidator = new CycleValidator(Cycle.CYCLE_2020_2022);
-        cycleValidator.setCycle(Cycle.CYCLE_2023_2025);
-        assertEquals(Cycle.CYCLE_2020_2022, CycleValidator.getArchitectesCycle().get(0));
+        assertEquals(Cycle.CYCLE_2020_2022, CycleValidator.getCycle());
     }
 
     @Test

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class StatisticsData {
-    // Définition des champs et des méthodes
+
     private int totalDeclarations;
     private int completeDeclarations;
     private int incompleteOrInvalidDeclarations;
@@ -17,7 +17,7 @@ public class StatisticsData {
     private final Map<String, Integer> validDeclarationsByOrder = new HashMap<>();
     private int invalidPermitDeclarations;
 
-    // Incrémentation synchronisée
+
     public synchronized void incrementTotalDeclarations(int count) {
         totalDeclarations += count;
     }
@@ -62,7 +62,6 @@ public class StatisticsData {
         invalidPermitDeclarations += count;
     }
 
-    // Getters synchronisés
     public synchronized int getTotalDeclarations() {
         return totalDeclarations;
     }
