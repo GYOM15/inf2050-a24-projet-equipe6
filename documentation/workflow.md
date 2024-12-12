@@ -34,6 +34,12 @@ Le workflow repose sur une hiérarchie claire des branches :
 - **`feature-unit-tests`** :  
   Branche utilisée pour développer et améliorer la couverture des tests unitaires, notamment avec des outils comme Jacoco.
 
+- **`feature-documentation`** :  
+  Branche dédiée à la création et à la mise à jour des fichiers de documentation tels que `style.md`, `equipe.md`, et `workflow.md`.
+
+- **`feature-javadoc`** :  
+  Branche dédiée à l’ajout et à la mise à jour de la documentation Javadoc pour le code source.
+
 ---
 
 ## **2. Workflow de Développement et Fusion dans `main`**
@@ -46,6 +52,8 @@ Le workflow repose sur une hiérarchie claire des branches :
    - **Correction de bugs** → `feature-bug-fix`
    - **Tests unitaires** → `feature-unit-tests`
    - **CI/CD** → `feature-CI-CD-setUp`
+   - **Documentation** → `feature-documentation`
+   - **Javadoc** → `feature-javadoc`
 
 **Commandes pour travailler sur une branche :**
 ```bash
@@ -91,10 +99,10 @@ git push origin <nom-de-la-branche>
 
 ---
 
-### **Étape 5 : Fusion dans `main` via Pull Request**
-- Une fois les modifications terminées et testées, ouvrir une **Pull Request** pour fusionner votre branche dans `main`.
-- S’assurer que la Pull Request passe tous les contrôles automatiques (tests unitaires, validation CI/CD).
-- Après approbation, fusionner la Pull Request dans `main`.
+### **Étape 5 : Fusion dans `main` via Merge Request**
+- Une fois les modifications terminées et testées, ouvrir une **Merge Request** pour fusionner votre branche dans `main`.
+- S’assurer que la Merge Request passe tous les contrôles automatiques (tests unitaires, validation CI/CD).
+- Après approbation, fusionner la Merge Request dans `main`.
 
 **Commandes pour fusionner localement (si nécessaire) :**
 ```bash
@@ -129,6 +137,8 @@ git push origin --delete <nom-de-la-branche>  # Supprimer sur le dépôt distant
 | `feature-sprint3-podiateManager`            | Développement des fonctionnalités pour la gestion des podiatres.                     |
 | `feature-bug-fix`                           | Correction des bugs identifiés.                                                      |
 | `feature-unit-tests`                        | Développement et amélioration des tests unitaires.                                   |
+| `feature-documentation`                     | Création et mise à jour des fichiers de documentation (style.md, equipe.md, etc.).   |
+| `feature-javadoc`                           | Ajout et mise à jour de la documentation Javadoc pour le code source.                |
 
 ---
 
@@ -136,7 +146,7 @@ git push origin --delete <nom-de-la-branche>  # Supprimer sur le dépôt distant
 
 1. Développer sur des branches spécifiques au besoin de votre tâche.
 2. Synchroniser les modifications importantes des autres branches avec `git cherry-pick` si nécessaire.
-3. Pousser vos modifications et ouvrir une Pull Request pour fusionner dans `main`.
+3. Pousser vos modifications et ouvrir une Merge Request pour fusionner dans `main`.
 4. Nettoyer les branches fusionnées pour maintenir un dépôt organisé.
 
 ---
