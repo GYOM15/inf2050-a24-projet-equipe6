@@ -1,0 +1,23 @@
+{
+  "numero_de_permis": "A0001",
+  "nom": "Guy",
+  "prenom": "Olivier",
+  "sexe": 0,
+  "cycle": "2023-2025",
+  "ordre": "architectes",
+  "heures_transferees_du_cycle_precedent": 2,
+  "activites": [
+    {
+      "description": "Cours sur la déontologie",
+      "categorie": "cours",
+      "heures": 7,
+      "date": "2024-03-20"
+    },
+    {
+      "description": "Séminaire déontologiedéontologie",
+      "categorie": "séminaire",
+      "heures": 10,
+      "date": "2024-01-07"
+    }
+  ]
+}
