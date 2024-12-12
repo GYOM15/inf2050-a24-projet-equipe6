@@ -11,18 +11,33 @@ public class StatisticsFileManager {
     private final String filePath;
     private final Object lock = new Object();
 
+    /**
+     * Constructeur par défaut.
+     * Utilise le chemin par défaut pour localiser le fichier de statistiques.
+     */
     public StatisticsFileManager() {
         this.filePath = resolveStatisticsPath();
     }
 
+    /**
+     * Constructeur avec chemin personnalisé.
+     *
+     * @param filePath Chemin absolu ou relatif du fichier de statistiques.
+     */
     public StatisticsFileManager(String filePath) {
         this.filePath = filePath;
     }
 
+    /**
+     * Charge les statistiques depuis le fichier JSON.
+     * Si le fichier n'existe pas, initialise les statistiques avec des valeurs par défaut.
+     *
+     * @return Un objet `StatisticsData` contenant les statistiques chargées.
+     * @throws IOException En cas d'erreur de lecture ou d'écriture.
+     */
     public StatisticsData loadStatistics() throws IOException {
         synchronized (lock) {
             File file = new File(filePath);
-            System.out.println("Using statistics file at: " + file.getAbsolutePath());
             if (!file.exists()) {
                 return initializeDefaultStatistics();
             }
@@ -30,74 +45,76 @@ public class StatisticsFileManager {
         }
     }
 
+
+    /**
+     * Initialise un fichier de statistiques avec des valeurs par défaut.
+     *
+     * @return Un objet `StatisticsData` initialisé.
+     * @throws IOException En cas d'erreur de création du fichier.
+     */
     private StatisticsData initializeDefaultStatistics() throws IOException {
         StatisticsData statisticsData = new StatisticsData();
         saveStatistics(statisticsData);
         return statisticsData;
     }
 
+
+    /**
+     * Lit les statistiques depuis un fichier existant.
+     *
+     * @param file Fichier contenant les données statistiques.
+     * @return Un objet `StatisticsData` contenant les statistiques lues.
+     * @throws IOException En cas d'erreur de lecture du fichier.
+     */
     private StatisticsData readStatisticsFromFile(File file) throws IOException {
         StatisticsData statisticsData = new StatisticsData();
         String jsonContent = readFileContent(file);
-        populateStatisticsData(statisticsData, parseJsonContent(jsonContent));
+        JSONObject jsonObject = parseJsonContent(jsonContent);
+        statisticsData.populateFromJson(jsonObject);
         return statisticsData;
     }
 
+    /**
+     * Lit le contenu brut d'un fichier texte.
+     *
+     * @param file Fichier à lire.
+     * @return Contenu du fichier sous forme de chaîne de caractères.
+     * @throws IOException En cas d'erreur de lecture.
+     */
     private String readFileContent(File file) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             return reader.lines().reduce("", String::concat);
         }
     }
 
+    /**
+     * Convertit une chaîne JSON en objet JSONObject.
+     *
+     * @param jsonContent Contenu JSON sous forme de chaîne.
+     * @return Un objet `JSONObject` correspondant au contenu.
+     */
     private JSONObject parseJsonContent(String jsonContent) {
         return (JSONObject) JSONSerializer.toJSON(jsonContent);
     }
 
-    private void populateStatisticsData(StatisticsData statisticsData, JSONObject jsonObject) {
-        populateGeneralStatistics(statisticsData, jsonObject);
-        populateActivityCategories(statisticsData, jsonObject.optJSONObject("activitiesByCategory"));
-        populateCompleteDeclarationsByOrder(statisticsData, jsonObject.optJSONObject("completeDeclarationsByOrder"));
-        populateValidDeclarationsByOrder(statisticsData, jsonObject.optJSONObject("validDeclarationsByOrder"));
-        statisticsData.incrementInvalidPermitDeclarations(jsonObject.optInt("invalidPermitDeclarations", 0));
-    }
-
-    private void populateGeneralStatistics(StatisticsData statisticsData, JSONObject jsonObject) {
-        statisticsData.incrementTotalDeclarations(jsonObject.optInt("totalDeclarations", 0));
-        statisticsData.incrementCompleteDeclarations(jsonObject.optInt("completeDeclarations", 0));
-        statisticsData.incrementIncompleteOrInvalidDeclarations(jsonObject.optInt("incompleteOrInvalidDeclarations", 0));
-        statisticsData.incrementMaleDeclarations(jsonObject.optInt("maleDeclarations", 0));
-        statisticsData.incrementFemaleDeclarations(jsonObject.optInt("femaleDeclarations", 0));
-        statisticsData.incrementUnknownGenderDeclarations(jsonObject.optInt("unknownGenderDeclarations", 0));
-        statisticsData.incrementTotalActivities(jsonObject.optInt("totalActivities", 0));
-    }
-
-    private void populateActivityCategories(StatisticsData statisticsData, JSONObject activities) {
-        if (activities != null) {
-            activities.keySet().forEach(key ->
-                    statisticsData.incrementActivitiesByCategory(key.toString(), activities.optInt(key.toString())));
-        }
-    }
-
-    private void populateCompleteDeclarationsByOrder(StatisticsData statisticsData, JSONObject completeByOrder) {
-        if (completeByOrder != null) {
-            completeByOrder.keySet().forEach(key ->
-                    statisticsData.incrementCompleteDeclarationsByOrder(key.toString(), completeByOrder.optInt(key.toString())));
-        }
-    }
-
-    private void populateValidDeclarationsByOrder(StatisticsData statisticsData, JSONObject validByOrder) {
-        if (validByOrder != null) {
-            validByOrder.keySet().forEach(key ->
-                    statisticsData.incrementValidDeclarationsByOrder(key.toString(), validByOrder.optInt(key.toString())));
-        }
-    }
-
+    /**
+     * Sauvegarde les statistiques dans le fichier JSON.
+     *
+     * @param statisticsData Données statistiques à sauvegarder.
+     * @throws IOException En cas d'erreur d'écriture dans le fichier.
+     */
     public void saveStatistics(StatisticsData statisticsData) throws IOException {
         synchronized (lock) {
             writeFile(createStatisticsJson(statisticsData));
         }
     }
 
+    /**
+     * Crée un objet JSON à partir des données statistiques.
+     *
+     * @param statisticsData Données statistiques à convertir.
+     * @return Un objet `JSONObject` contenant les données au format JSON.
+     */
     private JSONObject createStatisticsJson(StatisticsData statisticsData) {
         JSONObject jsonObject = new JSONObject();
         addGeneralStatistics(jsonObject, statisticsData);
@@ -106,6 +123,12 @@ public class StatisticsFileManager {
         return jsonObject;
     }
 
+    /**
+     * Ajoute les statistiques générales à l'objet JSON.
+     *
+     * @param jsonObject Objet JSON à compléter.
+     * @param statisticsData Données statistiques source.
+     */
     private void addGeneralStatistics(JSONObject jsonObject, StatisticsData statisticsData) {
         jsonObject.put("totalDeclarations", statisticsData.getTotalDeclarations());
         jsonObject.put("completeDeclarations", statisticsData.getCompleteDeclarations());
@@ -114,33 +137,51 @@ public class StatisticsFileManager {
         jsonObject.put("femaleDeclarations", statisticsData.getFemaleDeclarations());
         jsonObject.put("unknownGenderDeclarations", statisticsData.getUnknownGenderDeclarations());
         jsonObject.put("totalActivities", statisticsData.getTotalActivities());
+        jsonObject.put("invalidPermitDeclarations", statisticsData.getInvalidPermitDeclarations());
     }
 
+    /**
+     * Ajoute les statistiques par catégorie à l'objet JSON.
+     *
+     * @param jsonObject Objet JSON à compléter.
+     * @param statisticsData Données statistiques source.
+     */
     private void addCategoryStatistics(JSONObject jsonObject, StatisticsData statisticsData) {
         jsonObject.put("activitiesByCategory", statisticsData.getActivitiesByCategory());
     }
 
+
+    /**
+     * Ajoute les statistiques par ordre à l'objet JSON.
+     *
+     * @param jsonObject Objet JSON à compléter.
+     * @param statisticsData Données statistiques source.
+     */
     private void addOrderStatistics(JSONObject jsonObject, StatisticsData statisticsData) {
         jsonObject.put("completeDeclarationsByOrder", statisticsData.getCompleteDeclarationsByOrder());
         jsonObject.put("validDeclarationsByOrder", statisticsData.getValidDeclarationsByOrder());
-        jsonObject.put("invalidPermitDeclarations", statisticsData.getInvalidPermitDeclarations());
     }
 
+    /**
+     * Écrit un objet JSON dans le fichier cible.
+     *
+     * @param jsonObject Objet JSON à écrire.
+     * @throws IOException En cas d'erreur d'écriture.
+     */
     private void writeFile(JSONObject jsonObject) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             writer.write(jsonObject.toString(4));
         }
     }
 
+    /**
+     * Résout le chemin absolu du fichier de statistiques.
+     *
+     * @return Le chemin absolu du fichier de statistiques.
+     */
     private String resolveStatisticsPath() {
-        File currentDir = new File(System.getProperty("user.dir"));
-        while (currentDir != null) {
-            File potentialResource = new File(currentDir, StatisticsFileManager.RELATIVE_RESOURCE_PATH);
-            if (potentialResource.exists()) {
-                return potentialResource.getAbsolutePath();
-            }
-            currentDir = currentDir.getParentFile();
-        }
-        throw new RuntimeException("Unable to locate the resource: " + StatisticsFileManager.RELATIVE_RESOURCE_PATH);
+        return FilePathResolver.resolvePath(RELATIVE_RESOURCE_PATH);
     }
+
+
 }

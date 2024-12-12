@@ -49,12 +49,11 @@ public class ActivityHoursCalculator {
         if (CycleValidator.isDateWithinCycle(activity.date, errorHandler)) {
             addErrorIfNotNull(errorHandler, "La date " + activity.date + " est invalide. Les heures ne seront pas ajoutées.");
             return;
-        }
-        int newTotal = hoursByDate.getOrDefault(activity.date, 0) + activity.heures;
+        } int newTotal = hoursByDate.getOrDefault(activity.date, 0) + activity.heures;
         if (newTotal > MAX_HOURS_PER_DAY) {
             addErrorIfNotNull(errorHandler, "La somme des heures pour la date " + activity.date + " dépasse 10. Seulement 10 heures seront comptabilisées.");
             newTotal = MAX_HOURS_PER_DAY;
-        }hoursByDate.put(activity.date, newTotal);
+        } hoursByDate.put(activity.date, newTotal);
     }
 
     /**
@@ -75,6 +74,7 @@ public class ActivityHoursCalculator {
         for (Object obj : activities) {
             JSONObject activityJson = (JSONObject) obj;
             Activity activity = new Activity(activityJson);
+            // Vérifier si la catégorie est valide
             ActivityCategory category = ActivityCategory.searchFromJsonCategory(activity.categorie, errorHandler);
             if (category != ActivityCategory.CATEGORIE_NON_VALIDE) {
                 addHours(hoursByDate, activity, errorHandler);

@@ -27,6 +27,14 @@ public class DescriptionValidatorRule implements ValidationRule {
         return true;
     }
 
+    /**
+     * Valide si la description respecte une longueur minimale de 20 caractères.
+     *
+     * @param jsonFileUtility L'utilitaire JSON contenant les données à valider.
+     * @param errorHandler    Le gestionnaire d'erreurs pour enregistrer les erreurs détectées.
+     * @param errorMessage    Un accumulateur pour enregistrer les messages d'erreur.
+     * @return true si la description contient plus de 20 caractères, false sinon.
+     */
     @Override
     public boolean validate(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler, StringBuilder errorMessage) {
         if (!isDescriptionOver20Characters(jsonFileUtility, errorHandler)) {

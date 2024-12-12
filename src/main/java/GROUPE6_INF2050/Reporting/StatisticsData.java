@@ -1,10 +1,11 @@
 package GROUPE6_INF2050.Reporting;
 
+import net.sf.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class StatisticsData {
-
     private int totalDeclarations;
     private int completeDeclarations;
     private int incompleteOrInvalidDeclarations;
@@ -16,7 +17,6 @@ public class StatisticsData {
     private final Map<String, Integer> completeDeclarationsByOrder = new HashMap<>();
     private final Map<String, Integer> validDeclarationsByOrder = new HashMap<>();
     private int invalidPermitDeclarations;
-
 
     public synchronized void incrementTotalDeclarations(int count) {
         totalDeclarations += count;
@@ -106,7 +106,6 @@ public class StatisticsData {
         return invalidPermitDeclarations;
     }
 
-
     public synchronized void reset() {
         totalDeclarations = 0;
         completeDeclarations = 0;
@@ -127,15 +126,54 @@ public class StatisticsData {
         System.out.println(this);
     }
 
+    /**
+     * Charge les statistiques à partir d'un objet JSON.
+     * @param jsonObject L'objet JSON contenant les statistiques.
+     */
+    public synchronized void populateFromJson(JSONObject jsonObject) {
+        populateGeneralStatistics(jsonObject);
+        populateActivitiesByCategory(jsonObject.optJSONObject("activitiesByCategory"));
+        populateCompleteDeclarationsByOrder(jsonObject.optJSONObject("completeDeclarationsByOrder"));
+        populateValidDeclarationsByOrder(jsonObject.optJSONObject("validDeclarationsByOrder"));
+    }
+
+    private void populateGeneralStatistics(JSONObject jsonObject) {
+        incrementTotalDeclarations(jsonObject.optInt("totalDeclarations", 0));
+        incrementCompleteDeclarations(jsonObject.optInt("completeDeclarations", 0));
+        incrementIncompleteOrInvalidDeclarations(jsonObject.optInt("incompleteOrInvalidDeclarations", 0));
+        incrementMaleDeclarations(jsonObject.optInt("maleDeclarations", 0));
+        incrementFemaleDeclarations(jsonObject.optInt("femaleDeclarations", 0));
+        incrementUnknownGenderDeclarations(jsonObject.optInt("unknownGenderDeclarations", 0));
+        incrementTotalActivities(jsonObject.optInt("totalActivities", 0));
+        incrementInvalidPermitDeclarations(jsonObject.optInt("invalidPermitDeclarations", 0));
+    }
+
+    private void populateActivitiesByCategory(JSONObject activities) {
+        if (activities != null) {
+            activities.keySet().forEach(key -> incrementActivitiesByCategory(key.toString(), activities.optInt(key.toString())));
+        }
+    }
+
+    private void populateCompleteDeclarationsByOrder(JSONObject completeByOrder) {
+        if (completeByOrder != null) {
+            completeByOrder.keySet().forEach(key -> incrementCompleteDeclarationsByOrder(key.toString(), completeByOrder.optInt(key.toString())));
+        }
+    }
+
+    private void populateValidDeclarationsByOrder(JSONObject validByOrder) {
+        if (validByOrder != null) {
+            validByOrder.keySet().forEach(key -> incrementValidDeclarationsByOrder(key.toString(), validByOrder.optInt(key.toString())));
+        }
+    }
+
     @Override
     public synchronized String toString() {
-        return "StatisticsData{\n" +
-                "  totalDeclarations=" + totalDeclarations + ",\n" + "  completeDeclarations=" + completeDeclarations + ",\n" +
-                "  incompleteOrInvalidDeclarations=" + incompleteOrInvalidDeclarations + ",\n" + "  maleDeclarations=" + maleDeclarations + ",\n" +
-                "  femaleDeclarations=" + femaleDeclarations + ",\n" + "  unknownGenderDeclarations=" + unknownGenderDeclarations + ",\n" +
-                "  totalActivities=" + totalActivities + ",\n" + "  activitiesByCategory=" + (activitiesByCategory.isEmpty() ? "0" : activitiesByCategory) + ",\n" +
-                "  completeDeclarationsByOrder=" + (completeDeclarationsByOrder.isEmpty() ? "0" : completeDeclarationsByOrder) + ",\n" +
-                "  validDeclarationsByOrder=" + (validDeclarationsByOrder.isEmpty() ? "0" : validDeclarationsByOrder) + ",\n" +
-                "  invalidPermitDeclarations=" + invalidPermitDeclarations + "\n" + '}';
+        return "StatisticsData{\n" + "  totalDeclarations=" + totalDeclarations + ",\n" + "  completeDeclarations=" + completeDeclarations +
+                ",\n" + "  incompleteOrInvalidDeclarations=" + incompleteOrInvalidDeclarations + ",\n" + "  maleDeclarations=" + maleDeclarations +
+                ",\n" + "  femaleDeclarations=" + femaleDeclarations + ",\n" + "  unknownGenderDeclarations=" + unknownGenderDeclarations +
+                ",\n" + "  totalActivities=" + totalActivities + ",\n" + "  activitiesByCategory=" + (activitiesByCategory.isEmpty() ? "0" : activitiesByCategory) +
+                ",\n" + "  completeDeclarationsByOrder=" + (completeDeclarationsByOrder.isEmpty() ? "0" : completeDeclarationsByOrder) +
+                ",\n" + "  validDeclarationsByOrder=" + (validDeclarationsByOrder.isEmpty() ? "0" : validDeclarationsByOrder) +
+                ",\n" + "  invalidPermitDeclarations=" + invalidPermitDeclarations + "\n" + '}';
     }
 }
