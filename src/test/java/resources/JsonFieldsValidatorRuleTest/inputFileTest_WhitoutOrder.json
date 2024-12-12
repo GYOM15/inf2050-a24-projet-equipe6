@@ -1,0 +1,16 @@
+{
+  "numero_de_permis": "A0001",
+  "nom": "Guy",
+  "prenom": "Olivier",
+  "sexe": 1,
+  "cycle": "2023-2025",
+  "heures_transferees_du_cycle_precedent": 2,
+  "activites": [
+    {
+      "description": "Cours sur la déontologie",
+      "categorie": "cours",
+      "heures": 1,
+      "date": "2024-03-20"
+    }
+  ]
+}

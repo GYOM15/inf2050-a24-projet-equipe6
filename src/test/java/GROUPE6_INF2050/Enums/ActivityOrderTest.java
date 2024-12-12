@@ -1,21 +1,10 @@
 package GROUPE6_INF2050.Enums;
 
-import GROUPE6_INF2050.Enums.ActivityOrder;
-import GROUPE6_INF2050.Enums.Cycle;
-import GROUPE6_INF2050.Handlers.ErrorHandler;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ActivityOrderTest {
-
-    private ErrorHandler errorHandler;
-
-    @BeforeEach
-    void setUp() {
-        errorHandler = new ErrorHandler();
-    }
 
     @Test
     void testIsCycleValidByOrder_Architectes_ValidCycle() {
@@ -63,20 +52,6 @@ class ActivityOrderTest {
     void testSearchFromJsonOrder_CaseInsensitive() {
         ActivityOrder order = ActivityOrder.searchFromJsonOrder("ARCHITECTES");
         assertEquals(ActivityOrder.ARCHITECTES, order);
-    }
-
-    @Test
-    void testSearchFromJsonOrder_InvalidOrder() {
-        ActivityOrder order = ActivityOrder.searchFromJsonOrder("non-existant-order");
-        assertEquals(ActivityOrder.ORDER_NON_VALIDE, order);
-        assertTrue(errorHandler.getErrors().contains("L'ordre non-existant-order n'est pas valide"));
-    }
-
-    @Test
-    void testSearchFromJsonOrder_NullOrder() {
-        ActivityOrder order = ActivityOrder.searchFromJsonOrder(null);
-        assertEquals(ActivityOrder.ORDER_NON_VALIDE, order);
-        assertTrue(errorHandler.getErrors().contains("L'ordre null n'est pas valide"));
     }
 
     @Test

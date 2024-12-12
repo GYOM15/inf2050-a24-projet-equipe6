@@ -50,14 +50,19 @@ public class HandleGeneralRulesValidator {
     }
 
     private void updateStatisticsOnFailure(StatisticsData statisticsData, JsonFileUtility jsonFileUtility, ErrorHandler errorHandler) throws IOException, Groupe6INF2050Exception {
-        if (!PermitNumberValidatorRule.isPermitNumberState()) {
+        if (!PermitNumberValidatorRule.isPermitNumberState())
+        {
             statisticsData.incrementInvalidPermitDeclarations(1);
         }
         statisticsData.incrementIncompleteOrInvalidDeclarations(1);
         saveErrorData(jsonFileUtility, errorHandler, statisticsData);
     }
 
-    private void saveErrorData(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler, StatisticsData statisticsData) throws IOException, Groupe6INF2050Exception {
+    private void saveErrorData(
+            JsonFileUtility jsonFileUtility,
+            ErrorHandler errorHandler,
+            StatisticsData statisticsData
+    ) throws IOException, Groupe6INF2050Exception {
         jsonFileUtility.save(errorHandler);
         statisticsFileManager.saveStatistics(statisticsData);
     }

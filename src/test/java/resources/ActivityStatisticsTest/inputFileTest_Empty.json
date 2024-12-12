@@ -1,0 +1,10 @@
+{
+    "numero_de_permis": "A0001",
+    "nom": "Guy",
+    "prenom": "Olivier",
+    "sexe": 0,
+    "cycle": "2023-2025",
+    "ordre": "architectes",
+    "heures_transferees_du_cycle_precedent": 2,
+    "activites": []
+}

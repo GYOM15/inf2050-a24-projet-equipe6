@@ -1,0 +1,28 @@
+{
+  "numero_de_permis": "A0001",
+  "nom": "Guy",
+  "prenom": "Olivier",
+  "sexe": 0,
+  "cycle": "2020-20245",
+  "ordre": "psychologue",
+  "activites": [
+    {
+      "description": "Cours sur la déontologie",
+      "categorie": "cours",
+      "heures": 10,
+      "date": "2023-03-20"
+    },
+    {
+      "description": "Cours sur la déontologie",
+      "categorie": "cours",
+      "heures": 10,
+      "date": "2022-03-10"
+    },
+    {
+      "description": "Cours sur la déontologie",
+      "categorie": "cours",
+      "heures": 5,
+      "date": "2023-03-10"
+    }
+  ]
+}

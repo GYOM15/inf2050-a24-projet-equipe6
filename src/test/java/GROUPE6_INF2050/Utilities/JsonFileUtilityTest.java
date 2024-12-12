@@ -15,8 +15,8 @@ import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.*;
 
 class JsonFileUtilityTest {
-    private static final String INPUT_FILE = "tests/main/Vendor/inputTest.json";
-    private static final String OUTPUT_FILE = "tests/main/Vendor/outputTest.json";
+    private static final String INPUT_FILE = "src/test/java/resources/JsonFileUtilityTest/inputFileTest_Default.json";
+    private static final String OUTPUT_FILE = "src/test/java/resources/outputFileTest.json";
     private JsonFileUtility jsonFileUtility;
     private ErrorHandler errorHandler;
 

@@ -13,7 +13,7 @@ public class ApplicationRunner {
     private StatisticsData statisticsData;
     private String option;
 
-    public void run(String[] args) throws IOException, Groupe6INF2050Exception {
+    public void run(String[] args) throws IOException{
         validateArguments(args);
         initialize(args);
         try {
@@ -28,13 +28,18 @@ public class ApplicationRunner {
     }
 
     private void validateArguments(String[] args) {
-        if (args.length < 3) {
-            throw new IllegalArgumentException("Aucun argument valide fourni. Utilisez -S, -SR ou spécifiez des fichiers d'entrée et de sortie.");
+        if (args.length == 1) {
+            if (!args[0].equals("-S") && !args[0].equals("-SR")) {
+                throw new IllegalArgumentException("Option invalide. Utilisez '-S' ou '-SR' uniquement lorsque vous fournissez un seul argument.");
+            }
+            option = args[0];
+        } else if (args.length == 2) {
+            if (args[0].isEmpty() || args[1].isEmpty()) {
+                throw new IllegalArgumentException("Les fichiers d'entrée et de sortie ne doivent pas être vides.");
+            }
+        } else {
+            throw new IllegalArgumentException("Nombre d'arguments invalide. Utilisez 1 argument ('-S' ou '-SR') ou 2 arguments pour spécifier des fichiers d'entrée et de sortie.");
         }
-        if ((args[2].equals("-S") || args[2].equals("-SR")) && args.length > 4) {
-            throw new IllegalArgumentException("Option invalide. Utilisez -S ou -SR suivi de fichiers d'entrée et de sortie.");
-        }
-        option = args[2];
     }
 
     private void initialize(String[] args) throws IOException {

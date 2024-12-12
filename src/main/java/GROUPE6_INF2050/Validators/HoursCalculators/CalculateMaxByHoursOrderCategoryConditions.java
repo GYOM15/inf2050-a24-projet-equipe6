@@ -42,14 +42,12 @@ public class CalculateMaxByHoursOrderCategoryConditions {
     private static int validateMaxHours(JSONArray activities, List<String> categories, ErrorHandler errorHandler) {
         ActivityJsonBuilderByCategoriesConditions builder = new ActivityJsonBuilderByCategoriesConditions();
         builder.filterByCategorieCondition(activities, categories);
-
         return categories.stream()
                 .mapToInt(category -> {
                     JSONObject categoryJsonObject = buildCategoryJsonObject(builder, category);
                     int totalHours = ActivityHoursCalculator.getTotalHours(categoryJsonObject, errorHandler);
                     return applyMaxLimit(totalHours, category);
-                })
-                .sum();
+                }).sum();
     }
 
     private static JSONObject buildCategoryJsonObject(ActivityJsonBuilderByCategoriesConditions builder, String category) {

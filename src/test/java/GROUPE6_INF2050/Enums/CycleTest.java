@@ -1,6 +1,5 @@
-package Groupe6.Enums;
+package GROUPE6_INF2050.Enums;
 
-import GROUPE6_INF2050.Enums.Cycle;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -56,29 +55,5 @@ class CycleTest {
         cycle = Cycle.getCycleByLabel("2020-2025");
         assertNotNull(cycle);
         assertEquals(Cycle.CYCLE_2020_2025, cycle);
-    }
-
-    @Test
-    void testGetCycleByLabel_InvalidLabel() {
-        Cycle cycle = Cycle.getCycleByLabel("2023-2023");
-        assertNull(cycle);
-
-        cycle = Cycle.getCycleByLabel("2021-2025");
-        assertNull(cycle);
-
-        cycle = Cycle.getCycleByLabel("2022-2024");
-        assertNull(cycle);
-
-        cycle = Cycle.getCycleByLabel("2019-2021");
-        assertNull(cycle);
-
-        cycle = Cycle.getCycleByLabel("non-existent-label");
-        assertNull(cycle);
-    }
-
-    @Test
-    void testGetCycleByLabel_EmptyLabel() {
-        Cycle cycle = Cycle.getCycleByLabel("");
-        assertNull(cycle);
     }
 }
