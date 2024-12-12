@@ -1,6 +1,5 @@
 package GROUPE6_INF2050.Handlers;
 
-import GROUPE6_INF2050.Enums.ActivityOrder;
 import GROUPE6_INF2050.Enums.Cycle;
 import GROUPE6_INF2050.Exceptions.Groupe6INF2050Exception;
 import GROUPE6_INF2050.Utilities.JsonFileUtility;
@@ -23,6 +22,7 @@ class HandleTotalHoursByCategoryTest {
 
     @BeforeEach
     void setUp() {
+        CycleValidator.setCurrentCycle(Cycle.DEFAULT_CYCLE);
         errorHandler = new ErrorHandler();
     }
 
@@ -39,6 +39,7 @@ class HandleTotalHoursByCategoryTest {
         jsonFileUtility = new JsonFileUtility(INPUT_FILE_PSYCHOLOGUES, OUTPUT_FILE);
         jsonFileUtility.loadAndValid();
         HandleTotalHoursByCategory.handleHoursTotal(jsonFileUtility, 91, errorHandler);
+        System.out.println(errorHandler.getErrors());
         assertTrue(errorHandler.hasErrors());
     }
 
