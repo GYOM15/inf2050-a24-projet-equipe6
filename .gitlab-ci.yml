@@ -2,9 +2,6 @@
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository -Xmx512m -XX:+UseSerialGC"
 
-# Image Docker à utiliser pour l'environnement d'exécution (ici, la dernière version de Maven)
-image: maven:3.8-openjdk-11
-
 # Configuration du cache pour accélérer les builds en sauvegardant le répertoire Maven local
 cache:
   paths:
