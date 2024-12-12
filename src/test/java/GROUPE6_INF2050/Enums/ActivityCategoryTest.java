@@ -1,7 +1,5 @@
 package GROUPE6_INF2050.Enums;
 
-
-import GROUPE6_INF2050.Enums.ActivityCategory;
 import GROUPE6_INF2050.Handlers.ErrorHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
