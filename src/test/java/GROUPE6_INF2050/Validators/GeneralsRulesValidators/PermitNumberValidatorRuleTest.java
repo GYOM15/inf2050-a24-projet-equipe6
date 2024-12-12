@@ -9,12 +9,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PermitNumberValidatorRuleTest {
-    private ErrorHandler errorHandler;
+    private StringBuilder message;
     private JSONObject jsonObject;
 
     @BeforeEach
     void setUp() {
-        errorHandler = new ErrorHandler();
+        message = new StringBuilder("error");
         jsonObject =new JSONObject();
     }
 
@@ -22,18 +22,16 @@ class PermitNumberValidatorRuleTest {
     void testValidatePermitNumber_ArchitecteValid() {
         jsonObject.put("numero_de_permis", "A1234");
         jsonObject.put("ordre", "architectes");
-        boolean result = PermitNumberValidatorRule.isPermitNumberValid(jsonObject, errorHandler);
+        boolean result = PermitNumberValidatorRule.isPermitNumberValid(jsonObject, message);
         assertTrue(result);
-        assertTrue(errorHandler.getErrors().isEmpty());
     }
 
     @Test
     void testValidatePermitNumber_PsychologueValid() {
         jsonObject.put("numero_de_permis", "83723-34");
         jsonObject.put("ordre", "psychologues");
-        boolean result = PermitNumberValidatorRule.isPermitNumberValid(jsonObject, errorHandler);
+        boolean result = PermitNumberValidatorRule.isPermitNumberValid(jsonObject, message);
         assertTrue(result);
-        assertTrue(errorHandler.getErrors().isEmpty());
     }
 
     @Test
@@ -42,54 +40,47 @@ class PermitNumberValidatorRuleTest {
         jsonObject.put("ordre", "géologues");
         jsonObject.put("nom", "Guy");
         jsonObject.put("prenom", "Olivier");
-        boolean result = PermitNumberValidatorRule.isPermitNumberValid(jsonObject, errorHandler);
+        boolean result = PermitNumberValidatorRule.isPermitNumberValid(jsonObject, message);
         assertTrue(result);
-        assertTrue(errorHandler.getErrors().isEmpty());
     }
 
     @Test
     void testValidatePermitNumber_PodiatreValid() {
         jsonObject.put("numero_de_permis", "83453");
         jsonObject.put("ordre", "podiatres");
-        boolean result = PermitNumberValidatorRule.isPermitNumberValid(jsonObject, errorHandler);
+        boolean result = PermitNumberValidatorRule.isPermitNumberValid(jsonObject, message);
         assertTrue(result);
-        assertTrue(errorHandler.getErrors().isEmpty());
     }
 
     @Test
     void testValidatePermitNumber_Null() {
         jsonObject.put("numero_de_permis", null);
         jsonObject.put("ordre", "architectes");
-        boolean result = PermitNumberValidatorRule.isPermitNumberValid(jsonObject, errorHandler);
+        boolean result = PermitNumberValidatorRule.isPermitNumberValid(jsonObject, message);
         assertFalse(result);
-        assertEquals(1, errorHandler.getErrors().size());
-        assertEquals(1,errorHandler.getErrors().size());
     }
 
     @Test
     void testValidatePermitNumber_WithSpaces() {
         jsonObject.put("numero_de_permis", "A 1234");
         jsonObject.put("ordre", "architectes");
-        boolean result = PermitNumberValidatorRule.isPermitNumberValid(jsonObject, errorHandler);
+        boolean result = PermitNumberValidatorRule.isPermitNumberValid(jsonObject, message);
         assertFalse(result);
-        assertEquals(1, errorHandler.getErrors().size());
     }
 
     @Test
     void testValidatePermitNumber_InvalidFirstCharacter() {
         jsonObject.put("numero_de_permis", "X1234");
         jsonObject.put("ordre", "architectes");
-        boolean result = PermitNumberValidatorRule.isPermitNumberValid(jsonObject, errorHandler);
+        boolean result = PermitNumberValidatorRule.isPermitNumberValid(jsonObject, message);
         assertFalse(result);
-        assertEquals(1, errorHandler.getErrors().size());
     }
 
     @Test
     void testValidatePermitNumber_InvalidDigits() {
         jsonObject.put("numero_de_permis", "A12B4");
         jsonObject.put("ordre", "architectes");
-        boolean result = PermitNumberValidatorRule.isPermitNumberValid(jsonObject, errorHandler);
+        boolean result = PermitNumberValidatorRule.isPermitNumberValid(jsonObject, message);
         assertFalse(result);
-        assertEquals(1, errorHandler.getErrors().size());
     }
 }

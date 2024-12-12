@@ -6,8 +6,8 @@
     "femaleDeclarations": 0,
     "unknownGenderDeclarations": 0,
     "totalActivities": 0,
+    "invalidPermitDeclarations": 1,
     "activitiesByCategory": {},
     "completeDeclarationsByOrder": {},
-    "validDeclarationsByOrder": {},
-    "invalidPermitDeclarations": 1
+    "validDeclarationsByOrder": {}
 }
