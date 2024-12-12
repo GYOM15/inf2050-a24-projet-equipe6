@@ -22,6 +22,9 @@ public class HandleGeneralRulesValidator {
         registerValidationRules();
     }
 
+    /**
+     * Enregistre toutes les règles de validation générales applicables.
+     */
     private void registerValidationRules() {
         validationRules.add(new CycleValidatorRule());
         validationRules.add(new OrderValidatorRule());
@@ -32,20 +35,37 @@ public class HandleGeneralRulesValidator {
         validationRules.add(new JsonFieldsValidatorRule());
     }
 
+
+    /**
+     * Applique toutes les règles générales sur les données JSON.
+     * Met à jour les statistiques et les erreurs en fonction des résultats des validations.
+     *
+     * @param jsonFileUtility Instance pour manipuler le fichier JSON.
+     * @param errorHandler    Gestionnaire d'erreurs pour enregistrer les erreurs.
+     * @param statisticsData  Objet pour mettre à jour les statistiques.
+     * @return true si toutes les règles sont validées, sinon false.
+     * @throws IOException              En cas d'erreur lors de la sauvegarde des fichiers.
+     * @throws Groupe6INF2050Exception  Si les validations échouent.
+     */
     public boolean handleGeneralsRules(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler, StatisticsData statisticsData)
             throws IOException, Groupe6INF2050Exception {
         StringBuilder errorMessage = new StringBuilder("Échec de la validation pour les raisons suivantes :\n");
         boolean isValid = validateRules(jsonFileUtility, errorHandler, errorMessage);
-
         if (!isValid) {
             addErrorsToHandler(errorMessage, errorHandler);
             updateStatisticsOnFailure(statisticsData, jsonFileUtility, errorHandler);
             throwValidationException(errorMessage);
-        }
-
-        return true;
+        } return true;
     }
 
+    /**
+     * Valide les règles en parcourant la liste des règles enregistrées.
+     *
+     * @param jsonFileUtility Instance pour manipuler le fichier JSON.
+     * @param errorHandler    Gestionnaire d'erreurs pour enregistrer les erreurs.
+     * @param errorMessage    Accumulateur pour collecter les messages d'erreurs.
+     * @return true si toutes les règles sont validées, sinon false.
+     */
     private boolean validateRules(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler, StringBuilder errorMessage) {
         boolean isValid = true;
         for (ValidationRule rule : validationRules) {
@@ -54,6 +74,16 @@ public class HandleGeneralRulesValidator {
         return isValid;
     }
 
+
+    /**
+     * Met à jour les statistiques en cas d'échec des validations.
+     *
+     * @param statisticsData  Objet contenant les statistiques globales.
+     * @param jsonFileUtility Instance pour manipuler le fichier JSON.
+     * @param errorHandler    Gestionnaire d'erreurs.
+     * @throws IOException              En cas d'erreur lors de la sauvegarde des fichiers.
+     * @throws Groupe6INF2050Exception  Si les validations échouent.
+     */
     private void updateStatisticsOnFailure(StatisticsData statisticsData, JsonFileUtility jsonFileUtility, ErrorHandler errorHandler)
             throws IOException, Groupe6INF2050Exception {
         if (!PermitNumberValidatorRule.isPermitNumberState()) {
@@ -63,16 +93,33 @@ public class HandleGeneralRulesValidator {
         saveErrorData(jsonFileUtility, errorHandler, statisticsData);
     }
 
+
+    /**
+     * Sauvegarde les données d'erreurs et les statistiques.
+     *
+     * @param jsonFileUtility Instance pour manipuler le fichier JSON.
+     * @param errorHandler    Gestionnaire d'erreurs.
+     * @param statisticsData  Objet contenant les statistiques globales.
+     * @throws IOException En cas d'erreur de sauvegarde.
+     */
     private void saveErrorData(JsonFileUtility jsonFileUtility, ErrorHandler errorHandler, StatisticsData statisticsData)
             throws IOException, Groupe6INF2050Exception {
         jsonFileUtility.save(errorHandler);
         statisticsFileManager.saveStatistics(statisticsData);
     }
 
+
     private void throwValidationException(StringBuilder errorMessage) throws Groupe6INF2050Exception {
         throw new Groupe6INF2050Exception(errorMessage.toString());
     }
 
+
+    /**
+     * Ajoute les erreurs accumulées dans le gestionnaire d'erreurs.
+     *
+     * @param errorMessage Messages d'erreurs accumulés.
+     * @param errorHandler Gestionnaire d'erreurs.
+     */
     private void addErrorsToHandler(StringBuilder errorMessage, ErrorHandler errorHandler) {
         String[] errorLines = errorMessage.toString().split("\n");
         for (String line : errorLines) {
