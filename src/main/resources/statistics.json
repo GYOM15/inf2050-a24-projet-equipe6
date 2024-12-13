@@ -1,12 +1,12 @@
 {
-    "totalDeclarations": 0,
+    "totalDeclarations": 2,
     "completeDeclarations": 0,
-    "incompleteOrInvalidDeclarations": 1,
+    "incompleteOrInvalidDeclarations": 2,
     "maleDeclarations": 0,
     "femaleDeclarations": 0,
     "unknownGenderDeclarations": 0,
     "totalActivities": 0,
-    "invalidPermitDeclarations": 0,
+    "invalidPermitDeclarations": 2,
     "activitiesByCategory": {},
     "completeDeclarationsByOrder": {},
     "validDeclarationsByOrder": {}

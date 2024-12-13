@@ -17,6 +17,8 @@ class HandleGeneralRulesValidatorTest {
     private static final String INPUT_FILE_INVALIDPERMITNUMBER = "src/test/java/resources/HandleGeneralRulesValidatorTest/inputHandleGeneralRulesValidatorTest_InvalidPermitNumber.json";
     private static final String INPUT_FILE_MISSINGFIELDS = "src/test/java/resources/HandleGeneralRulesValidatorTest/inputHandleGeneralRulesValidatorTest_MissingFields.json";
     private static final String OUTPUT_FILE = "src/test/java/resources/outputFileTest.json";
+    private static final String STATISTIC_FILE = "src/test/java/resources/statisticsTest.json";
+
     private ErrorHandler errorHandler;
     private StatisticsData statisticsData;
     private StatisticsFileManager statisticsFileManager;
@@ -26,7 +28,7 @@ class HandleGeneralRulesValidatorTest {
     void setup() throws Groupe6INF2050Exception {
         errorHandler = new ErrorHandler();
         statisticsData = new StatisticsData();
-        statisticsFileManager = new StatisticsFileManager();
+        statisticsFileManager = new StatisticsFileManager(STATISTIC_FILE);
         handleValidator = new HandleGeneralRulesValidator(statisticsFileManager);
     }
 
