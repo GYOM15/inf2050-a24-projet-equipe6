@@ -54,6 +54,18 @@
       "categorie": "conférence",
       "heures": 2,
       "date": "2024-02-02"
-    }
+    },
+      {
+        "description": "Activité avec catégorie non valide",
+        "categorie": "inconnue",
+        "heures": 1,
+        "date": "2024-03-20"
+      },
+      {
+        "description": "Autre activité avec catégorie non valide",
+        "categorie": "non_valide",
+        "heures": 2,
+        "date": "2024-01-07"
+      }
   ]
 }
