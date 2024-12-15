@@ -1,11 +1,12 @@
 package GROUPE6_INF2050.Reporting;
 
-import org.junit.jupiter.api.BeforeEach;
+import GROUPE6_INF2050.Handlers.ErrorHandler;
+import GROUPE6_INF2050.Utilities.JsonFileUtility;
 import org.junit.jupiter.api.Test;
-
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class StatisticsDataTest {
     private StatisticsData statisticsData;
@@ -116,5 +117,19 @@ class StatisticsDataTest {
         assertTrue(toStringOutput.contains("completeDeclarations=1"));
         assertTrue(toStringOutput.contains("activitiesByCategory={Cours=2}"));
     }
+
+
+    @Test
+    void testConstructorWithValidParameters() {
+        String jsonFilePath = "src/main/resources/statistics.json ";
+        String outputFilePath = "src/main/resources/outputFile.json";
+        JsonFileUtility validJsonFileUtility = new JsonFileUtility(jsonFilePath, outputFilePath);
+        StatisticsData validStatisticsData = new StatisticsData();
+        ErrorHandler validErrorHandler = new ErrorHandler();
+        Statistics statistics = new Statistics(validJsonFileUtility, validStatisticsData, validErrorHandler);
+        assertNotNull(statistics);
+    }
+
+
 
 }
