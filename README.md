@@ -226,7 +226,7 @@ Le logiciel n'inclut pas d'interface utilisateur, car il est conçu pour être i
 
 ## Licence
 
-Ce projet est fourni sans licence et est destiné à être utilisé tel quel, sans aucune garantie d'aucune sort. Vous modifier et de le distribuer.
+Ce projet est fourni sans licence et est destiné à être utilisé tel quel, sans aucune garantie d'aucune sorte
 
 ## Historique des versions
 - **v1.1.2** - 2024-09-30
