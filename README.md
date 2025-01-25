@@ -13,7 +13,23 @@ En plus de la validation des déclarations, le logiciel est désormais capable d
 
 ---
 
-## Fonctionnalités de validation spécifiques à chaque ordre
+## Table des matières
+
+- [Fonctionnalités de validation spécifiques à chaque ordre](#fonctionnalités-de-validation-spécifiques-à-chaque-ordre)
+- [Géologues](#géologues)
+- [Psychologues](#psychologues)
+- [Architectes](#architectes)
+- [Podiatres](#podiatres)
+- [Fonctionnalités de statistiques](#fonctionnalités-de-statistiques)
+- [Technologies](#technologies)
+- [Prérequis](#prérequis)
+- [Installation](#installation)
+- [Configuration des arguments d'entrée](#configuration-des-arguments-dentrée)
+- [Fonctionnement](#fonctionnement)
+- [Licence](#licence)
+- [Historique des versions](#historique-des-versions)
+
+## Fonctionnalités
 
 Chaque ordre a des règles précises concernant la durée de son cycle et le nombre minimum d’heures requises :
 
